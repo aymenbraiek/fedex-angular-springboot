@@ -4,23 +4,28 @@
       <div class='card-title text-center mb-3'>
         <h3>Login</h3>
       </div>
+
       <div class="card-text">
-        <form (ngSubmit)="login()">
+        <form (ngSubmit)="login(userName.value, password.value)">
           <div class="form-group row">
+
             <label for="userName" class="col-md-4 col-form-label d-flex justify-content-center">
               <span [style.color]="'red'">*</span>&nbsp;&nbsp;Username:
             </label>
+
             <div class="col-md-8">
               <input name='userName' type='text'
                      [ngClass]="{
-                      'is-invalid': !isUserNameValid()
+                      'is-invalid': isUserNameValid === false
                     }"
-                     class='form-control' id='userName' [(ngModel)]='userName'
+                     class='form-control' id='userName'
+                     #userName
                      placeholder="Enter username">
+
               <small [ngClass]="{
-                        'invalid-feedback': !isUserNameValid(),
-                        'disable-invalid-message': isUserNameValid()
-                      }">
+                        'invalid-feedback': isUserNameValid === false
+                      }"
+                     *ngIf="isUserNameValid === false">
                 Invalid username
               </small>
             </div>
@@ -33,14 +38,15 @@
             <div class="col-md-8">
               <input name='password' type="password"
                      [ngClass]="{
-                        'is-invalid': !isPasswordValid()
+                        'is-invalid': isPasswordValid === false
                       }"
-                     class="form-control" [(ngModel)]='password'
-                     id="password" placeholder="Enter password">
+                     class="form-control" id="password"
+                     #password
+                     placeholder="Enter password">
               <small [ngClass]="{
-                        'invalid-feedback': !isPasswordValid(),
-                        'disable-invalid-message': isPasswordValid()
-                      }">
+                        'invalid-feedback': isPasswordValid === false
+                      }"
+                     *ngIf="isPasswordValid === false">
                 Invalid password
               </small>
             </div>

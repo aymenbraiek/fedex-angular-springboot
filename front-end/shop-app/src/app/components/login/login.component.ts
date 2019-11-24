@@ -7,33 +7,38 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  userName: string;
-  password: string;
+  isUserNameValid: boolean;
+  isPasswordValid: boolean;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
   }
 
-  isUserNameValid = () => {
-    return this.userName !== '';
+  isUserNameFilled = (userName) => {
+    return typeof userName !== 'undefined' && userName !== '';
   }
 
-  isPasswordValid = () => {
-    return this.password !== '';
+  isPasswordFilled = (password) => {
+    return typeof password !== 'undefined' && password !== '';
   }
 
-  login = () => {
-    if (typeof this.userName === 'undefined')
-      this.userName = '';
+  login = (userName, password) => {
+    if (this.isUserNameFilled(userName)) {
+      this.isUserNameValid = true;
+    } else {
+      this.isUserNameValid = false;
+    }
 
-    if (typeof this.password === 'undefined')
-      this.password = '';
+    if (this.isPasswordFilled(password)) {
+      this.isPasswordValid = true;
+    } else {
+      this.isPasswordValid = false;
+    }
 
-    if (this.isUserNameValid() && this.isPasswordValid()) {
-      // perform login
+    if (this.isUserNameFilled(userName) && this.isPasswordFilled(password)) {
       console.log("start login...");
-      this.userService.logIn(this.userName, this.password).subscribe(val => console.log(val));
+      this.userService.logIn(userName, password).subscribe(val => console.log(val));
     }
   }
 }

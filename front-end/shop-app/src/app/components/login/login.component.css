@@ -10,7 +10,3 @@
   top: 50vh;
   transform: translate(0, -50%);
 }
-
-.disable-invalid-message {
-  display: none;
-}

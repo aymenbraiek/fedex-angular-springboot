@@ -19,7 +19,7 @@ public class LoginService {
 		
 		if (!userRepo.existsByUserName(credentials.get("userName"))) {
 			res.put("valid", false);
-			res.put("userNameErrMsg", "Non-exist username");
+			res.put("userNameErrMsg", "Invalid username");
 			res.put("passwordErrMsg", null);
 		} else {
 			User foundUser = userRepo.findByUserName(credentials.get("userName"));
@@ -30,7 +30,7 @@ public class LoginService {
 			} else {
 				res.put("valid", false);
 				res.put("userNameErrMsg", null);
-				res.put("passwordErrMsg", "Incorrect password");
+				res.put("passwordErrMsg", "Invalid password");
 			}
 		}
 		
