@@ -1,0 +1,77 @@
+<div class="container-wrapper">
+  <div class="card mb-3 border-0 shadow">
+    <div class="card-body">
+      <div class='card-title text-center mb-3'>
+        <h3>Register</h3>
+      </div>
+      <div class="card-text">
+        <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+          <!-- first name -->
+          <div class="form-group row">
+            <label for="firstName" class="col-md-4 col-form-label d-flex justify-content-center">
+              <span [style.color]="'red'">*</span>&nbsp;&nbsp;First name:
+            </label>
+            <div class="col-md-8">
+              <input name='firstName' type='text'
+                     class='form-control' id='firstName'
+                     placeholder="Enter first name" ngModel required>
+            </div>
+          </div>
+
+          <!-- first name -->
+          <div class="form-group row">
+            <label for="lastName" class="col-md-4 col-form-label d-flex justify-content-center">
+              <span [style.color]="'red'">*</span>&nbsp;&nbsp;Last name:
+            </label>
+            <div class="col-md-8">
+              <input name='lastName' type='text'
+                     class='form-control' id='lastName'
+                     placeholder="Enter last name" ngModel required>
+            </div>
+          </div>
+
+          <!-- user name -->
+          <div class="form-group row">
+            <label for="userName" class="col-md-4 col-form-label d-flex justify-content-center">
+              <span [style.color]="'red'">*</span>&nbsp;&nbsp;Username:
+            </label>
+            <div class="col-md-8">
+              <input name='userName' type='text'
+                     class='form-control' id='userName'
+                     placeholder="Enter username" ngModel required>
+            </div>
+          </div>
+
+          <!-- password -->
+          <div class="form-group row">
+            <label for="password" class="col-md-4 col-form-label d-flex justify-content-center">
+              <span [style.color]="'red'">*</span>&nbsp;&nbsp;Password:
+            </label>
+            <div class="col-md-8">
+              <input name='password' type="password"
+                     class="form-control"
+                     id="password" placeholder="Enter password" ngModel required>
+            </div>
+          </div>
+
+          <!-- confirm password -->
+          <div class="form-group row">
+            <label for="confirmPassword" class="col-md-4 col-form-label d-flex justify-content-center">
+              <span [style.color]="'red'">*</span>&nbsp;&nbsp;Confirm password:
+            </label>
+            <div class="col-md-8">
+              <input name='confirmPassword' type="password"
+                     class="form-control"
+                     id="confirmPassword" placeholder="Confirm password" ngModel required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary d-block m-auto">Register</button>
+          <small class="text-muted d-block text-center mt-3">Already have account?
+            <a [routerLink]="['/login']">Login</a>
+          </small>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

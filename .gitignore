@@ -30,3 +30,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### client node_modules ###
+/front-end/shop-app/node_modules
