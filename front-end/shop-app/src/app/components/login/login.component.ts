@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
+import * as UserActions from '../../actions/user.action';
+import { Store } from '@ngrx/store';
+import * as rootReducers from '../../reducers/index';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +13,10 @@ export class LoginComponent implements OnInit {
   isUserNameValid: boolean;
   isPasswordValid: boolean;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private store: Store<rootReducers.AppState>
+  ) { }
 
   ngOnInit() {
   }
@@ -37,8 +43,12 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.isUserNameFilled(userName) && this.isPasswordFilled(password)) {
-      console.log("start login...");
-      this.userService.logIn(userName, password).subscribe(val => console.log(val));
+      //this.userService.logIn(userName, password).subscribe(val => console.log(val));
+      const credentials = {
+        userName: userName,
+        password: password
+      }
+      this.store.dispatch(UserActions.LOG_IN({ payload: credentials }));
     }
   }
 }

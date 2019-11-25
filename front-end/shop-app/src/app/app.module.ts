@@ -7,7 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component'
+import { RegisterComponent } from './components/register/register.component';
+import { StoreModule } from '@ngrx/store';
+import { rootReducers, reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
 	declarations: [
@@ -22,6 +26,15 @@ import { RegisterComponent } from './components/register/register.component'
 		FormsModule,
 		AppRoutingModule,
 		BrowserAnimationsModule,
+		StoreModule.forFeature(rootReducers, reducers),
+		StoreModule.forRoot(reducers, {
+			metaReducers,
+			runtimeChecks: {
+				strictStateImmutability: true,
+				strictActionImmutability: true
+			}
+		}),
+		StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
 	],
 	providers: [],
 	bootstrap: [
