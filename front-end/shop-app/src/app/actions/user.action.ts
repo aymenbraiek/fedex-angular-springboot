@@ -10,7 +10,7 @@ export const LOG_IN_SUCCESS = createAction(
   props<{ payload: any }>()
 )
 
-export const LOG_IN_FAILER = createAction(
+export const LOG_IN_FAILURE = createAction(
   '[USER] User Login Error',
   props<{ payload: any }>()
 )

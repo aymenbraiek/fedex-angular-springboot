@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user/user.service';
 import * as UserActions from '../../actions/user.action';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
+import { User } from 'src/app/models/User.model';
 
 @Component({
   selector: 'app-login',
@@ -10,45 +10,38 @@ import * as rootReducers from '../../reducers/index';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  isUserNameValid: boolean;
-  isPasswordValid: boolean;
+  current_user: User;
+  passwordErrMsg: string;
+  userNameErrMsg: string;
+  valid: boolean;
 
   constructor(
-    private userService: UserService,
     private store: Store<rootReducers.AppState>
   ) { }
 
   ngOnInit() {
+    this.store.pipe(select('user')).subscribe((res) => {
+      //console.log(val);
+      this.current_user = res.current_user;
+      this.passwordErrMsg = res.passwordErrMsg;
+      this.userNameErrMsg = res.userNameErrMsg;
+      this.valid = res.valid;
+    })
   }
 
-  isUserNameFilled = (userName) => {
-    return typeof userName !== 'undefined' && userName !== '';
+  isUserNameValid = () => {
+    return typeof this.userNameErrMsg === 'undefined' || this.userNameErrMsg === null;
   }
 
-  isPasswordFilled = (password) => {
-    return typeof password !== 'undefined' && password !== '';
+  isPasswordValid = () => {
+    return typeof this.passwordErrMsg === 'undefined' || this.passwordErrMsg === null;
   }
 
   login = (userName, password) => {
-    if (this.isUserNameFilled(userName)) {
-      this.isUserNameValid = true;
-    } else {
-      this.isUserNameValid = false;
+    const credentials = {
+      userName: userName,
+      password: password
     }
-
-    if (this.isPasswordFilled(password)) {
-      this.isPasswordValid = true;
-    } else {
-      this.isPasswordValid = false;
-    }
-
-    if (this.isUserNameFilled(userName) && this.isPasswordFilled(password)) {
-      //this.userService.logIn(userName, password).subscribe(val => console.log(val));
-      const credentials = {
-        userName: userName,
-        password: password
-      }
-      this.store.dispatch(UserActions.LOG_IN({ payload: credentials }));
-    }
+    this.store.dispatch(UserActions.LOG_IN({ payload: credentials }));
   }
 }

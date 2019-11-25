@@ -23,4 +23,3 @@ export const rootReducers = 'root';
 
 export const getAppState = createFeatureSelector(rootReducers);
 export const getUserState = createSelector(getAppState, (state: AppState) => state.user);
-export const getCurrentUser = createSelector(getUserState, (userState: UserStore.UserState) => userState.current_user);

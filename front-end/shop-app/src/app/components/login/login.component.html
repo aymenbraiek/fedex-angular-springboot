@@ -16,17 +16,17 @@
             <div class="col-md-8">
               <input name='userName' type='text'
                      [ngClass]="{
-                      'is-invalid': isUserNameValid === false
+                      'is-invalid': !isUserNameValid()
                     }"
                      class='form-control' id='userName'
                      #userName
                      placeholder="Enter username">
 
               <small [ngClass]="{
-                        'invalid-feedback': isUserNameValid === false
+                        'invalid-feedback': !isUserNameValid()
                       }"
-                     *ngIf="isUserNameValid === false">
-                Invalid username
+                     *ngIf="!isUserNameValid()">
+                {{ userNameErrMsg }}
               </small>
             </div>
           </div>
@@ -38,16 +38,16 @@
             <div class="col-md-8">
               <input name='password' type="password"
                      [ngClass]="{
-                        'is-invalid': isPasswordValid === false
+                        'is-invalid': !isPasswordValid()
                       }"
                      class="form-control" id="password"
                      #password
                      placeholder="Enter password">
               <small [ngClass]="{
-                        'invalid-feedback': isPasswordValid === false
+                        'invalid-feedback': !isPasswordValid()
                       }"
-                     *ngIf="isPasswordValid === false">
-                Invalid password
+                     *ngIf="!isPasswordValid()">
+                {{ passwordErrMsg }}
               </small>
             </div>
           </div>
