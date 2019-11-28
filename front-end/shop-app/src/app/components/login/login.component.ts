@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.store.pipe(select('user')).subscribe((res) => {
-      //console.log(val);
+      console.log(res);
       this.current_user = res.current_user;
       this.passwordErrMsg = res.passwordErrMsg;
       this.userNameErrMsg = res.userNameErrMsg;
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
 
   login = (userName, password) => {
     const credentials = {
-      userName: userName,
+      username: userName,
       password: password
     }
     this.store.dispatch(UserActions.LOG_IN({ payload: credentials }));

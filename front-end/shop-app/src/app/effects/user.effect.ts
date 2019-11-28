@@ -11,7 +11,7 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(UserActions.LOG_IN),
       mergeMap((data) => {
-        return this.userService.logIn(data.payload.userName, data.payload.password).pipe(
+        return this.userService.logIn(data.payload.username, data.payload.password).pipe(
           map((res) => {
             if (!res.valid) {
               return UserActions.LOG_IN_FAILURE({ payload: res });
