@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.trung.demo.exceptions.CustomException;
@@ -15,6 +16,7 @@ import com.trung.demo.model.AuthRequest;
 import com.trung.demo.model.AuthResponse;
 import com.trung.demo.model.User;
 import com.trung.demo.repository.UserRepository;
+import com.trung.demo.security.JwtUtil;
 
 @Service
 public class LoginService {
@@ -23,6 +25,9 @@ public class LoginService {
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
 	
 	
 	public boolean isUserNameFilled(String userName) {
@@ -43,78 +48,44 @@ public class LoginService {
 		// check if username is filled
 		if (!userNameFilled) {
 			authRes.setUserNameErrMsg("Please enter username");
-		} else {
-			authRes.setUserNameErrMsg(null);
 		}
 		
 		// check if password is filled
 		if (!passwordFilled) {
 			authRes.setPasswordErrMsg("Please enter password");
-		} else {
-			authRes.setPasswordErrMsg(null);
 		}
 		
 		// if one of them isn't filled --> return
 		if (!userNameFilled || !passwordFilled) {
 			authRes.setValid(false);
-			authRes.setCurrent_user(null);
 			return authRes;
 		}
 		
 		// all fields are filled, start authenticate
 		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authReq.getUsername(), authReq.getPassword()));
+			Authentication authObj = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authReq.getUsername(), authReq.getPassword()));
+			
+			// good authentication, create JWT token
+			String jwtToken = jwtUtil.generateToken(authReq.getUsername());
+			authRes.setJwt(jwtToken);
+			authRes.setValid(authObj.isAuthenticated());
+			authRes.setUserNameErrMsg(null);
+			authRes.setPasswordErrMsg(null);
+			authRes.setCurrent_user(userRepo.findByUsername(authReq.getUsername()));
+			
 			return authRes;
+			
 		} catch (AuthenticationException e) {
-			System.out.println("Exception: " + e.getMessage());
-//			
-//			Map<String, Object> res = new HashMap<>();
-//			authRes.
-			throw new CustomException(null);
+			authRes.setValid(false);
+			// wrong username
+			if (!userRepo.existsByUsername(authReq.getUsername())) {
+				authRes.setUserNameErrMsg("Invalid username");
+			} else {
+				// correct username, wrong password
+				authRes.setPasswordErrMsg("Invalid password");
+			}
+			return authRes;
 		}
-		
-		
-		
-//		boolean userNameFilled = isUserNameFilled(credentials.get("userName"));
-//		boolean passwordFilled = isPasswordFilled(credentials.get("password"));
-//		
-//		if (!userNameFilled) {
-//			res.put("userNameErrMsg", "Please enter username");
-//		} else {
-//			res.put("userNameErrMsg", null);
-//		}
-//		
-//		if (!passwordFilled) {
-//			res.put("passwordErrMsg", "Please enter password");
-//		} else {
-//			res.put("passwordErrMsg", null);
-//		}
-//		
-//		if (!userNameFilled || !passwordFilled) {
-//			res.put("valid", false);
-//			res.put("current_user", null);
-//			return res;
-//		}
-//		
-//		if (!userRepo.existsByUserName(credentials.get("userName"))) {
-//			res.put("valid", false);
-//			res.put("userNameErrMsg", "Invalid username");
-//			res.put("passwordErrMsg", null);
-//			res.put("current_user", null);
-//		} else {
-//			User foundUser = userRepo.findByUserName(credentials.get("userName"));
-//			if (foundUser.getPassword().equals(credentials.get("password"))) {
-//				res.put("valid", true);
-//				res.put("userNameErrMsg", null);
-//				res.put("passwordErrMsg", null);
-//				res.put("current_user", foundUser);
-//			} else {
-//				res.put("valid", false);
-//				res.put("userNameErrMsg", null);
-//				res.put("passwordErrMsg", "Invalid password");
-//				res.put("current_user", null);
-//			}
-//		}
 	}
 	
 }

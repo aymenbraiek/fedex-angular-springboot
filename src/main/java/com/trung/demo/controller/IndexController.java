@@ -20,7 +20,12 @@ public class IndexController {
 	
 	@RequestMapping("/")
 	public String index() {
-		return "Hello world!!!";
+		return "Welcome!!!";
+	}
+	
+	@RequestMapping("/hello")
+	public String hello() {
+		return "Hello!!!";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
