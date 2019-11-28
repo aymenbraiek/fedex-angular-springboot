@@ -21,6 +21,10 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.10'
 	annotationProcessor 'org.projectlombok:lombok:1.18.10'
 	runtimeOnly 'com.h2database:h2'
+	compile("org.springframework.boot:spring-boot-starter-security")
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+	
 }
 
 test {
