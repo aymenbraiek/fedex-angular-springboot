@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.trung.demo.model.User;
@@ -19,19 +20,20 @@ public class MyUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		System.out.println("In MyUserDetailsService: " + userName);
 		
-		User foundUser = userRepository.findByUserName(userName);
+		// this is just auto authenticate credentials (password), not principal (userName)
+		
+		User foundUser = userRepository.findByUsername(userName);
 		
 		if (foundUser == null) {
 			System.out.println("User " + userName + " not found!");
 			throw new UsernameNotFoundException("User " + userName + " not found!");
 		}
 		
-		return (UserDetails) foundUser;
-		
-//		if (userName.equals("trung"))
-//			return new User("trung", "$2y$12$CM5CXgQOC1dkOGr65SxPHu57h0pSABl/ukRxSxfqeJrp8h6gwhJ46", new ArrayList<>());
-//		
-//		return new User("", "", new ArrayList<>());
+		return org.springframework.security.core.userdetails.User//
+				.withUsername(foundUser.getUsername())
+				.password(foundUser.getPassword())
+				.roles()
+		        .build();
 	}
-
+	
 }

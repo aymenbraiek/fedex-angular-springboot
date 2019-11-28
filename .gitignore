@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 build/
+bin/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -31,7 +32,7 @@ out/
 ### VS Code ###
 .vscode/
 
-/bin
+*.class
 
 ### client node_modules ###
 /front-end/shop-app/node_modules

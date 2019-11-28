@@ -6,8 +6,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
+import com.trung.demo.exceptions.CustomException;
 import com.trung.demo.model.AuthRequest;
 import com.trung.demo.model.AuthResponse;
 import com.trung.demo.model.User;
@@ -30,9 +33,46 @@ public class LoginService {
 		return password != null && !password.equals("");
 	}
 	
-	public AuthResponse validateLogin(AuthRequest authReq) {
+	public AuthResponse validateLogin(AuthRequest authReq) {		
 		AuthResponse authRes = new AuthResponse();
-		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authReq.getUserName(), authReq.getPassword()));
+		
+		// check if username & password are filled
+		boolean userNameFilled = isUserNameFilled(authReq.getUsername());
+		boolean passwordFilled = isPasswordFilled(authReq.getPassword());
+		
+		// check if username is filled
+		if (!userNameFilled) {
+			authRes.setUserNameErrMsg("Please enter username");
+		} else {
+			authRes.setUserNameErrMsg(null);
+		}
+		
+		// check if password is filled
+		if (!passwordFilled) {
+			authRes.setPasswordErrMsg("Please enter password");
+		} else {
+			authRes.setPasswordErrMsg(null);
+		}
+		
+		// if one of them isn't filled --> return
+		if (!userNameFilled || !passwordFilled) {
+			authRes.setValid(false);
+			authRes.setCurrent_user(null);
+			return authRes;
+		}
+		
+		// all fields are filled, start authenticate
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authReq.getUsername(), authReq.getPassword()));
+			return authRes;
+		} catch (AuthenticationException e) {
+			System.out.println("Exception: " + e.getMessage());
+//			
+//			Map<String, Object> res = new HashMap<>();
+//			authRes.
+			throw new CustomException(null);
+		}
+		
 		
 		
 //		boolean userNameFilled = isUserNameFilled(credentials.get("userName"));
@@ -75,8 +115,6 @@ public class LoginService {
 //				res.put("current_user", null);
 //			}
 //		}
-		
-		return authRes;
 	}
 	
 }

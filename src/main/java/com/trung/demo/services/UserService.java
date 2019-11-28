@@ -3,6 +3,7 @@ package com.trung.demo.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.trung.demo.model.User;
@@ -23,30 +24,32 @@ public class UserService {
 	}
 	
 	public User getUser(String userName) {
-		return userRepo.findByUserName(userName);
+		return userRepo.findByUsername(userName);
 	}
 	
 	public boolean addUser(User newUser) {
 		if (newUser == null)
 			return false;
 		
-		if (userRepo.existsByUserName(newUser.getUserName())) {
+		if (userRepo.existsByUsername(newUser.getUsername())) {
 			return false;
 		}
+		
+		newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
 		userRepo.save(newUser);
 		return true;
 	}
 	
 	public boolean updateUser(String oldUserName, User updated_user) {
-		User foundUser = userRepo.findByUserName(oldUserName);
+		User foundUser = userRepo.findByUsername(oldUserName);
 		if (foundUser == null)
 			return false;
 		
-		if (oldUserName.equals(updated_user.getUserName())) {
+		if (oldUserName.equals(updated_user.getUsername())) {
 			foundUser = updated_user;
 			userRepo.save(foundUser);
 		} else {
-			if (userRepo.existsByUserName(updated_user.getUserName()))
+			if (userRepo.existsByUsername(updated_user.getUsername()))
 				return false;
 			
 			this.deleteUser(oldUserName);
@@ -56,7 +59,7 @@ public class UserService {
 	}
 	
 	public boolean deleteUser(String userName) {
-		User foundUser = userRepo.findByUserName(userName);
+		User foundUser = userRepo.findByUsername(userName);
 		if (foundUser == null)
 			return false;
 		
