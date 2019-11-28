@@ -47,12 +47,14 @@ public class UserService {
 		
 		if (oldUserName.equals(updated_user.getUsername())) {
 			foundUser = updated_user;
+			foundUser.setPassword(new BCryptPasswordEncoder().encode(foundUser.getPassword()));
 			userRepo.save(foundUser);
 		} else {
 			if (userRepo.existsByUsername(updated_user.getUsername()))
 				return false;
 			
 			this.deleteUser(oldUserName);
+			updated_user.setPassword(new BCryptPasswordEncoder().encode(updated_user.getPassword()));
 			userRepo.save(updated_user);
 		}
 		return true;		
