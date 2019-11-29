@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as UserActions from '../actions/user.action';
 import { mergeMap, map } from 'rxjs/operators';
-import { UserService } from '../services/user/user.service';
+import { UserService } from '../services/user.service';
 
 @Injectable()
 export class UserEffects {
@@ -16,7 +16,7 @@ export class UserEffects {
             if (!res.valid) {
               return UserActions.LOG_IN_FAILURE({ payload: res });
             }
-
+            localStorage.setItem('jwtToken', res.jwtToken);
             return UserActions.LOG_IN_SUCCESS({ payload: res });
           })
         )

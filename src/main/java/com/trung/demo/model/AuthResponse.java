@@ -1,7 +1,7 @@
 package com.trung.demo.model;
 
 public class AuthResponse {
-	private String jwt;
+	private String jwtToken;
 	private String userNameErrMsg;
 	private String passwordErrMsg;
 	private boolean valid;
@@ -9,23 +9,23 @@ public class AuthResponse {
 	
 	public AuthResponse() { }
 	
-	public AuthResponse(String jwt, String userNameErrMsg, String passwordErrMsg, boolean valid, User current_user) {
+	public AuthResponse(String jwtToken, String userNameErrMsg, String passwordErrMsg, boolean valid, User current_user) {
 		super();
-		this.jwt = jwt;
+		this.jwtToken = jwtToken;
 		this.userNameErrMsg = userNameErrMsg;
 		this.passwordErrMsg = passwordErrMsg;
 		this.valid = valid;
 		this.current_user = current_user;
 	}
 
-	public String getJwt() {
-		return jwt;
+	public String getJwtToken() {
+		return jwtToken;
 	}
 
-	public void setJwt(String jwt) {
-		this.jwt = jwt;
+	public void setJwtToken(String jwtToken) {
+		this.jwtToken = jwtToken;
 	}
-
+	
 	public String getUserNameErrMsg() {
 		return userNameErrMsg;
 	}

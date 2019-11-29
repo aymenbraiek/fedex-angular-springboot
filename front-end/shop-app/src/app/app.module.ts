@@ -14,6 +14,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from '../app/effects/user.effect';
+import { AuthGuardService } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
+
 
 @NgModule({
 	declarations: [
@@ -39,7 +42,7 @@ import { UserEffects } from '../app/effects/user.effect';
 		StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
 		EffectsModule.forRoot([UserEffects]),
 	],
-	providers: [],
+	providers: [AuthService, AuthGuardService],
 	bootstrap: [
 		AppComponent
 	]

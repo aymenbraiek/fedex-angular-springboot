@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as UserActions from '../../actions/user.action';
 import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
-import { User } from 'src/app/models/User.model';
+import { User } from '../../models/User.model';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.store.pipe(select('user')).subscribe((res) => {
-      console.log(res);
       this.current_user = res.current_user;
       this.passwordErrMsg = res.passwordErrMsg;
       this.userNameErrMsg = res.userNameErrMsg;

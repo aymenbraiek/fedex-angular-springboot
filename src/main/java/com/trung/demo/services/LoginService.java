@@ -1,5 +1,6 @@
 package com.trung.demo.services;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +68,8 @@ public class LoginService {
 			
 			// good authentication, create JWT token
 			String jwtToken = jwtUtil.generateToken(authReq.getUsername());
-			authRes.setJwt(jwtToken);
+			
+			authRes.setJwtToken("Bearer " + jwtToken);
 			authRes.setValid(authObj.isAuthenticated());
 			authRes.setUserNameErrMsg(null);
 			authRes.setPasswordErrMsg(null);
