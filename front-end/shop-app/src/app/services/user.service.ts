@@ -26,10 +26,10 @@ export class UserService {
     return this.http.get<User[]>(`${this.serverAPI_URL}/users`, httpOptions);
   }
 
-  logIn = (userName: string, password: string): Observable<any> => {
+  logIn = (email: string, password: string): Observable<any> => {
     const url = `${this.serverAPI_URL}/login`;
     const body = {
-      username: userName,
+      email: email,
       password: password
     };
     return this.http.post<any>(url, body, httpOptions);

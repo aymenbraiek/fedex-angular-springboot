@@ -5,14 +5,14 @@ import * as UserActions from '../actions/user.action';
 export interface UserState {
   current_user: User;
   passwordErrMsg: string;
-  userNameErrMsg: string;
+  emailErrMsg: string;
   valid: boolean;
 }
 
 const initialState = {
   current_user: null,
   passwordErrMsg: undefined,
-  userNameErrMsg: undefined,
+  emailErrMsg: undefined,
   valid: undefined
 }
 
@@ -23,7 +23,7 @@ const _userReducer = createReducer(initialState,
       ...state,
       current_user: action.payload.current_user,
       passwordErrMsg: action.payload.passwordErrMsg,
-      userNameErrMsg: action.payload.userNameErrMsg,
+      emailErrMsg: action.payload.emailErrMsg,
       valid: action.payload.valid
     }
   }),
@@ -33,7 +33,7 @@ const _userReducer = createReducer(initialState,
       ...state,
       current_user: action.payload.current_user,
       passwordErrMsg: action.payload.passwordErrMsg,
-      userNameErrMsg: action.payload.userNameErrMsg,
+      emailErrMsg: action.payload.emailErrMsg,
       valid: action.payload.valid
     }
   })

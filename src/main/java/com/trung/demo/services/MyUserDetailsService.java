@@ -22,7 +22,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		
 		// this is just auto authenticate credentials (password), not principal (userName)
 		
-		User foundUser = userRepository.findByUsername(userName);
+		User foundUser = userRepository.findByEmail(userName);
 		
 		if (foundUser == null) {
 			System.out.println("User " + userName + " not found!");
@@ -30,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		}
 		
 		return org.springframework.security.core.userdetails.User//
-				.withUsername(foundUser.getUsername())
+				.withUsername(foundUser.getEmail())
 				.password(foundUser.getPassword())
 				.roles()
 		        .build();

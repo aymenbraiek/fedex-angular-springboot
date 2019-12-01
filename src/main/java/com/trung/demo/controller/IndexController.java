@@ -13,14 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.trung.demo.model.AuthRequest;
 import com.trung.demo.model.AuthResponse;
-import com.trung.demo.services.LoginService;
+import com.trung.demo.model.User;
+import com.trung.demo.services.AuthService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class IndexController {
 	
 	@Autowired
-	public LoginService loginService;
+	public AuthService authService;
 	
 	@RequestMapping(value = "/hello", method = RequestMethod.GET)
 	public ResponseEntity<?> hello() {
@@ -31,6 +32,11 @@ public class IndexController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
 	public AuthResponse validateLogin(@RequestBody AuthRequest authReq) {
-		return loginService.validateLogin(authReq);
+		return authService.validateLogin(authReq);
 	}
+	
+//	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
+//	public ResponseEntity<?> register(@RequestBody User newUser) {
+//		return authService.validateLogin(authReq);
+//	}
 }

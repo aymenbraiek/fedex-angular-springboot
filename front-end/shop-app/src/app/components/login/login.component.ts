@@ -12,7 +12,7 @@ import { User } from '../../models/User.model';
 export class LoginComponent implements OnInit {
   current_user: User;
   passwordErrMsg: string;
-  userNameErrMsg: string;
+  emailErrMsg: string;
   valid: boolean;
 
   constructor(
@@ -23,22 +23,22 @@ export class LoginComponent implements OnInit {
     this.store.pipe(select('user')).subscribe((res) => {
       this.current_user = res.current_user;
       this.passwordErrMsg = res.passwordErrMsg;
-      this.userNameErrMsg = res.userNameErrMsg;
+      this.emailErrMsg = res.emailErrMsg;
       this.valid = res.valid;
     })
   }
 
-  isUserNameValid = () => {
-    return typeof this.userNameErrMsg === 'undefined' || this.userNameErrMsg === null;
+  isEmailValid = () => {
+    return typeof this.emailErrMsg === 'undefined' || this.emailErrMsg === null;
   }
 
   isPasswordValid = () => {
     return typeof this.passwordErrMsg === 'undefined' || this.passwordErrMsg === null;
   }
 
-  login = (userName, password) => {
+  login = (email, password) => {
     const credentials = {
-      username: userName,
+      email: email,
       password: password
     }
     this.store.dispatch(UserActions.LOG_IN({ payload: credentials }));

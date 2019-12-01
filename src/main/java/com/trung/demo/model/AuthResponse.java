@@ -2,17 +2,17 @@ package com.trung.demo.model;
 
 public class AuthResponse {
 	private String jwtToken;
-	private String userNameErrMsg;
+	private String emailErrMsg;
 	private String passwordErrMsg;
 	private boolean valid;
 	private User current_user;
 	
 	public AuthResponse() { }
 	
-	public AuthResponse(String jwtToken, String userNameErrMsg, String passwordErrMsg, boolean valid, User current_user) {
+	public AuthResponse(String jwtToken, String emailErrMsg, String passwordErrMsg, boolean valid, User current_user) {
 		super();
 		this.jwtToken = jwtToken;
-		this.userNameErrMsg = userNameErrMsg;
+		this.emailErrMsg = emailErrMsg;
 		this.passwordErrMsg = passwordErrMsg;
 		this.valid = valid;
 		this.current_user = current_user;
@@ -26,12 +26,12 @@ public class AuthResponse {
 		this.jwtToken = jwtToken;
 	}
 	
-	public String getUserNameErrMsg() {
-		return userNameErrMsg;
+	public String getEmailErrMsg() {
+		return emailErrMsg;
 	}
 
-	public void setUserNameErrMsg(String userNameErrMsg) {
-		this.userNameErrMsg = userNameErrMsg;
+	public void setEmailErrMsg(String emailErrMsg) {
+		this.emailErrMsg = emailErrMsg;
 	}
 
 	public String getPasswordErrMsg() {

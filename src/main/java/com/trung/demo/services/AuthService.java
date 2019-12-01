@@ -1,6 +1,5 @@
 package com.trung.demo.services;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,10 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.trung.demo.exceptions.CustomException;
 import com.trung.demo.model.AuthRequest;
 import com.trung.demo.model.AuthResponse;
 import com.trung.demo.model.User;
@@ -20,7 +17,7 @@ import com.trung.demo.repository.UserRepository;
 import com.trung.demo.security.JwtUtil;
 
 @Service
-public class LoginService {
+public class AuthService {
 	@Autowired
 	private UserRepository userRepo;
 	
@@ -31,24 +28,20 @@ public class LoginService {
 	private JwtUtil jwtUtil;
 	
 	
-	public boolean isUserNameFilled(String userName) {
-		return userName != null && !userName.equals("");
-	}
-	
-	public boolean isPasswordFilled(String password) {
-		return password != null && !password.equals("");
+	public boolean isFilled(String field) {
+		return field != null && !field.equals("");
 	}
 	
 	public AuthResponse validateLogin(AuthRequest authReq) {		
 		AuthResponse authRes = new AuthResponse();
 		
 		// check if username & password are filled
-		boolean userNameFilled = isUserNameFilled(authReq.getUsername());
-		boolean passwordFilled = isPasswordFilled(authReq.getPassword());
+		boolean userNameFilled = isFilled(authReq.getEmail());
+		boolean passwordFilled = isFilled(authReq.getPassword());
 		
 		// check if username is filled
 		if (!userNameFilled) {
-			authRes.setUserNameErrMsg("Please enter username");
+			authRes.setEmailErrMsg("Please enter email");
 		}
 		
 		// check if password is filled
@@ -64,24 +57,24 @@ public class LoginService {
 		
 		// all fields are filled, start authenticate
 		try {
-			Authentication authObj = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authReq.getUsername(), authReq.getPassword()));
+			Authentication authObj = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword()));
 			
 			// good authentication, create JWT token
-			String jwtToken = jwtUtil.generateToken(authReq.getUsername());
+			String jwtToken = jwtUtil.generateToken(authReq.getEmail());
 			
 			authRes.setJwtToken("Bearer " + jwtToken);
 			authRes.setValid(authObj.isAuthenticated());
-			authRes.setUserNameErrMsg(null);
+			authRes.setEmailErrMsg(null);
 			authRes.setPasswordErrMsg(null);
-			authRes.setCurrent_user(userRepo.findByUsername(authReq.getUsername()));
+			authRes.setCurrent_user(userRepo.findByEmail(authReq.getEmail()));
 			
 			return authRes;
 			
 		} catch (AuthenticationException e) {
 			authRes.setValid(false);
 			// wrong username
-			if (!userRepo.existsByUsername(authReq.getUsername())) {
-				authRes.setUserNameErrMsg("Invalid username");
+			if (!userRepo.existsByEmail(authReq.getEmail())) {
+				authRes.setEmailErrMsg("Invalid username");
 			} else {
 				// correct username, wrong password
 				authRes.setPasswordErrMsg("Invalid password");
@@ -89,5 +82,32 @@ public class LoginService {
 			return authRes;
 		}
 	}
+	
+//	public Map<String, Object> register(User newUser) {
+//		Map<String, Object> res = new HashMap<>();
+//		
+//		boolean isFirstNameFilled = isFilled(newUser.getFirstName());
+//		boolean isLastNameFilled = isFilled(newUser.getLastName());
+//		boolean isUsernameFilled = isFilled(newUser.getEmail());
+//		boolean isPasswordFilled = isFilled(newUser.getPassword());
+//		
+//		if (!isFirstNameFilled) {
+//			res.put("firstNameErrMsg", "Please enter first name");
+//		}
+//		
+//		if (!isLastNameFilled) {
+//			res.put("lastNameErrMsg", "Please enter last name");
+//		}
+//		
+//		if (!isUsernameFilled) {
+//			res.put("usernameErrMsg", "Please enter username");
+//		}
+//		
+//		if (!isPasswordFilled) {
+//			res.put("passwordErrMsg", "Please enter password");
+//		}
+//		
+//		
+//	}
 	
 }

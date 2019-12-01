@@ -23,15 +23,15 @@ public class UserService {
 		return (List<User>) userRepo.findAll();
 	}
 	
-	public User getUser(String userName) {
-		return userRepo.findByUsername(userName);
+	public User getUser(String email) {
+		return userRepo.findByEmail(email);
 	}
 	
 	public boolean addUser(User newUser) {
 		if (newUser == null)
 			return false;
 		
-		if (userRepo.existsByUsername(newUser.getUsername())) {
+		if (userRepo.existsByEmail(newUser.getEmail())) {
 			return false;
 		}
 		
@@ -41,16 +41,16 @@ public class UserService {
 	}
 	
 	public boolean updateUser(String oldUserName, User updated_user) {
-		User foundUser = userRepo.findByUsername(oldUserName);
+		User foundUser = userRepo.findByEmail(oldUserName);
 		if (foundUser == null)
 			return false;
 		
-		if (oldUserName.equals(updated_user.getUsername())) {
+		if (oldUserName.equals(updated_user.getEmail())) {
 			foundUser = updated_user;
 			foundUser.setPassword(new BCryptPasswordEncoder().encode(foundUser.getPassword()));
 			userRepo.save(foundUser);
 		} else {
-			if (userRepo.existsByUsername(updated_user.getUsername()))
+			if (userRepo.existsByEmail(updated_user.getEmail()))
 				return false;
 			
 			this.deleteUser(oldUserName);
@@ -60,12 +60,12 @@ public class UserService {
 		return true;		
 	}
 	
-	public boolean deleteUser(String userName) {
-		User foundUser = userRepo.findByUsername(userName);
+	public boolean deleteUser(String email) {
+		User foundUser = userRepo.findByEmail(email);
 		if (foundUser == null)
 			return false;
 		
-		userRepo.deleteById(userName);
+		userRepo.deleteById(email);
 		return true;
 	}
 }

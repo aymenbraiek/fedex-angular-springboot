@@ -19,8 +19,8 @@ public class User {
 	private String lastName;
 	
 	@Id
-	@Column(name = "username")
-	private String username;
+	@Column(name = "email")
+	private String email;
 	
 	@Column(name = "password")
 	private String password;
@@ -32,10 +32,10 @@ public class User {
 		
 	}
 	
-	public User(String firstName, String lastName, String username, String password, String confirmPassword) {
+	public User(String firstName, String lastName, String email, String password, String confirmPassword) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.username = username;
+		this.email = email;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
 	}

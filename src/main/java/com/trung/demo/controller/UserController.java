@@ -1,15 +1,16 @@
 package com.trung.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.trung.demo.model.UpdateUserInfo;
 import com.trung.demo.model.User;
 import com.trung.demo.services.UserService;
 
@@ -25,9 +26,9 @@ public class UserController {
 		return userService.getUsers();
 	}
 	
-	@RequestMapping(value = "users/{userName}", method = RequestMethod.GET, produces = "application/json")
-	public User getUser(@PathVariable String userName) {
-		return userService.getUser(userName);
+	@RequestMapping(value = "/users/get", method = RequestMethod.GET, produces = "application/json")
+	public User getUser(@RequestBody Map<String, String> userInfo) {
+		return userService.getUser(userInfo.get("email"));
 	}
 	
 	@RequestMapping(value = "/users/add", method = RequestMethod.POST, produces = "application/json")
@@ -35,13 +36,15 @@ public class UserController {
 		return userService.addUser(newUser);
 	}
 	
-	@RequestMapping(value = "/users/update/{oldUserName}", method = RequestMethod.PUT, produces = "application/json")
-	public boolean updateUser(@PathVariable String oldUserName, @RequestBody User updated_user) {
-		return userService.updateUser(oldUserName, updated_user);
+	@RequestMapping(value = "/users/update", method = RequestMethod.PUT, produces = "application/json")
+	public boolean updateUser(@RequestBody UpdateUserInfo udpated_userInfo) {
+		System.out.println(udpated_userInfo.getOldEmail());
+		System.out.println(udpated_userInfo.getUpdatedUser().getFirstName());
+		return userService.updateUser(udpated_userInfo.getOldEmail(), udpated_userInfo.getUpdatedUser());
 	}
 	
-	@RequestMapping(value = "/users/delete/{userName}", method = RequestMethod.DELETE, produces = "application/json")
-	public boolean deleteUser(@PathVariable String userName) {
-		return userService.deleteUser(userName);
+	@RequestMapping(value = "/users/delete", method = RequestMethod.DELETE, produces = "application/json")
+	public boolean deleteUser(@RequestBody Map<String, String> userInfo) {
+		return userService.deleteUser(userInfo.get("email"));
 	}
 }
