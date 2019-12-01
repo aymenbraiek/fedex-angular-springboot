@@ -3,6 +3,7 @@ import * as UserActions from '../../actions/user.action';
 import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
 import { User } from '../../models/User.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,9 +15,11 @@ export class LoginComponent implements OnInit {
   passwordErrMsg: string;
   emailErrMsg: string;
   valid: boolean;
+  account_createdSucess_msg: string;
 
   constructor(
-    private store: Store<rootReducers.AppState>
+    private store: Store<rootReducers.AppState>,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -25,6 +28,10 @@ export class LoginComponent implements OnInit {
       this.passwordErrMsg = res.passwordErrMsg;
       this.emailErrMsg = res.emailErrMsg;
       this.valid = res.valid;
+
+      if (res.valid) {
+        this.router.navigate(['/users'])
+      }
     })
   }
 
