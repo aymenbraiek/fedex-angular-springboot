@@ -35,8 +35,8 @@ public class IndexController {
 		return authService.validateLogin(authReq);
 	}
 	
-//	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
-//	public ResponseEntity<?> register(@RequestBody User newUser) {
-//		return authService.validateLogin(authReq);
-//	}
+	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
+	public AuthResponse register(@RequestBody User newUser) {
+		return authService.register(newUser);
+	}
 }

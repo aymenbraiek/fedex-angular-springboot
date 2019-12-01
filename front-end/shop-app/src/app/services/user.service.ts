@@ -22,7 +22,6 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUsers = (): Observable<User[]> => {
-    console.log(httpOptions);
     return this.http.get<User[]>(`${this.serverAPI_URL}/users`, httpOptions);
   }
 
@@ -33,6 +32,11 @@ export class UserService {
       password: password
     };
     return this.http.post<any>(url, body, httpOptions);
+  }
+
+  register = (payload): Observable<any> => {
+    const url = `${this.serverAPI_URL}/register`;
+    return this.http.post<any>(url, payload, httpOptions);
   }
 
   getHello = (): Observable<any> => {

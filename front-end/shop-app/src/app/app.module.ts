@@ -15,6 +15,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from '../app/effects/user.effect';
 import { HelloComponent } from './components/hello/hello.component';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
 	declarations: [
@@ -30,6 +31,7 @@ import { HelloComponent } from './components/hello/hello.component';
 		FormsModule,
 		AppRoutingModule,
 		BrowserAnimationsModule,
+		NgxSpinnerModule,
 		StoreModule.forFeature(rootReducers, reducers),
 		StoreModule.forRoot(reducers, {
 			metaReducers,

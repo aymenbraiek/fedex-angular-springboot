@@ -2,21 +2,17 @@ package com.trung.demo.model;
 
 public class AuthResponse {
 	private String jwtToken;
+	private String firstNameErrMsg;
+	private String lastNameErrMsg;
 	private String emailErrMsg;
 	private String passwordErrMsg;
+	private String confirmPasswordErrMsg;
+	private String generalErr;
+	private String successMsg;
 	private boolean valid;
 	private User current_user;
 	
 	public AuthResponse() { }
-	
-	public AuthResponse(String jwtToken, String emailErrMsg, String passwordErrMsg, boolean valid, User current_user) {
-		super();
-		this.jwtToken = jwtToken;
-		this.emailErrMsg = emailErrMsg;
-		this.passwordErrMsg = passwordErrMsg;
-		this.valid = valid;
-		this.current_user = current_user;
-	}
 
 	public String getJwtToken() {
 		return jwtToken;
@@ -57,7 +53,46 @@ public class AuthResponse {
 	public void setCurrent_user(User current_user) {
 		this.current_user = current_user;
 	}
-	
+
+	public String getFirstNameErrMsg() {
+		return firstNameErrMsg;
+	}
+
+	public void setFirstNameErrMsg(String firstNameErrMsg) {
+		this.firstNameErrMsg = firstNameErrMsg;
+	}
+
+	public String getLastNameErrMsg() {
+		return lastNameErrMsg;
+	}
+
+	public void setLastNameErrMsg(String lastNameErrMsg) {
+		this.lastNameErrMsg = lastNameErrMsg;
+	}
+
+	public String getConfirmPasswordErrMsg() {
+		return confirmPasswordErrMsg;
+	}
+
+	public void setConfirmPasswordErrMsg(String confirmPasswordErrMsg) {
+		this.confirmPasswordErrMsg = confirmPasswordErrMsg;
+	}
+
+	public String getGeneralErr() {
+		return generalErr;
+	}
+
+	public void setGeneralErr(String generalErr) {
+		this.generalErr = generalErr;
+	}
+
+	public String getSuccessMsg() {
+		return successMsg;
+	}
+
+	public void setSuccessMsg(String successMsg) {
+		this.successMsg = successMsg;
+	}
 	
 	
 }

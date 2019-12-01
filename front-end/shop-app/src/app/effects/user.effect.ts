@@ -24,6 +24,22 @@ export class UserEffects {
     )
   )
 
+  register = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.REGISTER),
+      mergeMap((data) => {
+        return this.userService.register(data.payload).pipe(
+          map((res) => {
+            if (!res.valid) {
+              return UserActions.REGISTER_FAILURE({ payload: res });
+            }
+            return UserActions.REGISTER_SUCCESS({ payload: res });
+          })
+        )
+      })
+    )
+  )
+
   constructor(
     private actions$: Actions,
     private userService: UserService

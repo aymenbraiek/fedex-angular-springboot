@@ -3,6 +3,7 @@ import * as UserActions from '../../actions/user.action';
 import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
 import { User } from '../../models/User.model';
+import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private store: Store<rootReducers.AppState>,
+    private spinner: NgxSpinnerService,
     private router: Router
   ) { }
 
@@ -28,9 +30,16 @@ export class LoginComponent implements OnInit {
       this.passwordErrMsg = res.passwordErrMsg;
       this.emailErrMsg = res.emailErrMsg;
       this.valid = res.valid;
+      this.account_createdSucess_msg = res.successMsg;
+
+      if (res.loading) {
+        this.spinner.show();
+      } else {
+        this.spinner.hide();
+      }
 
       if (res.valid) {
-        this.router.navigate(['/users'])
+        this.router.navigate(['/users']);
       }
     })
   }

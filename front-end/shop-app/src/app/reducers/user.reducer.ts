@@ -4,37 +4,62 @@ import * as UserActions from '../actions/user.action';
 
 export interface UserState {
   current_user: User;
-  passwordErrMsg: string;
+  firstNameErrMsg: string;
+  lastNameErrMsg: string;
   emailErrMsg: string;
+  passwordErrMsg: string;
+  confirmPasswordErrMsg: string;
+  generalErr: string;
+  successMsg: string;
   valid: boolean;
+  loading: boolean;
 }
 
 const initialState = {
   current_user: null,
-  passwordErrMsg: undefined,
+  firstNameErrMsg: undefined,
+  lastNameErrMsg: undefined,
   emailErrMsg: undefined,
-  valid: undefined
+  passwordErrMsg: undefined,
+  confirmPasswordErrMsg: undefined,
+  generalErr: undefined,
+  successMsg: undefined,
+  valid: undefined,
+  loading: false
 }
 
 const _userReducer = createReducer(initialState,
+  on(UserActions.LOG_IN, (state, action) => {
+    return { ...state, loading: true }
+  }),
   on(UserActions.LOG_IN_SUCCESS, (state, action) => {
-    //console.log(action.payload);
     return {
-      ...state,
-      current_user: action.payload.current_user,
-      passwordErrMsg: action.payload.passwordErrMsg,
-      emailErrMsg: action.payload.emailErrMsg,
-      valid: action.payload.valid
+      ...action.payload,
+      loading: false
     }
   }),
   on(UserActions.LOG_IN_FAILURE, (state, action) => {
     //console.log(action.payload);
     return {
-      ...state,
-      current_user: action.payload.current_user,
-      passwordErrMsg: action.payload.passwordErrMsg,
-      emailErrMsg: action.payload.emailErrMsg,
-      valid: action.payload.valid
+      ...action.payload,
+      loading: false
+    }
+  }),
+  on(UserActions.REGISTER, (state, action) => {
+    return { ...state, loading: true }
+  }),
+  on(UserActions.REGISTER_SUCCESS, (state, action) => {
+    //console.log(action.payload);
+    return {
+      ...action.payload,
+      loading: false
+    }
+  }),
+  on(UserActions.REGISTER_FAILURE, (state, action) => {
+    //console.log(action.payload);
+    return {
+      ...action.payload,
+      loading: false
     }
   })
 );

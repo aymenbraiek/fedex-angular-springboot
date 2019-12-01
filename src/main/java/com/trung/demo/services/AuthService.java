@@ -1,13 +1,11 @@
 package com.trung.demo.services;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.trung.demo.model.AuthRequest;
@@ -20,6 +18,9 @@ import com.trung.demo.security.JwtUtil;
 public class AuthService {
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	UserService userService;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -67,6 +68,7 @@ public class AuthService {
 			authRes.setEmailErrMsg(null);
 			authRes.setPasswordErrMsg(null);
 			authRes.setCurrent_user(userRepo.findByEmail(authReq.getEmail()));
+			authRes.setSuccessMsg("You have logged in successfully!");
 			
 			return authRes;
 			
@@ -83,31 +85,52 @@ public class AuthService {
 		}
 	}
 	
-//	public Map<String, Object> register(User newUser) {
-//		Map<String, Object> res = new HashMap<>();
-//		
-//		boolean isFirstNameFilled = isFilled(newUser.getFirstName());
-//		boolean isLastNameFilled = isFilled(newUser.getLastName());
-//		boolean isUsernameFilled = isFilled(newUser.getEmail());
-//		boolean isPasswordFilled = isFilled(newUser.getPassword());
-//		
-//		if (!isFirstNameFilled) {
-//			res.put("firstNameErrMsg", "Please enter first name");
-//		}
-//		
-//		if (!isLastNameFilled) {
-//			res.put("lastNameErrMsg", "Please enter last name");
-//		}
-//		
-//		if (!isUsernameFilled) {
-//			res.put("usernameErrMsg", "Please enter username");
-//		}
-//		
-//		if (!isPasswordFilled) {
-//			res.put("passwordErrMsg", "Please enter password");
-//		}
-//		
-//		
-//	}
+	public AuthResponse register(User newUser) {
+		AuthResponse authRes = new AuthResponse();
+		
+		boolean isFirstNameFilled = isFilled(newUser.getFirstName());
+		boolean isLastNameFilled = isFilled(newUser.getLastName());
+		boolean isEmailFilled = isFilled(newUser.getEmail());
+		boolean isPasswordFilled = isFilled(newUser.getPassword());
+		
+		if (!isFirstNameFilled) {
+			authRes.setFirstNameErrMsg("Please enter first name");
+		}
+		
+		if (!isLastNameFilled) {
+			authRes.setLastNameErrMsg("Please enter last name");
+		}
+		
+		if (!isEmailFilled) {
+			authRes.setEmailErrMsg("Please enter email");
+		}
+		
+		if (!isPasswordFilled) {
+			authRes.setPasswordErrMsg("Please password");
+		}
+		
+		if (!isFirstNameFilled || !isLastNameFilled || !isEmailFilled || !isPasswordFilled ) {
+			authRes.setValid(false);
+			return authRes;
+		}
+		
+		if (!newUser.getPassword().equals(newUser.getConfirmPassword())) {
+			authRes.setConfirmPasswordErrMsg("Passwords not matched");
+			authRes.setValid(false);
+			return authRes;
+		}
+		
+		if (userRepo.existsByEmail(newUser.getEmail())) {
+			authRes.setValid(false);
+			authRes.setGeneralErr("This user already exists");
+			return authRes;
+		}
+		
+		newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+		userRepo.save(newUser);
+		authRes.setValid(true);
+		authRes.setSuccessMsg("Your account has been created! You can login now");
+		return authRes;
+	}
 	
 }
