@@ -14,16 +14,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from '../app/effects/user.effect';
-import { AuthGuardService } from './services/auth-guard.service';
-import { AuthService } from './services/auth.service';
-
+import { HelloComponent } from './components/hello/hello.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		UserComponent,
 		LoginComponent,
-		RegisterComponent
+		RegisterComponent,
+		HelloComponent
 	],
 	imports: [
 		BrowserModule,
@@ -42,7 +41,7 @@ import { AuthService } from './services/auth.service';
 		StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
 		EffectsModule.forRoot([UserEffects]),
 	],
-	providers: [AuthService, AuthGuardService],
+	providers: [],
 	bootstrap: [
 		AppComponent
 	]

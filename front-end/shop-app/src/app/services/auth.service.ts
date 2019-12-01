@@ -3,7 +3,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 const jwtHelper = new JwtHelperService();
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
   constructor() { }

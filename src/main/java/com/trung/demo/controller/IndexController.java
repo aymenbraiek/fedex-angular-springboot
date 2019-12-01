@@ -1,6 +1,10 @@
 package com.trung.demo.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +22,11 @@ public class IndexController {
 	@Autowired
 	public LoginService loginService;
 	
-	@RequestMapping("/")
-	public String index() {
-		return "Welcome!!!";
-	}
-	
-	@RequestMapping("/hello")
-	public String hello() {
-		return "Hello!!!";
+	@RequestMapping(value = "/hello", method = RequestMethod.GET)
+	public ResponseEntity<?> hello() {
+		Map<String, String> map = new HashMap<>();
+		map.put("response", "Hello!!!");
+ 		return ResponseEntity.ok(map);
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")

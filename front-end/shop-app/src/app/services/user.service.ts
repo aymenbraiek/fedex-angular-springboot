@@ -4,10 +4,14 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/models/User.model';
 
 const httpOptions = {
-  headers: new HttpHeaders({
+  headers: localStorage.getItem('jwtToken') !== null && typeof localStorage.getItem('jwtToken') !== 'undefined' ? new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': localStorage.getItem('jwtToken')
+  }) : new HttpHeaders({
     'Content-Type': 'application/json'
   })
 }
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +22,8 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUsers = (): Observable<User[]> => {
-    return this.http.get<User[]>(`${this.serverAPI_URL}/users`);
+    console.log(httpOptions);
+    return this.http.get<User[]>(`${this.serverAPI_URL}/users`, httpOptions);
   }
 
   logIn = (userName: string, password: string): Observable<any> => {
@@ -28,5 +33,10 @@ export class UserService {
       password: password
     };
     return this.http.post<any>(url, body, httpOptions);
+  }
+
+  getHello = (): Observable<any> => {
+    const url = `${this.serverAPI_URL}/hello`;
+    return this.http.get<String>(url, httpOptions);
   }
 }
