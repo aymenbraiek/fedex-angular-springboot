@@ -26,7 +26,7 @@ public class UserController {
 		return userService.getUsers();
 	}
 	
-	@RequestMapping(value = "/users/get", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/users/get", method = RequestMethod.POST, produces = "application/json")
 	public User getUser(@RequestBody Map<String, String> userInfo) {
 		return userService.getUser(userInfo.get("email"));
 	}

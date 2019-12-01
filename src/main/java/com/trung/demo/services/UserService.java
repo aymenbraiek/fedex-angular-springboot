@@ -35,7 +35,12 @@ public class UserService {
 			return false;
 		}
 		
+		if (!newUser.getPassword().equals(newUser.getConfirmPassword())) {
+			return false;
+		}
+		
 		newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+		newUser.setConfirmPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
 		userRepo.save(newUser);
 		return true;
 	}

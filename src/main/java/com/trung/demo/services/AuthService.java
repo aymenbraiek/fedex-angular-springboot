@@ -127,6 +127,7 @@ public class AuthService {
 		}
 		
 		newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+		newUser.setConfirmPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
 		userRepo.save(newUser);
 		authRes.setValid(true);
 		authRes.setSuccessMsg("Your account has been created! You can login now");
