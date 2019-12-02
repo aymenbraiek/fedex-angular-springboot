@@ -44,8 +44,6 @@ public class UserController {
 	
 	@RequestMapping(value = "/users/update", method = RequestMethod.PUT, produces = "application/json")
 	public boolean updateUser(@RequestBody UpdateUserInfo udpated_userInfo) {
-		System.out.println(udpated_userInfo.getOldEmail());
-		System.out.println(udpated_userInfo.getUpdatedUser().getFirstName());
 		return userService.updateUser(udpated_userInfo.getOldEmail(), udpated_userInfo.getUpdatedUser());
 	}
 	

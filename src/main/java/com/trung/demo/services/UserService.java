@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.trung.demo.model.User;
 import com.trung.demo.repository.UserRepository;
+import com.trung.demo.validator.Validator;
 
 @Service
 public class UserService {
@@ -27,6 +28,14 @@ public class UserService {
 		return userRepo.findByEmail(email);
 	}
 	
+	// check if names and email are valid format
+	public boolean isValid(User user) {
+		boolean isEmailValid = Validator.isValidEmail(user.getEmail());
+		boolean isFirstNameValid = Validator.isValidName(user.getFirstName());
+		boolean isLastNameValid = Validator.isValidName(user.getLastName());
+		return isEmailValid && isFirstNameValid && isLastNameValid;
+	}
+	
 	public boolean addUser(User newUser) {
 		if (newUser == null)
 			return false;
@@ -39,10 +48,14 @@ public class UserService {
 			return false;
 		}
 		
-		newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
-		newUser.setConfirmPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
-		userRepo.save(newUser);
-		return true;
+		if (isValid(newUser)) {
+			// if names fields and email are valid format
+			newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+			newUser.setConfirmPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+			userRepo.save(newUser);
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean updateUser(String oldUserName, User updated_user) {
@@ -51,16 +64,25 @@ public class UserService {
 			return false;
 		
 		if (oldUserName.equals(updated_user.getEmail())) {
-			foundUser = updated_user;
-			foundUser.setPassword(new BCryptPasswordEncoder().encode(foundUser.getPassword()));
-			userRepo.save(foundUser);
+			if (isValid(updated_user) && updated_user.getPassword().equals(updated_user.getConfirmPassword())) {
+				foundUser = updated_user;
+				foundUser.setPassword(new BCryptPasswordEncoder().encode(foundUser.getPassword()));
+				foundUser.setConfirmPassword(new BCryptPasswordEncoder().encode(foundUser.getConfirmPassword()));
+				userRepo.save(foundUser);
+			} else {
+				return false;
+			}
 		} else {
 			if (userRepo.existsByEmail(updated_user.getEmail()))
 				return false;
 			
-			this.deleteUser(oldUserName);
-			updated_user.setPassword(new BCryptPasswordEncoder().encode(updated_user.getPassword()));
-			userRepo.save(updated_user);
+			if (isValid(updated_user) && updated_user.getPassword().equals(updated_user.getConfirmPassword()) ) {
+				this.deleteUser(oldUserName);
+				updated_user.setPassword(new BCryptPasswordEncoder().encode(updated_user.getPassword()));
+				userRepo.save(updated_user);
+			} else {
+				return false;
+			}
 		}
 		return true;		
 	}
