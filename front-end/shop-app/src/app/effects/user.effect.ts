@@ -71,6 +71,18 @@ export class UserEffects {
     )
   )
 
+  logout = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.LOG_OUT),
+      tap(() => {
+        localStorage.removeItem('jwtToken');
+      }),
+      map(() => {
+        return SuccessActions.SET_SUCCESS({ payload: 'You have logged out' });
+      })
+    )
+  )
+
   constructor(
     private actions$: Actions,
     private userService: UserService,

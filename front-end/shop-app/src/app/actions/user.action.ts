@@ -26,6 +26,10 @@ export const LOG_IN_FAILURE = createAction(
   props<{ payload: any }>()
 )
 
+export const LOG_OUT = createAction(
+  actionTypes.LOG_OUT
+)
+
 export const REGISTER = createAction(
   actionTypes.REGISTER,
   props<{ payload: any }>()

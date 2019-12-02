@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as rootReducers from '../../reducers/index';
+import * as UserActions from '../../actions/user.action';
 import { Store, select } from '@ngrx/store';
 
 @Component({
@@ -23,7 +24,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('jwtToken');
+    this.store.dispatch(UserActions.LOG_OUT());
   }
 
 }

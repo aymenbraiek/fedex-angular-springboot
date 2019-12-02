@@ -7,6 +7,7 @@ export const SET_CURRENT_USER = '[USER] Set current user';
 export const REGISTER = '[USER] User register';
 export const REGISTER_SUCCESS = '[USER] User register success';
 export const REGISTER_FAILURE = '[USER] User register failure';
+export const LOG_OUT = '[USER] User Logout';
 
 // Success and errors types
 export const SET_SUCCESS = '[SUCCESS] Set success message';
