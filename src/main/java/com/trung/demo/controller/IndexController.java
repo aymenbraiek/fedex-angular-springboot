@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,12 +32,20 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-	public AuthResponse validateLogin(@RequestBody AuthRequest authReq) {
-		return authService.validateLogin(authReq);
+	public ResponseEntity<?> validateLogin(@RequestBody AuthRequest authReq) {
+		AuthResponse authRes = authService.validateLogin(authReq);
+		if (authRes.isValid()) {
+			return ResponseEntity.ok(authRes);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(authRes);
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
-	public AuthResponse register(@RequestBody User newUser) {
-		return authService.register(newUser);
+	public ResponseEntity<?> register(@RequestBody User newUser) {
+		AuthResponse authRes = authService.register(newUser);
+		if (authRes.isValid()) {
+			return ResponseEntity.ok(authRes);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(authRes);
 	}
 }

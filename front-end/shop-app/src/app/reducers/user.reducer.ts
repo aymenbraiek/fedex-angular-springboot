@@ -35,7 +35,12 @@ const _userReducer = createReducer(initialState,
   on(UserActions.LOG_IN_SUCCESS, (state, action) => {
     return {
       ...action.payload,
-      loading: false
+      loading: false,
+      current_user: {
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        email: action.payload.email
+      }
     }
   }),
   on(UserActions.LOG_IN_FAILURE, (state, action) => {
@@ -43,6 +48,16 @@ const _userReducer = createReducer(initialState,
     return {
       ...action.payload,
       loading: false
+    }
+  }),
+  on(UserActions.SET_CURRENT_USER, (state, action) => {
+    return {
+      ...state,
+      current_user: {
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        email: action.payload.email
+      }
     }
   }),
   on(UserActions.REGISTER, (state, action) => {

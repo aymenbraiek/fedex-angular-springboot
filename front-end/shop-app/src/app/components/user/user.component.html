@@ -1,6 +1,7 @@
+<app-navbar></app-navbar>
 <div class="container">
   <h2 class="mb-4 mt-4">user works!</h2>
-  <p *ngIf="loggedIn_msg" class="alert alert-success"> {{ loggedIn_msg }}</p>
+  <p *ngIf="success_msg" class="alert alert-success"> {{ success_msg }}</p>
   <ul *ngFor='let user of users_list'>
     <li>{{ user.firstName }} {{ user.lastName }}</li>
   </ul>

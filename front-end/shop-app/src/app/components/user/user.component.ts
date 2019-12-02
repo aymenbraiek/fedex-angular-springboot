@@ -11,7 +11,7 @@ import * as rootReducers from '../../reducers/index';
 })
 export class UserComponent implements OnInit {
   users_list: User[] = [];
-  loggedIn_msg: string;
+  success_msg: string;
 
   constructor(
     private store: Store<rootReducers.AppState>,
@@ -23,8 +23,8 @@ export class UserComponent implements OnInit {
       this.users_list = users
     });
 
-    this.store.pipe(select('user')).subscribe(info => {
-      this.loggedIn_msg = info.successMsg;
+    this.store.pipe(select('success')).subscribe(info => {
+      this.success_msg = info.success_msg;
     })
   }
 

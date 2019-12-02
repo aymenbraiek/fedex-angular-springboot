@@ -1,31 +1,42 @@
 import { createAction, props } from '@ngrx/store';
+import * as actionTypes from '../actions/types.action';
 
 export const LOG_IN = createAction(
-  '[USER] User Login',
+  actionTypes.LOG_IN,
+  props<{ payload: any }>()
+)
+
+export const GET_CURRENT_USER = createAction(
+  actionTypes.GET_CURRENT_USER,
+  props<{ payload: any }>()
+)
+
+export const SET_CURRENT_USER = createAction(
+  actionTypes.SET_CURRENT_USER,
   props<{ payload: any }>()
 )
 
 export const LOG_IN_SUCCESS = createAction(
-  '[USER] User Login Success',
+  actionTypes.LOG_IN_SUCCESS,
   props<{ payload: any }>()
 )
 
 export const LOG_IN_FAILURE = createAction(
-  '[USER] User Login Failure',
+  actionTypes.LOG_IN_FAILURE,
   props<{ payload: any }>()
 )
 
 export const REGISTER = createAction(
-  '[USER] User register',
+  actionTypes.REGISTER,
   props<{ payload: any }>()
 )
 
 export const REGISTER_SUCCESS = createAction(
-  '[USER] User register success',
+  actionTypes.REGISTER_SUCCESS,
   props<{ payload: any }>()
 )
 
 export const REGISTER_FAILURE = createAction(
-  '[USER] User register failure',
+  actionTypes.REGISTER_FAILURE,
   props<{ payload: any }>()
 )

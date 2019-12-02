@@ -16,6 +16,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from '../app/effects/user.effect';
 import { HelloComponent } from './components/hello/hello.component';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
 	declarations: [
@@ -23,7 +24,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 		UserComponent,
 		LoginComponent,
 		RegisterComponent,
-		HelloComponent
+		HelloComponent,
+		NavbarComponent
 	],
 	imports: [
 		BrowserModule,

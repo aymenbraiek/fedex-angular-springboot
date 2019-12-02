@@ -39,6 +39,14 @@ export class UserService {
     return this.http.post<any>(url, payload, httpOptions);
   }
 
+  getCurrentUser = (email): Observable<User> => {
+    const url = `${this.serverAPI_URL}/users/get`;
+    const payload = {
+      email: email
+    }
+    return this.http.post<User>(url, payload, httpOptions);
+  }
+
   getHello = (): Observable<any> => {
     const url = `${this.serverAPI_URL}/hello`;
     return this.http.get<String>(url, httpOptions);

@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
   emailErrMsg: string;
   passwordErrMsg: string;
   confirmPasswordErrMsg: string;
-  generalErr: string;
+  error_msg: string;
 
   constructor(
     private store: Store<rootReducers.AppState>,
@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit {
       this.emailErrMsg = res.emailErrMsg;
       this.passwordErrMsg = res.passwordErrMsg;
       this.confirmPasswordErrMsg = res.confirmPasswordErrMsg;
-      this.generalErr = res.generalErr;
 
       if (res.loading) {
         this.spinner.show();
@@ -42,6 +41,10 @@ export class RegisterComponent implements OnInit {
       if (res.valid) {
         this.router.navigate(['/login']);
       }
+    })
+
+    this.store.pipe(select('error')).subscribe(res => {
+      this.error_msg = res.error_msg;
     })
   }
 

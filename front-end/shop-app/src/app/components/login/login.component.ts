@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   passwordErrMsg: string;
   emailErrMsg: string;
   valid: boolean;
-  account_createdSucess_msg: string;
+  success_msg: string;
 
   constructor(
     private store: Store<rootReducers.AppState>,
@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
       this.passwordErrMsg = res.passwordErrMsg;
       this.emailErrMsg = res.emailErrMsg;
       this.valid = res.valid;
-      this.account_createdSucess_msg = res.successMsg;
 
       if (res.loading) {
         this.spinner.show();
@@ -41,6 +40,10 @@ export class LoginComponent implements OnInit {
       if (res.valid) {
         this.router.navigate(['/users']);
       }
+    })
+
+    this.store.pipe(select('success')).subscribe(res => {
+      this.success_msg = res.success_msg;
     })
   }
 

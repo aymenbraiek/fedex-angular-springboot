@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +29,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/users/get", method = RequestMethod.POST, produces = "application/json")
-	public User getUser(@RequestBody Map<String, String> userInfo) {
-		return userService.getUser(userInfo.get("email"));
+	public ResponseEntity<?> getUser(@RequestBody Map<String, String> userInfo) {
+		User foundUser = userService.getUser(userInfo.get("email"));
+		if (foundUser == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(foundUser);
+		}
+		return ResponseEntity.ok(foundUser);
 	}
 	
 	@RequestMapping(value = "/users/add", method = RequestMethod.POST, produces = "application/json")

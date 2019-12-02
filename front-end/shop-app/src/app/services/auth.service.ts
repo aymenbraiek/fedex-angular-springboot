@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Store } from '@ngrx/store';
+import * as rootReducers from '../reducers/index';
+import * as UserActions from '../actions/user.action';
 
 const jwtHelper = new JwtHelperService();
 
@@ -8,18 +11,25 @@ const jwtHelper = new JwtHelperService();
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(
+    private store: Store<rootReducers.AppState>
+  ) { }
 
   isAuthenticated = (): Boolean => {
     const jwtToken = localStorage.getItem('jwtToken');
     if (jwtToken === null || typeof jwtToken === 'undefined') {
       return false;
     }
-    // return true;
+
     const isTokenExpired: boolean = jwtHelper.isTokenExpired(jwtToken);
     if (isTokenExpired) {
       localStorage.removeItem('jwtToken');
     }
-    return !isTokenExpired;
+    if (isTokenExpired) {
+      return false;
+    }
+    const userInfo = jwtHelper.decodeToken(jwtToken);
+    this.store.dispatch(UserActions.GET_CURRENT_USER({ payload: userInfo.sub }));
+    return true;
   }
 }
