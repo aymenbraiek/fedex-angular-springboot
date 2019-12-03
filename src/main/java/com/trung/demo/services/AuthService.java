@@ -13,6 +13,7 @@ import com.trung.demo.model.AuthResponse;
 import com.trung.demo.model.User;
 import com.trung.demo.repository.UserRepository;
 import com.trung.demo.security.JwtUtil;
+import com.trung.demo.validator.Validator;
 
 @Service
 public class AuthService {
@@ -93,23 +94,33 @@ public class AuthService {
 		boolean isEmailFilled = isFilled(newUser.getEmail());
 		boolean isPasswordFilled = isFilled(newUser.getPassword());
 		
+		boolean isFirstNameValidFormat = Validator.isValidName(newUser.getFirstName());
+		boolean isLastNameValidFormat = Validator.isValidName(newUser.getLastName());
+		boolean isEmailValidFormat = Validator.isValidEmail(newUser.getEmail());
+		
 		if (!isFirstNameFilled) {
 			authRes.setFirstNameErrMsg("Please enter first name");
+		} else if (!isFirstNameValidFormat) {
+			authRes.setFirstNameErrMsg("Name should NOT contain numbers and special characters");
 		}
 		
 		if (!isLastNameFilled) {
 			authRes.setLastNameErrMsg("Please enter last name");
+		} else if (!isLastNameValidFormat) {
+			authRes.setLastNameErrMsg("Name should NOT contain numbers and special characters");
 		}
 		
 		if (!isEmailFilled) {
 			authRes.setEmailErrMsg("Please enter email");
+		} else if (!isEmailValidFormat) {
+			authRes.setEmailErrMsg("Invalid email format");
 		}
 		
 		if (!isPasswordFilled) {
 			authRes.setPasswordErrMsg("Please password");
 		}
 		
-		if (!isFirstNameFilled || !isLastNameFilled || !isEmailFilled || !isPasswordFilled ) {
+		if (!isFirstNameFilled || !isLastNameFilled || !isEmailFilled || !isPasswordFilled || !isFirstNameValidFormat || !isLastNameValidFormat || !isEmailValidFormat ) {
 			authRes.setValid(false);
 			return authRes;
 		}
