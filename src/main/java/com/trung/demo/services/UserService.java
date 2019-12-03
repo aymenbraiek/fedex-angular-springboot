@@ -50,8 +50,9 @@ public class UserService {
 		
 		if (isValid(newUser)) {
 			// if names fields and email are valid format
-			newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
-			newUser.setConfirmPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+			String encodedPassword = new BCryptPasswordEncoder().encode(newUser.getPassword()); 
+			newUser.setPassword(encodedPassword);
+			newUser.setConfirmPassword(encodedPassword);
 			userRepo.save(newUser);
 			return true;
 		}
@@ -66,8 +67,9 @@ public class UserService {
 		if (oldUserName.equals(updated_user.getEmail())) {
 			if (isValid(updated_user) && updated_user.getPassword().equals(updated_user.getConfirmPassword())) {
 				foundUser = updated_user;
-				foundUser.setPassword(new BCryptPasswordEncoder().encode(foundUser.getPassword()));
-				foundUser.setConfirmPassword(new BCryptPasswordEncoder().encode(foundUser.getConfirmPassword()));
+				String encodedPassword = new BCryptPasswordEncoder().encode(foundUser.getPassword()); 
+				foundUser.setPassword(encodedPassword);
+				foundUser.setConfirmPassword(encodedPassword);
 				userRepo.save(foundUser);
 			} else {
 				return false;
@@ -78,7 +80,9 @@ public class UserService {
 			
 			if (isValid(updated_user) && updated_user.getPassword().equals(updated_user.getConfirmPassword()) ) {
 				this.deleteUser(oldUserName);
-				updated_user.setPassword(new BCryptPasswordEncoder().encode(updated_user.getPassword()));
+				String encodedPassword = new BCryptPasswordEncoder().encode(updated_user.getPassword()); 
+				updated_user.setPassword(encodedPassword);
+				updated_user.setConfirmPassword(encodedPassword);
 				userRepo.save(updated_user);
 			} else {
 				return false;
