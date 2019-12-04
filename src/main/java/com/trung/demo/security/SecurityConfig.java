@@ -1,5 +1,8 @@
 package com.trung.demo.security;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.trung.demo.model.Role;
+import com.trung.demo.model.User;
+import com.trung.demo.repository.UserRepository;
 import com.trung.demo.services.MyUserDetailsService;
 
 @EnableWebSecurity
@@ -23,10 +29,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private MyUserDetailsService myUserDetailsService;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(myUserDetailsService);
+		
+		// setup default admin & user for the app
+		String encodedPass = new BCryptPasswordEncoder().encode("pass");
+		User admin = new User("Phuong", "Chu", "aiko@gmail.com", encodedPass, encodedPass);
+		admin.addRole(new Role("ADMIN"));
+		userRepository.save(admin);
+		
+		User admin2 = new User("Trung", "Vo", "trung@gmail.com", encodedPass, encodedPass);
+		admin2.addRole(new Role("ADMIN"));
+		userRepository.save(admin2);
+		
+		User emp1 = new User("Quang", "Vo", "quang@gmail.com", encodedPass, encodedPass);
+		emp1.addRole(new Role("EMPLOYEE"));
+		userRepository.save(emp1);
 	}
 	
 	

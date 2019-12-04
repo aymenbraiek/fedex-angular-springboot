@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.trung.demo.model.User;
@@ -32,7 +31,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		return org.springframework.security.core.userdetails.User//
 				.withUsername(foundUser.getEmail())
 				.password(foundUser.getPassword())
-				.roles()
+				.roles((String[]) foundUser.getRoles().toArray())
 		        .build();
 	}
 	

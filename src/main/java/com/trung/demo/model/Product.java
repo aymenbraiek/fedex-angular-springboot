@@ -30,20 +30,20 @@ public class Product {
 	@Column(name = "total")
 	private double total;
 	
-	@ManyToOne
-	private User user;
+//	@ManyToOne
+//	private User user;
 	
 	public Product() {
 		
 	}
 	
-	public Product(int id, String name, double price, int quantity, User user) {
+	public Product(int id, String name, double price, int quantity) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
 		this.total = price * quantity;
-		this.user = user;
+//		this.user = user;
 	}
 	
 }

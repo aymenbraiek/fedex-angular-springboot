@@ -34,7 +34,7 @@ public class AuthService {
 		return field != null && !field.equals("");
 	}
 	
-	public AuthResponse validateLogin(AuthRequest authReq) {		
+	public AuthResponse validateLogin(AuthRequest authReq) {
 		AuthResponse authRes = new AuthResponse();
 		
 		// check if username & password are filled
