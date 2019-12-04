@@ -31,8 +31,9 @@ public class MyUserDetailsService implements UserDetailsService {
 		return org.springframework.security.core.userdetails.User//
 				.withUsername(foundUser.getEmail())
 				.password(foundUser.getPassword())
-				.roles((String[]) foundUser.getRoles().toArray())
+				.roles()
 		        .build();
+				
 	}
 	
 }

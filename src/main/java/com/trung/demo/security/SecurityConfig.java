@@ -43,11 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		admin.addRole(new Role("ADMIN"));
 		userRepository.save(admin);
 		
-		User admin2 = new User("Trung", "Vo", "trung@gmail.com", encodedPass, encodedPass);
+		User admin2 = new User("Trung", "Vo", "vtt311096@gmail.com", encodedPass, encodedPass);
 		admin2.addRole(new Role("ADMIN"));
 		userRepository.save(admin2);
 		
-		User emp1 = new User("Quang", "Vo", "quang@gmail.com", encodedPass, encodedPass);
+		User emp1 = new User("Quang", "Vo", "vtq3008@gmail.com", encodedPass, encodedPass);
 		emp1.addRole(new Role("EMPLOYEE"));
 		userRepository.save(emp1);
 	}
