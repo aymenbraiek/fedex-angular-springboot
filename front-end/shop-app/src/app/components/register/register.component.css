@@ -10,3 +10,16 @@
   top: 50vh;
   transform: translate(0, -50%);
 }
+
+#logo {
+  display: block;
+  margin: auto;
+  height: 150px;
+  width: 150px;
+}
+
+@media only screen and (max-width: 375px) {
+  .card {
+    transform: translate(0, -50vh);
+  }
+}

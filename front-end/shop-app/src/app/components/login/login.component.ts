@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       }
 
       if (res.valid) {
-        this.router.navigate(['/users']);
+        this.router.navigate([`/dashboard/${res.current_user.firstName}${res.current_user.lastName}`]);
       }
     })
 
