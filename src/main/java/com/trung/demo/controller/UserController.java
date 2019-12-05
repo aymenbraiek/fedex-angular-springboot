@@ -43,8 +43,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/users/update", method = RequestMethod.PUT, produces = "application/json")
-	public boolean updateUser(@RequestBody UpdateUserInfo udpated_userInfo) {
-		return userService.updateUser(udpated_userInfo.getOldEmail(), udpated_userInfo.getUpdatedUser());
+	public ResponseEntity<?> updateUser(@RequestBody UpdateUserInfo udpated_userInfo) {
+		boolean valid = userService.updateUser(udpated_userInfo.getOldEmail(), udpated_userInfo.getUpdatedUser());
+		if (valid) {
+			return ResponseEntity.ok(valid);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(valid);
 	}
 	
 	@RequestMapping(value = "/users/delete", method = RequestMethod.DELETE, produces = "application/json")

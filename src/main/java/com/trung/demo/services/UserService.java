@@ -65,11 +65,9 @@ public class UserService {
 			return false;
 		
 		if (oldUserName.equals(updated_user.getEmail())) {
-			if (isValid(updated_user) && updated_user.getPassword().equals(updated_user.getConfirmPassword())) {
-				foundUser = updated_user;
-				String encodedPassword = new BCryptPasswordEncoder().encode(foundUser.getPassword()); 
-				foundUser.setPassword(encodedPassword);
-				foundUser.setConfirmPassword(encodedPassword);
+			if (isValid(updated_user)) {
+				foundUser.setFirstName(updated_user.getFirstName());
+				foundUser.setLastName(updated_user.getLastName());
 				userRepo.save(foundUser);
 			} else {
 				return false;
@@ -78,12 +76,11 @@ public class UserService {
 			if (userRepo.existsByEmail(updated_user.getEmail()))
 				return false;
 			
-			if (isValid(updated_user) && updated_user.getPassword().equals(updated_user.getConfirmPassword()) ) {
-				this.deleteUser(oldUserName);
-				String encodedPassword = new BCryptPasswordEncoder().encode(updated_user.getPassword()); 
-				updated_user.setPassword(encodedPassword);
-				updated_user.setConfirmPassword(encodedPassword);
-				userRepo.save(updated_user);
+			if (isValid(updated_user) ) {
+				foundUser.setFirstName(updated_user.getFirstName());
+				foundUser.setLastName(updated_user.getLastName());
+				foundUser.setEmail(updated_user.getEmail());
+				userRepo.save(foundUser);
 			} else {
 				return false;
 			}

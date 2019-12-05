@@ -47,6 +47,19 @@ export class UserService {
     return this.http.post<User>(url, payload, httpOptions);
   }
 
+  editUser = (payload): Observable<any> => {
+    const url = `${this.serverAPI_URL}/users/update`;
+    const body = {
+      oldEmail: payload.email,
+      updatedUser: {
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        email: payload.email
+      }
+    }
+    return this.http.put(url, body, httpOptions);
+  }
+
   getHello = (): Observable<any> => {
     const url = `${this.serverAPI_URL}/hello`;
     return this.http.get<String>(url, httpOptions);

@@ -76,6 +76,24 @@ const _userReducer = createReducer(initialState,
       ...action.payload,
       loading: false
     }
+  }),
+  on(UserActions.EDIT_USER, (state, action) => {
+    return {
+      ...state,
+      loading: true
+    }
+  }),
+  on(UserActions.EDIT_USER_SUCCESS, (state, action) => {
+    return {
+      ...state,
+      loading: false
+    }
+  }),
+  on(UserActions.EDIT_USER_FAILURE, (state, action) => {
+    return {
+      ...state,
+      loading: false
+    }
   })
 );
 

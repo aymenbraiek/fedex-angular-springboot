@@ -1,6 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import * as actionTypes from '../actions/types.action';
 
+/** ============================
+ * Authentication for user
+ * ============================
+ */
+
 export const LOG_IN = createAction(
   actionTypes.LOG_IN,
   props<{ payload: any }>()
@@ -43,4 +48,21 @@ export const REGISTER_SUCCESS = createAction(
 export const REGISTER_FAILURE = createAction(
   actionTypes.REGISTER_FAILURE,
   props<{ payload: any }>()
+)
+
+/** ============================
+ * CRUD operations for user
+ * ============================
+ */
+export const EDIT_USER = createAction(
+  actionTypes.EDIT_USER,
+  props<{ payload: any }>()
+)
+
+export const EDIT_USER_SUCCESS = createAction(
+  actionTypes.EDIT_USER_SUCCESS
+)
+
+export const EDIT_USER_FAILURE = createAction(
+  actionTypes.EDIT_USER_FAILURE
 )

@@ -83,6 +83,36 @@ export class UserEffects {
     )
   )
 
+  editUser = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.EDIT_USER),
+      switchMap(data => {
+        // console.log(data);
+        return this.userService.editUser(data.payload).pipe(
+          switchMap(res => [
+            UserActions.EDIT_USER_SUCCESS(),
+            SuccessActions.SET_SUCCESS({ payload: 'Your profile has been updated' }),
+            ErrorActions.CLEAR_ERROR(),
+            UserActions.SET_CURRENT_USER({
+              payload: {
+                firstName: data.payload.firstName,
+                lastName: data.payload.lastName,
+                email: data.payload.email
+              }
+            })
+          ]),
+          catchError(errs => {
+            return of(
+              UserActions.EDIT_USER_FAILURE(),
+              ErrorActions.SET_ERROR({ payload: ['Names can NOT be blanked', 'Invalid name format (should NOT contain numbers or special characters)'] }),
+              SuccessActions.CLEAR_SUCCESS()
+            )
+          })
+        )
+      })
+    )
+  )
+
   constructor(
     private actions$: Actions,
     private userService: UserService,

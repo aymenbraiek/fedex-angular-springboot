@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
+import * as UserActions from '../../actions/user.action';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-dashboard',
@@ -9,12 +11,14 @@ import * as rootReducers from '../../reducers/index';
 })
 export class DashboardComponent implements OnInit {
   success_msg: string;
+  error_msg: string[];
   firstNameTitle: string;
   lastNameTitle: string;
   email: string;
 
   constructor(
     private store: Store<rootReducers.AppState>,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -27,11 +31,26 @@ export class DashboardComponent implements OnInit {
         this.lastNameTitle = res.current_user.lastName;
         this.email = res.current_user.email;
       }
+
+      if (res.loading) {
+        this.spinner.show();
+      } else {
+        this.spinner.hide();
+      }
+
+    })
+    this.store.pipe(select('error')).subscribe(info => {
+      this.error_msg = info.error_msg;
     })
   }
 
   onUpdate = (firstName: string, lastName: string) => {
-    console.log('UDPATE ' + firstName + ', ' + lastName);
+    const payload = {
+      firstName: firstName,
+      lastName: lastName,
+      email: this.email
+    }
+    this.store.dispatch(UserActions.EDIT_USER({ payload: payload }));
   }
 
   onDelete = (firstName: string, lastName: string) => {

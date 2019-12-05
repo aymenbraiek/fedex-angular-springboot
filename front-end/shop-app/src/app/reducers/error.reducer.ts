@@ -3,7 +3,7 @@ import * as errorActions from '../actions/error.action';
 
 export interface ErrorState {
   type: string;
-  error_msg: string;
+  error_msg: any;
 }
 
 const initialstate = {
