@@ -70,20 +70,30 @@
               <span [style.color]="'red'">*</span>&nbsp;&nbsp;Email address:
             </label>
             <div class="col-md-8">
-              <input name='email' type='text'
-                     [ngClass]="{
-                      'is-invalid': !isEmailValid()
-                    }"
-                     #email
-                     class='form-control' id='email'
-                     placeholder="Enter email" ngModel required>
-              <small [ngClass]="{
-                        'invalid-feedback': !isEmailValid()
-                      }"
-                     *ngIf="!isEmailValid()">
-                {{ emailErrMsg }}
-              </small>
-
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text border-right-0 bg-light"
+                        [ngClass]="{
+                          'border-danger': !isEmailValid()
+                        }"
+                        id="basic-addon1">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                </div>
+                <input name='email' type='text'
+                       [ngClass]="{
+                          'is-invalid': !isEmailValid()
+                        }"
+                       #email
+                       class='form-control border-left-0' id='email'
+                       placeholder="Enter email" ngModel required>
+                <small [ngClass]="{
+                          'invalid-feedback': !isEmailValid()
+                        }"
+                       *ngIf="!isEmailValid()">
+                  {{ emailErrMsg }}
+                </small>
+              </div>
             </div>
           </div>
 
@@ -93,19 +103,30 @@
               <span [style.color]="'red'">*</span>&nbsp;&nbsp;Password:
             </label>
             <div class="col-md-8">
-              <input name='password' type="password"
-                     class="form-control"
-                     [ngClass]="{
-                      'is-invalid': !isPasswordValid()
-                    }"
-                     #password
-                     id="password" placeholder="Enter password" ngModel required>
-              <small [ngClass]="{
-                        'invalid-feedback': !isPasswordValid()
-                      }"
-                     *ngIf="!isPasswordValid()">
-                {{ passwordErrMsg }}
-              </small>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-light border-right-0"
+                        [ngClass]="{
+                          'border-danger': !isPasswordValid()
+                        }"
+                        id="basic-addon1">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </div>
+                <input name='password' type="password"
+                       class="form-control border-left-0"
+                       [ngClass]="{
+                          'is-invalid': !isPasswordValid()
+                        }"
+                       #password
+                       id="password" placeholder="Enter password" ngModel required>
+                <small [ngClass]="{
+                          'invalid-feedback': !isPasswordValid()
+                        }"
+                       *ngIf="!isPasswordValid()">
+                  {{ passwordErrMsg }}
+                </small>
+              </div>
             </div>
           </div>
 

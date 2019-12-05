@@ -1,5 +1,5 @@
 .container-wrapper {
-  height: 100vh;
+  height: 120vh;
   width: 100%;
   background-color: cornflowerblue;
 }
@@ -7,7 +7,7 @@
 .card {
   max-width: 650px;
   margin: 0 auto;
-  top: 50vh;
+  top: 60vh;
   transform: translate(0, -50%);
 }
 
