@@ -34,7 +34,15 @@ const _userReducer = createReducer(initialState,
   }),
   on(UserActions.LOG_IN_SUCCESS, (state, action) => {
     return {
-      ...action.payload,
+      ...state,
+      firstNameErrMsg: null,
+      lastNameErrMsg: null,
+      emailErrMsg: null,
+      passwordErrMsg: null,
+      confirmPasswordErrMsg: null,
+      generalErr: null,
+      successMsg: action.payload.successMsg,
+      valid: true,
       loading: false,
       current_user: {
         firstName: action.payload.firstName,
@@ -51,13 +59,19 @@ const _userReducer = createReducer(initialState,
     }
   }),
   on(UserActions.SET_CURRENT_USER, (state, action) => {
+    if (action.payload !== null && typeof action.payload !== 'undefined') {
+      return {
+        ...state,
+        current_user: {
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+          email: action.payload.email
+        }
+      }
+    }
     return {
       ...state,
-      current_user: {
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
-        email: action.payload.email
-      }
+      current_user: null
     }
   }),
   on(UserActions.REGISTER, (state, action) => {
@@ -90,6 +104,24 @@ const _userReducer = createReducer(initialState,
     }
   }),
   on(UserActions.EDIT_USER_FAILURE, (state, action) => {
+    return {
+      ...state,
+      loading: false
+    }
+  }),
+  on(UserActions.DELETE_USER, (state, action) => {
+    return {
+      ...state,
+      loading: true
+    }
+  }),
+  on(UserActions.DELETE_USER_SUCCESS, (state, action) => {
+    return {
+      ...state,
+      loading: false
+    }
+  }),
+  on(UserActions.DELETE_USER_FAILURE, (state, action) => {
     return {
       ...state,
       loading: false

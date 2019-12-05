@@ -3,6 +3,7 @@ import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private store: Store<rootReducers.AppState>,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -38,6 +40,10 @@ export class DashboardComponent implements OnInit {
         this.spinner.hide();
       }
 
+      if (res.current_user === null) {
+        this.router.navigate(['/login'])
+      }
+
     })
     this.store.pipe(select('error')).subscribe(info => {
       this.error_msg = info.error_msg;
@@ -54,7 +60,12 @@ export class DashboardComponent implements OnInit {
   }
 
   onDelete = (firstName: string, lastName: string) => {
-    console.log('DELETE ' + firstName + ', ' + lastName);
+    const payload = {
+      firstName: firstName,
+      lastName: lastName,
+      email: this.email
+    }
+    this.store.dispatch(UserActions.DELETE_USER({ payload: payload }));
   }
 
 }

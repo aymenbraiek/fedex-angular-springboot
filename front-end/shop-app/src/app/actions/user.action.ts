@@ -66,3 +66,16 @@ export const EDIT_USER_SUCCESS = createAction(
 export const EDIT_USER_FAILURE = createAction(
   actionTypes.EDIT_USER_FAILURE
 )
+
+export const DELETE_USER = createAction(
+  actionTypes.DELETE_USER,
+  props<{ payload: any }>()
+)
+
+export const DELETE_USER_SUCCESS = createAction(
+  actionTypes.EDIT_USER_SUCCESS
+)
+
+export const DELETE_USER_FAILURE = createAction(
+  actionTypes.EDIT_USER_FAILURE
+)

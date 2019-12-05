@@ -77,9 +77,10 @@ export class UserEffects {
       tap(() => {
         localStorage.removeItem('jwtToken');
       }),
-      map(() => {
-        return SuccessActions.SET_SUCCESS({ payload: 'You have logged out' });
-      })
+      switchMap(() => [
+        UserActions.SET_CURRENT_USER({ payload: null }),
+        SuccessActions.SET_SUCCESS({ payload: 'You have logged out' })
+      ])
     )
   )
 
@@ -105,6 +106,34 @@ export class UserEffects {
             return of(
               UserActions.EDIT_USER_FAILURE(),
               ErrorActions.SET_ERROR({ payload: ['Names can NOT be blanked', 'Invalid name format (should NOT contain numbers or special characters)'] }),
+              SuccessActions.CLEAR_SUCCESS()
+            )
+          })
+        )
+      })
+    )
+  )
+
+  deleteUser = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.DELETE_USER),
+      switchMap(data => {
+        return this.userService.deleteUser(data.payload).pipe(
+          tap(res => {
+            if (res) {
+              localStorage.removeItem('jwtToken');
+            }
+          }),
+          switchMap(res => [
+            UserActions.SET_CURRENT_USER({ payload: null }),
+            UserActions.DELETE_USER_SUCCESS(),
+            ErrorActions.CLEAR_ERROR(),
+            SuccessActions.SET_SUCCESS({ payload: 'Your account has been deleted' })
+          ]),
+          catchError(errs => {
+            return of(
+              UserActions.DELETE_USER_FAILURE(),
+              ErrorActions.SET_ERROR({ payload: 'Account is not found' }),
               SuccessActions.CLEAR_SUCCESS()
             )
           })

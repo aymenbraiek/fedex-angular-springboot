@@ -13,6 +13,9 @@ export const LOG_OUT = '[USER] User Logout';
 export const EDIT_USER = '[USER] Edit User';
 export const EDIT_USER_SUCCESS = '[USER] Edit User Success';
 export const EDIT_USER_FAILURE = '[USER] Edit User Failure';
+export const DELETE_USER = '[USER] Delete User';
+export const DELETE_USER_SUCCESS = '[USER] Delete User Success';
+export const DELETE_USER_FAILURE = '[USER] Delete User Failure';
 
 // Success and errors types
 export const SET_SUCCESS = '[SUCCESS] Set success message';

@@ -51,8 +51,12 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(valid);
 	}
 	
-	@RequestMapping(value = "/users/delete", method = RequestMethod.DELETE, produces = "application/json")
-	public boolean deleteUser(@RequestBody Map<String, String> userInfo) {
-		return userService.deleteUser(userInfo.get("email"));
+	@RequestMapping(value = "/users/delete", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<?> deleteUser(@RequestBody Map<String, String> userInfo) {
+		boolean valid = userService.deleteUser(userInfo.get("email"));
+		if (valid) {
+			return ResponseEntity.ok(valid);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(valid);
 	}
 }

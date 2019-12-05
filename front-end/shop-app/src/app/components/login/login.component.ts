@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
       }
 
-      if (res.valid) {
+      if (res.current_user) {
         this.router.navigate([`/dashboard/${res.current_user.firstName}${res.current_user.lastName}`]);
       }
     })

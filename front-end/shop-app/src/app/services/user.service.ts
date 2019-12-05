@@ -57,7 +57,15 @@ export class UserService {
         email: payload.email
       }
     }
-    return this.http.put(url, body, httpOptions);
+    return this.http.put<any>(url, body, httpOptions);
+  }
+
+  deleteUser = (payload): Observable<any> => {
+    const url = `${this.serverAPI_URL}/users/delete`;
+    const body = {
+      "email": payload.email
+    }
+    return this.http.post<any>(url, body, httpOptions);
   }
 
   getHello = (): Observable<any> => {
