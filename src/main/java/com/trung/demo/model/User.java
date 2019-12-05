@@ -6,14 +6,12 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "user")
@@ -35,7 +33,7 @@ public class User {
 	@Column(name = "confirmPassword")
 	private String confirmPassword;
 	
-	@ManyToMany(targetEntity=Role.class, cascade=CascadeType.ALL)
+	@ManyToMany(targetEntity=Role.class, cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name="User_Role", 
 		joinColumns= {@JoinColumn(name="email")}, 
 		inverseJoinColumns={@JoinColumn(name="role")}
@@ -44,12 +42,10 @@ public class User {
 		
 	public void addRole(Role role) {
 		roles.add(role);
-		role.getUsers().add(this);
 	}
 	
 	public void removeRole(Role role) {
 		roles.remove(role);
-		role.getUsers().remove(this);
 	}
 	
 	public User () {
@@ -102,6 +98,10 @@ public class User {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+	
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
 	public void setRoles(Set<Role> roles) {

@@ -23,7 +23,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "/users", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/users/all", method = RequestMethod.GET, produces = "application/json")
 	public List<User> getUsers() {
 		return userService.getUsers();
 	}

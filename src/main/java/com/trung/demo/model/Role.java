@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -17,13 +18,14 @@ public class Role {
 	@Column(name = "role")
 	private String role;
 	
-	@ManyToMany(mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
 	private Set<User> users = new HashSet<>();
 	
 	public Role() {}
 	
-	public Role(String role) {
+	public Role(String role, User user) {
 		this.role = role;
+		this.users.add(user);
 	}
 
 	public String getRole() {
@@ -32,10 +34,6 @@ public class Role {
 
 	public void setRole(String role) {
 		this.role = role;
-	}
-	
-	public Set<User> getUsers() {
-		return users;
 	}
 
 	public void setUsers(Set<User> users) {

@@ -21,8 +21,8 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers = (): Observable<User[]> => {
-    return this.http.get<User[]>(`${this.serverAPI_URL}/users`, httpOptions);
+  getAllUsers = (): Observable<User[]> => {
+    return this.http.get<User[]>(`${this.serverAPI_URL}/users/all`, httpOptions);
   }
 
   logIn = (email: string, password: string): Observable<any> => {

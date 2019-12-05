@@ -1,8 +1,5 @@
 package com.trung.demo.security;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,16 +37,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// setup default admin & user for the app
 		String encodedPass = new BCryptPasswordEncoder().encode("pass");
 		User admin = new User("Phuong", "Chu", "aiko@gmail.com", encodedPass, encodedPass);
-		admin.addRole(new Role("ADMIN"));
+		admin.addRole(new Role("ADMIN", admin));
 		userRepository.save(admin);
 		
 		User admin2 = new User("Trung", "Vo", "vtt311096@gmail.com", encodedPass, encodedPass);
-		admin2.addRole(new Role("ADMIN"));
+		admin2.addRole(new Role("ADMIN", admin2));
 		userRepository.save(admin2);
 		
 		User emp1 = new User("Quang", "Vo", "vtq3008@gmail.com", encodedPass, encodedPass);
-		emp1.addRole(new Role("EMPLOYEE"));
+		emp1.addRole(new Role("EMPLOYEE", emp1));
+		emp1.addRole(new Role("ADMIN", emp1));
 		userRepository.save(emp1);
+		
+		User user = new User("Andrew", "White", "andrew@gmail.com", encodedPass, encodedPass);
+		user.addRole(new Role("CUSTOMER", user));
+		userRepository.save(user);
 	}
 	
 	
@@ -60,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/users/**").permitAll()
 			.antMatchers("/login").permitAll()
 			.antMatchers("/register").permitAll()
+			.antMatchers("/roles/**").hasAuthority("ADMIN")
 			.anyRequest().authenticated()
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

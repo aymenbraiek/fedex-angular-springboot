@@ -60,9 +60,7 @@ public class AuthService {
 		// all fields are filled, start authenticate
 		try {
 			Authentication authObj = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword()));
-			
-			System.out.println("after auth");
-			
+						
 			// good authentication, create JWT token
 			String jwtToken = jwtUtil.generateToken(authReq.getEmail());
 			
