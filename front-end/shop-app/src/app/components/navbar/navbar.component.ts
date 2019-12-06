@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
 import { Store, select } from '@ngrx/store';
@@ -9,10 +9,12 @@ import { Store, select } from '@ngrx/store';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  current_user: string;
+  currentUserFirstName: string;
+  currentUserLastName: string;
   hasAdminRole: boolean;
   hasCustomerRole: boolean;
   hasEmployeeRole: boolean;
+  @Input() active: string;
 
   constructor(
     private store: Store<rootReducers.AppState>
@@ -21,7 +23,8 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.store.pipe(select('user')).subscribe(data => {
       if (data.current_user !== null && typeof data.current_user !== 'undefined') {
-        this.current_user = data.current_user.firstName + " " + data.current_user.lastName;
+        this.currentUserFirstName = data.current_user.firstName;
+        this.currentUserLastName = data.current_user.lastName;
 
         if (new Set(data.current_user.roles).has('ADMIN')) {
           this.hasAdminRole = true;

@@ -9,18 +9,29 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item"
+          [ngClass]="{
+            'active': active === 'dashboard',
+            'font-weight-bold': active === 'dashboard'
+          }">
+        <a class="nav-link" [routerLink]="['/dashboard', currentUserFirstName + currentUserLastName]">Dashboard</a>
       </li>
+
       <li class="nav-item">
         <a class="nav-link" href="#">Features</a>
       </li>
+
       <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
+        <a class="nav-link" href="/users">Pricing</a>
       </li>
 
-      <li class="nav-item" *ngIf="hasAdminRole">
-        <a class="nav-link" href="#">View users</a>
+      <li class="nav-item"
+          [ngClass]="{
+            'active': active === 'users',
+            'font-weight-bold': active === 'users'
+          }"
+          *ngIf="hasAdminRole">
+        <a class="nav-link" href="/users">View users</a>
       </li>
 
     </ul>
@@ -28,7 +39,7 @@
       <div class="navbar-nav font-weight-bold" [style.color]="'rgb(76, 159, 238)'">
         <span>
           <i class="fas fa-user"></i>&nbsp;&nbsp;
-          {{ current_user }}
+          {{ currentUserFirstName }} {{ currentUserLastName }}
         </span>
         <span>&nbsp;&nbsp;</span>
         <a [routerLink]="['/login']" (click)="logout()">Log out</a>
