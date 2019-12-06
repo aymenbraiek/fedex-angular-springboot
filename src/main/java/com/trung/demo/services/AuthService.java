@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.trung.demo.model.AuthRequest;
 import com.trung.demo.model.AuthResponse;
+import com.trung.demo.model.Role;
 import com.trung.demo.model.User;
 import com.trung.demo.repository.UserRepository;
 import com.trung.demo.security.JwtUtil;
@@ -140,6 +141,8 @@ public class AuthService {
 		String encodedPassword = new BCryptPasswordEncoder().encode(newUser.getPassword()); 
 		newUser.setPassword(encodedPassword);
 		newUser.setConfirmPassword(encodedPassword);
+		// new user always has a default role as CUSTOMER
+		newUser.addRole(new Role("CUSTOMER", newUser));
 		userRepo.save(newUser);
 		authRes.setValid(true);
 		authRes.setSuccessMsg("Your account has been created! You can login now");

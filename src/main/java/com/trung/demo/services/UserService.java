@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.trung.demo.model.Role;
 import com.trung.demo.model.User;
 import com.trung.demo.repository.UserRepository;
 import com.trung.demo.validator.Validator;
@@ -53,6 +54,8 @@ public class UserService {
 			String encodedPassword = new BCryptPasswordEncoder().encode(newUser.getPassword()); 
 			newUser.setPassword(encodedPassword);
 			newUser.setConfirmPassword(encodedPassword);
+			// default Role as CUSTOMER
+			newUser.addRole(new Role("CUSTOMER", newUser));
 			userRepo.save(newUser);
 			return true;
 		}
