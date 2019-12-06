@@ -4,6 +4,7 @@ import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/User.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ export class DashboardComponent implements OnInit {
   firstNameTitle: string;
   lastNameTitle: string;
   email: string;
+  current_user: User;
 
   constructor(
     private store: Store<rootReducers.AppState>,
@@ -28,6 +30,8 @@ export class DashboardComponent implements OnInit {
       this.success_msg = info.success_msg;
     })
     this.store.pipe(select('user')).subscribe(res => {
+      this.current_user = res.current_user;
+
       if (res.current_user !== null) {
         this.firstNameTitle = res.current_user.firstName;
         this.lastNameTitle = res.current_user.lastName;
@@ -54,7 +58,8 @@ export class DashboardComponent implements OnInit {
     const payload = {
       firstName: firstName,
       lastName: lastName,
-      email: this.email
+      email: this.email,
+      roles: this.current_user === null || typeof this.current_user === 'undefined' ? [] : this.current_user.roles
     }
     this.store.dispatch(UserActions.EDIT_USER({ payload: payload }));
   }

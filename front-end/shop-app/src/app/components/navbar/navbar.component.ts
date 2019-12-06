@@ -10,6 +10,9 @@ import { Store, select } from '@ngrx/store';
 })
 export class NavbarComponent implements OnInit {
   current_user: string;
+  hasAdminRole: boolean;
+  hasCustomerRole: boolean;
+  hasEmployeeRole: boolean;
 
   constructor(
     private store: Store<rootReducers.AppState>
@@ -19,6 +22,10 @@ export class NavbarComponent implements OnInit {
     this.store.pipe(select('user')).subscribe(data => {
       if (data.current_user !== null && typeof data.current_user !== 'undefined') {
         this.current_user = data.current_user.firstName + " " + data.current_user.lastName;
+
+        if (new Set(data.current_user.roles).has('ADMIN')) {
+          this.hasAdminRole = true;
+        }
       }
     })
   }

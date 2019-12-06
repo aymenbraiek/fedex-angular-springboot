@@ -73,9 +73,9 @@ export const DELETE_USER = createAction(
 )
 
 export const DELETE_USER_SUCCESS = createAction(
-  actionTypes.EDIT_USER_SUCCESS
+  actionTypes.DELETE_USER_SUCCESS
 )
 
 export const DELETE_USER_FAILURE = createAction(
-  actionTypes.EDIT_USER_FAILURE
+  actionTypes.DELETE_USER_FAILURE
 )

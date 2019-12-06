@@ -18,6 +18,11 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Pricing</a>
       </li>
+
+      <li class="nav-item" *ngIf="hasAdminRole">
+        <a class="nav-link" href="#">View users</a>
+      </li>
+
     </ul>
     <div class="navbar-text">
       <div class="navbar-nav font-weight-bold" [style.color]="'rgb(76, 159, 238)'">

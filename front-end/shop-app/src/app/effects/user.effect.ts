@@ -98,7 +98,8 @@ export class UserEffects {
               payload: {
                 firstName: data.payload.firstName,
                 lastName: data.payload.lastName,
-                email: data.payload.email
+                email: data.payload.email,
+                roles: data.payload.roles
               }
             })
           ]),

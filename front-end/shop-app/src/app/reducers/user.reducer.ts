@@ -65,7 +65,8 @@ const _userReducer = createReducer(initialState,
         current_user: {
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
-          email: action.payload.email
+          email: action.payload.email,
+          roles: action.payload.roles.map(roleObj => roleObj.role)
         }
       }
     }

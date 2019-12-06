@@ -6,7 +6,8 @@ import { User } from 'src/app/models/User.model';
 const httpOptions = {
   headers: localStorage.getItem('jwtToken') !== null && typeof localStorage.getItem('jwtToken') !== 'undefined' ? new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': localStorage.getItem('jwtToken')
+    'Authorization': localStorage.getItem('jwtToken'),
+    'Access-Control-Allow-Origin': 'http://localhost:8085'
   }) : new HttpHeaders({
     'Content-Type': 'application/json'
   })
