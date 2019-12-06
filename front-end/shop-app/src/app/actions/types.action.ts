@@ -9,6 +9,11 @@ export const REGISTER_SUCCESS = '[USER] User register success';
 export const REGISTER_FAILURE = '[USER] User register failure';
 export const LOG_OUT = '[USER] User Logout';
 
+// Load users
+export const LOAD_USERS = '[USER] Load Users';
+export const LOAD_USERS_SUCCESS = '[USER] Load Users Success';
+export const LOAD_USERS_FAILURE = '[USER] Load Users Failure';
+
 // CRUD USER
 export const EDIT_USER = '[USER] Edit User';
 export const EDIT_USER_SUCCESS = '[USER] Edit User Success';

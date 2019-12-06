@@ -4,6 +4,7 @@ import * as UserActions from '../actions/user.action';
 
 export interface UserState {
   current_user: User;
+  allUsers: User[];
   firstNameErrMsg: string;
   lastNameErrMsg: string;
   emailErrMsg: string;
@@ -17,6 +18,7 @@ export interface UserState {
 
 const initialState = {
   current_user: null,
+  allUsers: [],
   firstNameErrMsg: undefined,
   lastNameErrMsg: undefined,
   emailErrMsg: undefined,
@@ -29,6 +31,25 @@ const initialState = {
 }
 
 const _userReducer = createReducer(initialState,
+  on(UserActions.LOAD_USERS, (state, action) => {
+    return {
+      ...state,
+      loading: true
+    }
+  }),
+  on(UserActions.LOAD_USERS_SUCCESS, (state, action) => {
+    return {
+      ...state,
+      loading: false,
+      allUsers: action.payload
+    }
+  }),
+  on(UserActions.LOAD_USERS_FAILURE, (state, action) => {
+    return {
+      ...state,
+      loading: false
+    }
+  }),
   on(UserActions.LOG_IN, (state, action) => {
     return { ...state, loading: true }
   }),

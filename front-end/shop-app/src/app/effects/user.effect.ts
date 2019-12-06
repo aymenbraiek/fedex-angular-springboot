@@ -10,6 +10,29 @@ import { of } from 'rxjs';
 @Injectable()
 export class UserEffects {
 
+  loadUsers = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.LOAD_USERS),
+      switchMap(() => {
+        return this.userService.getAllUsers().pipe(
+          // tap(users => console.log(users)),
+          switchMap(users => [
+            UserActions.LOAD_USERS_SUCCESS({ payload: users }),
+            ErrorActions.CLEAR_ERROR(),
+            SuccessActions.CLEAR_SUCCESS()
+          ]),
+          catchError(errs => {
+            return of(
+              UserActions.LOAD_USERS_FAILURE(),
+              SuccessActions.CLEAR_SUCCESS(),
+              ErrorActions.SET_ERROR({ payload: 'Error occurred while loading users' })
+            )
+          })
+        )
+      })
+    )
+  )
+
   login = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.LOG_IN),

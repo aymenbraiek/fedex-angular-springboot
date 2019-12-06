@@ -54,6 +54,19 @@ export const REGISTER_FAILURE = createAction(
  * CRUD operations for user
  * ============================
  */
+export const LOAD_USERS = createAction(
+  actionTypes.LOAD_USERS
+)
+
+export const LOAD_USERS_SUCCESS = createAction(
+  actionTypes.LOAD_USERS_SUCCESS,
+  props<{ payload: any }>()
+)
+
+export const LOAD_USERS_FAILURE = createAction(
+  actionTypes.LOAD_USERS_FAILURE
+)
+
 export const EDIT_USER = createAction(
   actionTypes.EDIT_USER,
   props<{ payload: any }>()

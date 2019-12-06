@@ -1,8 +1,41 @@
 <app-navbar active="users"></app-navbar>
-<div class="container">
-  <h2 class="mb-4 mt-4">List of users</h2>
+<div class="container mb-5">
+  <h2 class="mb-4 mt-4 text-center">List of users</h2>
   <!-- <p *ngIf="success_msg" class="alert alert-success"> {{ success_msg }}</p> -->
-  <ul *ngFor='let user of users_list'>
-    <li>{{ user.firstName }} {{ user.lastName }}</li>
+  <ul *ngFor='let user of users_list' class="list-unstyled list-users">
+    <li class="media">
+      <p id='nameCircle' class="mr-3">
+        {{ user.firstName[0] }}{{ user.lastName[0] }}
+      </p>
+
+      <div class="media-body">
+        <div class="row">
+          <div class="col-md-8">
+            <h5 class="mt-0 d-flex align-items-center">
+              <span class="mr-3">{{ user.firstName }} {{ user.lastName }}</span>
+              <small *ngFor="let role of user.roles" class="text-muted mr-1">
+                <span class="badge"
+                      [ngClass]="{
+                                'badge-info': role.role === 'ADMIN',
+                                'badge-success': role.role === 'CUSTOMER',
+                                'badge-warning': role.role === 'EMPLOYEE'
+                              }">
+                  {{ role.role }}
+                </span>
+              </small>
+            </h5>
+            <span class="text-muted">{{ user.email }}</span>
+          </div>
+
+          <div class="col-md-4 buttons">
+            <button class="btn btn-outline-secondary mr-2"><i class="fas fa-pen"></i></button>
+            <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+
+      </div>
+    </li>
+    <hr>
   </ul>
 </div>
+<app-footer></app-footer>

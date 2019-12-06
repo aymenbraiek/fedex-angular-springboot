@@ -10,7 +10,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent, canActivate: [AlreadyAuthService] },
-  { path: 'hello', component: HelloComponent, canActivate: [AuthGuardService] },
+  { path: 'hello', component: HelloComponent },
   { path: 'login', component: LoginComponent, canActivate: [AlreadyAuthService] },
   { path: 'register', component: RegisterComponent, canActivate: [AlreadyAuthService] },
   { path: 'users', component: UserComponent, canActivate: [AuthGuardService] },
