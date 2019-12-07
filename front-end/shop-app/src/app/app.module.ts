@@ -14,6 +14,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from '../app/effects/user.effect';
+import { AdminEffects } from '../app/effects/admin.effect';
 import { HelloComponent } from './components/hello/hello.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -47,7 +48,7 @@ import { FooterComponent } from './components/footer/footer.component';
 			}
 		}),
 		StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-		EffectsModule.forRoot([UserEffects]),
+		EffectsModule.forRoot([UserEffects, AdminEffects]),
 	],
 	providers: [],
 	bootstrap: [

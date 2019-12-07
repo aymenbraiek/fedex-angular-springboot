@@ -21,6 +21,9 @@ export const EDIT_USER_FAILURE = '[USER] Edit User Failure';
 export const DELETE_USER = '[USER] Delete User';
 export const DELETE_USER_SUCCESS = '[USER] Delete User Success';
 export const DELETE_USER_FAILURE = '[USER] Delete User Failure';
+export const ADMIN_DELETE_USER = '[ADMIN] Delete User';
+export const ADMIN_DELETE_USER_SUCCESS = '[ADMIN] Delete User Success';
+export const ADMIN_DELETE_USER_FAILURE = '[ADMIN] Delete User Failure';
 
 // Success and errors types
 export const SET_SUCCESS = '[SUCCESS] Set success message';

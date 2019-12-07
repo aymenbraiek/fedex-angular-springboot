@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { User } from '../models/User.model';
 import * as UserActions from '../actions/user.action';
+import * as AdminActions from '../actions/admin.action';
 
 export interface UserState {
   current_user: User;
@@ -147,6 +148,13 @@ const _userReducer = createReducer(initialState,
     return {
       ...state,
       loading: false
+    }
+  }),
+  on(AdminActions.ADMIN_DELETE_USER, (state, action) => {
+    return {
+      ...state,
+      allUsers: state.allUsers.filter(user => user.email !== action.payload.email),
+      loading: true
     }
   })
 );
