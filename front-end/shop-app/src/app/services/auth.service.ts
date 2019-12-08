@@ -16,6 +16,7 @@ export class AuthService {
   ) { }
 
   isAuthenticated = (): Boolean => {
+    console.log('CHecking authentication...');
     const jwtToken = localStorage.getItem('jwtToken');
     if (jwtToken === null || typeof jwtToken === 'undefined') {
       return false;
@@ -24,8 +25,6 @@ export class AuthService {
     const isTokenExpired: boolean = jwtHelper.isTokenExpired(jwtToken);
     if (isTokenExpired) {
       localStorage.removeItem('jwtToken');
-    }
-    if (isTokenExpired) {
       return false;
     }
     const userInfo = jwtHelper.decodeToken(jwtToken);

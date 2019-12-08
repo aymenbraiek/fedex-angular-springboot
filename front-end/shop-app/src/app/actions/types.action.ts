@@ -8,6 +8,7 @@ export const REGISTER = '[USER] User register';
 export const REGISTER_SUCCESS = '[USER] User register success';
 export const REGISTER_FAILURE = '[USER] User register failure';
 export const LOG_OUT = '[USER] User Logout';
+export const CLEAR_USER_STATES = '[USER] Clear User States';
 
 // Load users
 export const LOAD_USERS = '[USER] Load Users';
@@ -22,8 +23,6 @@ export const DELETE_USER = '[USER] Delete User';
 export const DELETE_USER_SUCCESS = '[USER] Delete User Success';
 export const DELETE_USER_FAILURE = '[USER] Delete User Failure';
 export const ADMIN_DELETE_USER = '[ADMIN] Delete User';
-export const ADMIN_DELETE_USER_SUCCESS = '[ADMIN] Delete User Success';
-export const ADMIN_DELETE_USER_FAILURE = '[ADMIN] Delete User Failure';
 
 // Success and errors types
 export const SET_SUCCESS = '[SUCCESS] Set success message';

@@ -29,6 +29,11 @@ export class DashboardComponent implements OnInit {
     this.store.pipe(select('success')).subscribe(info => {
       this.success_msg = info.success_msg;
     })
+
+    this.store.pipe(select('error')).subscribe(info => {
+      this.error_msg = info.error_msg;
+    })
+
     this.store.pipe(select('user')).subscribe(res => {
       this.current_user = res.current_user;
 
@@ -44,13 +49,6 @@ export class DashboardComponent implements OnInit {
         this.spinner.hide();
       }
 
-      if (res.current_user === null) {
-        this.router.navigate(['/login'])
-      }
-
-    })
-    this.store.pipe(select('error')).subscribe(info => {
-      this.error_msg = info.error_msg;
     })
   }
 
@@ -64,11 +62,10 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(UserActions.EDIT_USER({ payload: payload }));
   }
 
-  onDelete = (firstName: string, lastName: string) => {
+  onDelete = () => {
     const payload = {
-      firstName: firstName,
-      lastName: lastName,
-      email: this.email
+      email: this.email,
+      current_user: this.current_user
     }
     this.store.dispatch(UserActions.DELETE_USER({ payload: payload }));
   }

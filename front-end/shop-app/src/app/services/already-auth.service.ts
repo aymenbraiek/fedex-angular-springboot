@@ -21,9 +21,9 @@ export class AlreadyAuthService implements CanActivate {
           this.router.navigate([`/dashboard/${res.current_user.firstName}${res.current_user.lastName}`]);
         }
       })
-      return (false);
+      return false;
     } else {
-      return (true);
+      return true;
     }
   }
 }

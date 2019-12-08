@@ -35,23 +35,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(myUserDetailsService);
 		
 		// setup default admin & user for the app
-//		String encodedPass = new BCryptPasswordEncoder().encode("pass");
-//		User admin = new User("Phuong", "Chu", "aiko@gmail.com", encodedPass, encodedPass);
-//		admin.addRole(new Role("ADMIN", admin));
-//		userRepository.save(admin);
-//		
-//		User admin2 = new User("Trung", "Vo", "vtt311096@gmail.com", encodedPass, encodedPass);
-//		admin2.addRole(new Role("ADMIN", admin2));
-//		userRepository.save(admin2);
-//		
-//		User emp1 = new User("Quang", "Vo", "vtq3008@gmail.com", encodedPass, encodedPass);
-//		emp1.addRole(new Role("EMPLOYEE", emp1));
-//		emp1.addRole(new Role("ADMIN", emp1));
-//		userRepository.save(emp1);
-//		
-//		User user = new User("Andrew", "White", "andrew@gmail.com", encodedPass, encodedPass);
-//		user.addRole(new Role("CUSTOMER", user));
-//		userRepository.save(user);
+		String encodedPass = new BCryptPasswordEncoder().encode("pass");
+		User admin = new User("Phuong", "Chu", "aiko@gmail.com", encodedPass, encodedPass);
+		admin.addRole(new Role("ADMIN", admin));
+		userRepository.save(admin);
+		
+		User admin2 = new User("Trung", "Vo", "vtt311096@gmail.com", encodedPass, encodedPass);
+		admin2.addRole(new Role("ADMIN", admin2));
+		userRepository.save(admin2);
+		
+		User emp1 = new User("Quang", "Vo", "vtq3008@gmail.com", encodedPass, encodedPass);
+		emp1.addRole(new Role("EMPLOYEE", emp1));
+		emp1.addRole(new Role("ADMIN", emp1));
+		userRepository.save(emp1);
+		
+		User user = new User("Andrew", "White", "andrew@gmail.com", encodedPass, encodedPass);
+		user.addRole(new Role("CUSTOMER", user));
+		userRepository.save(user);
 	}
 	
 	

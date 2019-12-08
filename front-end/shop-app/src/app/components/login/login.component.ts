@@ -4,7 +4,6 @@ import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
 import { User } from '../../models/User.model';
 import { NgxSpinnerService } from "ngx-spinner";
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +20,6 @@ export class LoginComponent implements OnInit {
   constructor(
     private store: Store<rootReducers.AppState>,
     private spinner: NgxSpinnerService,
-    private router: Router
   ) { }
 
   ngOnInit() {
@@ -35,10 +33,6 @@ export class LoginComponent implements OnInit {
         this.spinner.show();
       } else {
         this.spinner.hide();
-      }
-
-      if (res.current_user) {
-        this.router.navigate([`/dashboard/${res.current_user.firstName}${res.current_user.lastName}`]);
       }
     })
 

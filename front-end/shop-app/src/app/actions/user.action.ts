@@ -50,6 +50,10 @@ export const REGISTER_FAILURE = createAction(
   props<{ payload: any }>()
 )
 
+export const CLEAR_USER_STATES = createAction(
+  actionTypes.CLEAR_USER_STATES
+)
+
 /** ============================
  * CRUD operations for user
  * ============================

@@ -1,21 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import * as AdminActions from '../actions/admin.action';
 import * as UserActions from '../actions/user.action';
 import * as SuccessActions from '../actions/success.action';
 import * as ErrorActions from '../actions/error.action';
 import { mergeMap, map, catchError, switchMap, tap } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class UserEffects {
+
+  constructor(
+    private actions$: Actions,
+    private userService: UserService,
+    private router: Router
+  ) { }
 
   loadUsers = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.LOAD_USERS),
       switchMap(() => {
         return this.userService.getAllUsers().pipe(
-          // tap(users => console.log(users)),
+          tap(users => console.log(users)),
           switchMap(users => [
             UserActions.LOAD_USERS_SUCCESS({ payload: users }),
             ErrorActions.CLEAR_ERROR(),
@@ -38,11 +46,17 @@ export class UserEffects {
       ofType(UserActions.LOG_IN),
       switchMap((data) => {
         return this.userService.logIn(data.payload.email, data.payload.password).pipe(
-          tap(res => localStorage.setItem('jwtToken', res.jwtToken)),
-          switchMap(res => [
-            SuccessActions.SET_SUCCESS({ payload: res.successMsg }),
-            UserActions.LOG_IN_SUCCESS({ payload: res })
-          ]),
+          tap(res => {
+            localStorage.setItem('jwtToken', res.jwtToken);
+          }),
+          switchMap(res => {
+            this.router.navigateByUrl(`/dashboard/${res.current_user.firstName}${res.current_user.lastName}`);
+            return [
+              ErrorActions.CLEAR_ERROR(),
+              SuccessActions.SET_SUCCESS({ payload: res.successMsg }),
+              UserActions.LOG_IN_SUCCESS({ payload: res })
+            ]
+          }),
           catchError(errs => {
             return of(
               ErrorActions.CLEAR_ERROR(),
@@ -60,16 +74,19 @@ export class UserEffects {
       ofType(UserActions.REGISTER),
       switchMap((data) => {
         return this.userService.register(data.payload).pipe(
-          // tap(res => console.log(res)),
-          switchMap(res => [
-            SuccessActions.SET_SUCCESS({ payload: res.successMsg }),
-            UserActions.REGISTER_SUCCESS({ payload: res })
-          ]),
+          switchMap(res => {
+            this.router.navigate(['/login']);
+            return [
+              SuccessActions.SET_SUCCESS({ payload: res.successMsg }),
+              ErrorActions.CLEAR_ERROR(),
+              UserActions.REGISTER_SUCCESS({ payload: res })
+            ]
+          }),
           catchError(errs => {
-            // console.log(errs);
             return of(
               UserActions.REGISTER_FAILURE({ payload: errs.error }),
-              ErrorActions.SET_ERROR({ payload: errs.error.generalErr })
+              ErrorActions.SET_ERROR({ payload: errs.error.generalErr }),
+              SuccessActions.CLEAR_SUCCESS()
             );
           })
         )
@@ -82,10 +99,9 @@ export class UserEffects {
       ofType(UserActions.GET_CURRENT_USER),
       mergeMap((data) => {
         return this.userService.getCurrentUser(data.payload).pipe(
-          map((user) => {
-            // console.log(user);
-            return UserActions.SET_CURRENT_USER({ payload: user });
-          }),
+          map(user =>
+            UserActions.SET_CURRENT_USER({ payload: user }),
+          ),
           catchError(errs => {
             return of(ErrorActions.SET_ERROR({ payload: errs.error }));
           })
@@ -100,10 +116,13 @@ export class UserEffects {
       tap(() => {
         localStorage.removeItem('jwtToken');
       }),
-      switchMap(() => [
-        UserActions.SET_CURRENT_USER({ payload: null }),
-        SuccessActions.SET_SUCCESS({ payload: 'You have logged out' })
-      ])
+      switchMap(() => {
+        return [
+          UserActions.SET_CURRENT_USER({ payload: null }),
+          SuccessActions.SET_SUCCESS({ payload: 'You have logged out' }),
+          ErrorActions.CLEAR_ERROR()
+        ]
+      })
     )
   )
 
@@ -141,23 +160,36 @@ export class UserEffects {
   deleteUser = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.DELETE_USER),
-      switchMap(data => {
-        return this.userService.deleteUser(data.payload).pipe(
+      mergeMap(data => {
+        return this.userService.deleteUser(data.payload.email).pipe(
           tap(res => {
             if (res) {
-              localStorage.removeItem('jwtToken');
+              if (data.payload.email === data.payload.current_user.email) {
+                localStorage.removeItem('jwtToken');
+              }
             }
           }),
-          switchMap(res => [
-            UserActions.SET_CURRENT_USER({ payload: null }),
-            UserActions.DELETE_USER_SUCCESS(),
-            ErrorActions.CLEAR_ERROR(),
-            SuccessActions.SET_SUCCESS({ payload: 'Your account has been deleted' })
-          ]),
+          switchMap(res => {
+            if (data.payload.email === data.payload.current_user.email) {
+              this.router.navigate(['/login']);
+              return [
+                UserActions.SET_CURRENT_USER({ payload: null }),
+                UserActions.DELETE_USER_SUCCESS(),
+                ErrorActions.CLEAR_ERROR(),
+                SuccessActions.SET_SUCCESS({ payload: 'Your account has been deleted' })
+              ]
+            }
+            return [
+              AdminActions.ADMIN_DELETE_USER({ payload: { email: data.payload.email } }),
+              UserActions.DELETE_USER_SUCCESS(),
+              ErrorActions.CLEAR_ERROR(),
+              SuccessActions.SET_SUCCESS({ payload: `Account "${data.payload.email}" has been deleted` })
+            ]
+          }),
           catchError(errs => {
             return of(
               UserActions.DELETE_USER_FAILURE(),
-              ErrorActions.SET_ERROR({ payload: 'Account is not found' }),
+              ErrorActions.SET_ERROR({ payload: 'Error occurred while deleting this account' }),
               SuccessActions.CLEAR_SUCCESS()
             )
           })
@@ -165,9 +197,4 @@ export class UserEffects {
       })
     )
   )
-
-  constructor(
-    private actions$: Actions,
-    private userService: UserService,
-  ) { }
 }

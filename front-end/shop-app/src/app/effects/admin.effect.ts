@@ -15,25 +15,25 @@ export class AdminEffects {
     private userService: UserService
   ) { }
 
-  adminDeleteUser = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AdminActions.ADMIN_DELETE_USER),
-      switchMap(data => {
-        return this.userService.deleteUser(data.payload).pipe(
-          switchMap(res => [
-            UserActions.DELETE_USER_SUCCESS(),
-            ErrorActions.CLEAR_ERROR(),
-            SuccessActions.SET_SUCCESS({ payload: `Account "${data.payload.email}" has been deleted` })
-          ]),
-          catchError(errs => {
-            return of(
-              UserActions.DELETE_USER_FAILURE(),
-              ErrorActions.SET_ERROR({ payload: 'Errors occurred while deleting this account' }),
-              SuccessActions.CLEAR_SUCCESS()
-            )
-          })
-        )
-      })
-    )
-  )
+  // adminDeleteUser = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(AdminActions.ADMIN_DELETE_USER),
+  //     switchMap(data => {
+  //       return this.userService.deleteUser(data.payload).pipe(
+  //         switchMap(res => [
+  //           UserActions.DELETE_USER_SUCCESS(),
+  //           ErrorActions.CLEAR_ERROR(),
+  //           SuccessActions.SET_SUCCESS({ payload: `Account "${data.payload.email}" has been deleted` })
+  //         ]),
+  //         catchError(errs => {
+  //           return of(
+  //             UserActions.DELETE_USER_FAILURE(),
+  //             ErrorActions.SET_ERROR({ payload: 'Errors occurred while deleting this account' }),
+  //             SuccessActions.CLEAR_SUCCESS()
+  //           )
+  //         })
+  //       )
+  //     })
+  //   )
+  // )
 }

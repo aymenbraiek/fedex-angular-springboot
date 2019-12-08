@@ -32,6 +32,10 @@ const initialState = {
 }
 
 const _userReducer = createReducer(initialState,
+  on(UserActions.CLEAR_USER_STATES, (state, action) => {
+    console.log(state);
+    return { ...initialState }
+  }),
   on(UserActions.LOAD_USERS, (state, action) => {
     return {
       ...state,

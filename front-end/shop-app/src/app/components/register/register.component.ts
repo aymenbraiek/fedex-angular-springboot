@@ -3,7 +3,6 @@ import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
 import { NgxSpinnerService } from "ngx-spinner";
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -20,8 +19,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private store: Store<rootReducers.AppState>,
-    private spinner: NgxSpinnerService,
-    private router: Router
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -36,10 +34,6 @@ export class RegisterComponent implements OnInit {
         this.spinner.show();
       } else {
         this.spinner.hide();
-      }
-
-      if (res.valid) {
-        this.router.navigate(['/login']);
       }
     })
 

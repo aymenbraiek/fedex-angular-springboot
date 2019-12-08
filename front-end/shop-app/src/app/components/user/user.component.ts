@@ -6,6 +6,7 @@ import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
 import * as AdminActions from '../../actions/admin.action';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -21,7 +22,8 @@ export class UserComponent implements OnInit {
 
   constructor(
     private store: Store<rootReducers.AppState>,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -53,9 +55,10 @@ export class UserComponent implements OnInit {
 
   onDelete(user) {
     const payload = {
-      email: user.email
+      email: user.email,
+      current_user: this.current_user
     }
-    this.store.dispatch(AdminActions.ADMIN_DELETE_USER({ payload: payload }));
+    this.store.dispatch(UserActions.DELETE_USER({ payload: payload }));
   }
 
 }
