@@ -23,7 +23,7 @@ export class UserEffects {
       ofType(UserActions.LOAD_USERS),
       switchMap(() => {
         return this.userService.getAllUsers().pipe(
-          tap(users => console.log(users)),
+          // tap(users => console.log(users)),
           switchMap(users => [
             UserActions.LOAD_USERS_SUCCESS({ payload: users }),
             ErrorActions.CLEAR_ERROR(),
