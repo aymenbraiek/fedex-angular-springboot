@@ -1,7 +1,9 @@
 package com.trung.demo.model;
 
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Type;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,36 +16,47 @@ import lombok.Setter;
 @Setter @Getter
 public class Product {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	
 	@Column(name = "name")
 	private String name;
 	
+	@Column(name = "description")
+	private String description;
+	
 	@Column(name = "price")
 	private double price;
+	
+	@Column(name = "Currency")
+	private String currency;
 	
 	@Column(name = "quantity")
 	private int quantity;
 	
-	@Column(name = "total")
-	private double total;
+	@Column(name = "availability")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private boolean availability;
 	
-//	@ManyToOne
-//	private User user;
+	@Column(name = "imageUrl")
+	private String imageUrl;
+	
 	
 	public Product() {
 		
 	}
 	
-	public Product(int id, String name, double price, int quantity) {
+	public Product(int id, String name, String description, double price, 
+			String currency, int quantity, boolean availability, String imageUrl) {
 		this.id = id;
 		this.name = name;
+		this.description = description;
 		this.price = price;
+		this.currency = currency;
 		this.quantity = quantity;
-		this.total = price * quantity;
-//		this.user = user;
+		this.availability = availability;
+		this.imageUrl = imageUrl;
 	}
 	
 }
