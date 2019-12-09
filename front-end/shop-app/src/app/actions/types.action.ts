@@ -29,3 +29,8 @@ export const SET_SUCCESS = '[SUCCESS] Set success message';
 export const CLEAR_SUCCESS = '[SUCCESS] Clear success message';
 export const SET_ERROR = '[ERROR] Set error message';
 export const CLEAR_ERROR = '[ERROR] Clear error message';
+
+// Products
+export const LOAD_PRODUCTS = '[PRODUCT] Load all products';
+export const LOAD_PRODUCTS_SUCCESS = '[PRODUCT] Load all products success';
+export const LOAD_PRODUCTS_FAILURE = '[PRODUCT] Load all products failure';

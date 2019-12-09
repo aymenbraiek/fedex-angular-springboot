@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
+import { Product } from '../models/Product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,9 @@ export class ProductService {
     private httpService: HttpService
   ) { }
 
-  getAllProducts(): Observable<any> {
+  getAllProducts(): Observable<Product[]> {
     const url = `${this.serverAPI_URL}/products/all`;
     const httpOptions = this.httpService.getHttpHeader();
-    return this.http.get(url, httpOptions);
+    return this.http.get<Product[]>(url, httpOptions);
   }
 }
