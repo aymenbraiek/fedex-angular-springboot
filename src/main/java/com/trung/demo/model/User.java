@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -38,7 +39,10 @@ public class User {
 		joinColumns= {@JoinColumn(name="email")}, 
 		inverseJoinColumns={@JoinColumn(name="role")}
 	)
-	private Set<Role> roles = new HashSet<>();;
+	private Set<Role> roles = new HashSet<>();
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, targetEntity=Consignment.class)
+	private Set<Consignment> consignments = new HashSet<>();
 		
 	public void addRole(Role role) {
 		roles.add(role);
@@ -46,6 +50,14 @@ public class User {
 	
 	public void removeRole(Role role) {
 		roles.remove(role);
+	}
+	
+	public void addConsignment(Consignment consignment) {
+		consignments.add(consignment);
+	}
+	
+	public void removeConsignment(Consignment consignment) {
+		consignments.remove(consignment);
 	}
 	
 	public User () {
@@ -106,6 +118,14 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public Set<Consignment> getConsignments() {
+		return consignments;
+	}
+
+	public void setConsignments(Set<Consignment> consignments) {
+		this.consignments = consignments;
 	}
 	
 	

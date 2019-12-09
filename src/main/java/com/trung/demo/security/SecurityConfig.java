@@ -12,8 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.trung.demo.model.Consignment;
 import com.trung.demo.model.Role;
 import com.trung.demo.model.User;
+import com.trung.demo.repository.ConsignmentRepository;
 import com.trung.demo.repository.UserRepository;
 import com.trung.demo.services.MyUserDetailsService;
 
@@ -28,6 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ConsignmentRepository consignmentRepository;
 	
 	
 	@Override
@@ -52,6 +57,55 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		User user = new User("Andrew", "White", "andrew@gmail.com", encodedPass, encodedPass);
 		user.addRole(new Role("CUSTOMER", user));
 		userRepository.save(user);
+		
+		// add some fake consignments
+		Consignment cons1 = new Consignment(
+			"Small description",
+			"1126 Highfield Ct",
+			"Bethel Park",
+			"Pennsylvania",
+			15102,
+			"USA",
+			14.5,
+			"USD",
+			admin,
+			false
+		);
+		
+		admin.addConsignment(cons1);
+		consignmentRepository.save(cons1);
+		
+		Consignment cons2 = new Consignment(
+			"Food for winter semester",
+			"153 Christian Ave",
+			"Stony Brook",
+			"New York",
+			11790,
+			"USA",
+			56.5,
+			"USD",
+			admin,
+			true
+		);
+			
+		admin.addConsignment(cons2);
+		consignmentRepository.save(cons2);
+		
+		Consignment cons3 = new Consignment(
+			"Cloths for summer",
+			"61 Ngo Thi Thu Minh",
+			"Tan Binh",
+			"Ho Chi Minh",
+			70000,
+			"Vietnam",
+			76.5,
+			"USD",
+			user,
+			false
+		);
+			
+		user.addConsignment(cons3);
+		consignmentRepository.save(cons3);
 	}
 	
 	
@@ -64,7 +118,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/users/**").permitAll()
 			.antMatchers("/login").permitAll()
 			.antMatchers("/register").permitAll()
-			.antMatchers("/products/all").permitAll()
+			.antMatchers("/consignments/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
