@@ -31,12 +31,17 @@
     </p>
 
     <div class="card card-body m-auto">
-      <div *ngIf="error_msg"
+      <div *ngIf="errors.length > 0"
            class="alert alert-danger">
         Possible errors:
-        <ul *ngFor="let error of error_msg">
+        <ul *ngFor="let error of errors">
           <li>{{ error }}</li>
         </ul>
+      </div>
+
+      <div *ngIf="error_msg"
+           class="alert alert-danger">
+        {{error_msg}}
       </div>
 
       <p *ngIf="success_msg" class="alert alert-success"> {{ success_msg }}</p>

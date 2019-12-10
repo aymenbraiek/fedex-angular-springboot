@@ -15,13 +15,13 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from '../app/effects/user.effect';
 import { AdminEffects } from '../app/effects/admin.effect';
-import { ProductEffects } from '../app/effects/product.effect';
-import { HelloComponent } from './components/hello/hello.component';
+import { ConsignmentEffects } from './effects/consignment.effect';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { ProductsComponent } from './components/products/products.component';
+import { ConsignmentsComponent } from './components/consignments/consignments.component';
+import { AddConsignmentComponent } from './components/add-consignment/add-consignment.component';
 
 @NgModule({
 	declarations: [
@@ -29,11 +29,11 @@ import { ProductsComponent } from './components/products/products.component';
 		UserComponent,
 		LoginComponent,
 		RegisterComponent,
-		HelloComponent,
 		NavbarComponent,
 		DashboardComponent,
 		FooterComponent,
-		ProductsComponent
+		ConsignmentsComponent,
+		AddConsignmentComponent
 	],
 	imports: [
 		BrowserModule,
@@ -54,7 +54,7 @@ import { ProductsComponent } from './components/products/products.component';
 		EffectsModule.forRoot([
 			UserEffects,
 			AdminEffects,
-			ProductEffects
+			ConsignmentEffects
 		]),
 	],
 	providers: [],

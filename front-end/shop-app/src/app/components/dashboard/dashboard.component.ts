@@ -3,7 +3,6 @@ import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
 import { NgxSpinnerService } from "ngx-spinner";
-import { Router } from '@angular/router';
 import { User } from 'src/app/models/User.model';
 
 @Component({
@@ -13,7 +12,8 @@ import { User } from 'src/app/models/User.model';
 })
 export class DashboardComponent implements OnInit {
   success_msg: string;
-  error_msg: string[];
+  errors: string[];
+  error_msg: string;
   firstNameTitle: string;
   lastNameTitle: string;
   email: string;
@@ -22,7 +22,6 @@ export class DashboardComponent implements OnInit {
   constructor(
     private store: Store<rootReducers.AppState>,
     private spinner: NgxSpinnerService,
-    private router: Router
   ) { }
 
   ngOnInit() {
@@ -32,6 +31,7 @@ export class DashboardComponent implements OnInit {
 
     this.store.pipe(select('error')).subscribe(info => {
       this.error_msg = info.error_msg;
+      this.errors = info.errors;
     })
 
     this.store.pipe(select('user')).subscribe(res => {

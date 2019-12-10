@@ -1,5 +1,7 @@
 package com.trung.demo.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,17 +19,17 @@ public class ConsignmentController {
 	private ConsignmentService consignmentService;
 	
 	@RequestMapping(value="/consignments/all", method=RequestMethod.POST)
-	public ResponseEntity<?> getAllConsignments(@RequestBody String userEmail) {
-		return ResponseEntity.ok(consignmentService.getAllConsignments(userEmail));
+	public ResponseEntity<?> getAllConsignments(@RequestBody String email) {
+		return ResponseEntity.ok(consignmentService.getConsignments(email));
 	}
 	
 	@RequestMapping(value="/consignments/notReceived", method=RequestMethod.POST)
-	public ResponseEntity<?> getAllConsignmentsNotReceived(@RequestBody String userEmail) {
-		return ResponseEntity.ok(consignmentService.getAllConsignmentsNotReceived(userEmail));
+	public ResponseEntity<?> getAllConsignmentsNotReceived(@RequestBody String email) {
+		return ResponseEntity.ok(consignmentService.getAllConsignmentsNotReceived(email));
 	}
 	
 	@RequestMapping(value="/consignments/received", method=RequestMethod.POST)
-	public ResponseEntity<?> getAllConsignmentsReceived(@RequestBody String userEmail) {
-		return ResponseEntity.ok(consignmentService.getAllConsignmentsReceived(userEmail));
+	public ResponseEntity<?> getAllConsignmentsReceived(@RequestBody String email) {
+		return ResponseEntity.ok(consignmentService.getAllConsignmentsReceived(email));
 	}
 }

@@ -41,7 +41,7 @@ public class User {
 	)
 	private Set<Role> roles = new HashSet<>();
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, targetEntity=Consignment.class)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=Consignment.class)
 	private Set<Consignment> consignments = new HashSet<>();
 		
 	public void addRole(Role role) {

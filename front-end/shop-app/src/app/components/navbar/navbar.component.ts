@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
 import { Store, select } from '@ngrx/store';
-import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/models/User.model';
 
 @Component({
   selector: 'app-navbar',
@@ -10,9 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  isAuthenticated: boolean;
-  currentUserFirstName: string;
-  currentUserLastName: string;
+  currentUser: User;
   hasAdminRole: boolean;
   hasCustomerRole: boolean;
   hasEmployeeRole: boolean;
@@ -20,18 +18,12 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private store: Store<rootReducers.AppState>,
-    private authService: AuthService
   ) { }
 
   ngOnInit() {
-    if (this.authService.isAuthenticated()) {
-      this.isAuthenticated = true;
-    }
-
     this.store.pipe(select('user')).subscribe(data => {
-      if (data.current_user !== null && typeof data.current_user !== 'undefined') {
-        this.currentUserFirstName = data.current_user.firstName;
-        this.currentUserLastName = data.current_user.lastName;
+      if (data.current_user) {
+        this.currentUser = data.current_user;
 
         if (new Set(data.current_user.roles).has('ADMIN')) {
           this.hasAdminRole = true;

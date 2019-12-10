@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
-import { Product } from '../models/Product.model';
+import { Consignment } from '../models/Consignment.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class ConsignmentService {
   serverAPI_URL = `http://localhost:8085`;
 
   constructor(
@@ -15,9 +15,10 @@ export class ProductService {
     private httpService: HttpService
   ) { }
 
-  getAllProducts(): Observable<Product[]> {
-    const url = `${this.serverAPI_URL}/products/all`;
+  getAllConsignments(email: string): Observable<{ notReceived: Consignment[], received: Consignment[] }> {
+    const url = `${this.serverAPI_URL}/consignments/all`;
     const httpOptions = this.httpService.getHttpHeader();
-    return this.http.get<Product[]>(url, httpOptions);
+    return this.http.post<{ notReceived: Consignment[], received: Consignment[] }>(url, email, httpOptions);
   }
+
 }

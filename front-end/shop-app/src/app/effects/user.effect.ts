@@ -50,8 +50,9 @@ export class UserEffects {
             localStorage.setItem('jwtToken', res.jwtToken);
           }),
           switchMap(res => {
-            this.router.navigateByUrl(`/dashboard/${res.current_user.firstName}${res.current_user.lastName}`);
+            this.router.navigate([`/dashboard/${res.current_user.firstName}${res.current_user.lastName}`]);
             return [
+              UserActions.GET_CURRENT_USER({ payload: res.current_user.email }),
               ErrorActions.CLEAR_ERROR(),
               SuccessActions.SET_SUCCESS({ payload: res.successMsg }),
               UserActions.LOG_IN_SUCCESS({ payload: res })

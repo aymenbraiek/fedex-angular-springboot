@@ -1,6 +1,8 @@
 package com.trung.demo.services;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,23 @@ public class ConsignmentService {
 	
 	public Set<Consignment> getAllConsignments(String userEmail) {
 		User user = userService.getUser(userEmail);
-		if (user != null)
-			return user.getConsignments();
-		return new HashSet<Consignment>();
+		return user.getConsignments();
+	}
+	
+	public Map<String, Set<Consignment>> getConsignments(String userEmail) {
+		User user = userService.getUser(userEmail);
+		Map<String, Set<Consignment>> map = new HashMap<>();
+		
+		map.put("notReceived", new HashSet<Consignment>());
+		map.put("received", new HashSet<Consignment>());
+		
+		for (Consignment cons : user.getConsignments()) {
+			if (cons.isReceived())
+				map.get("received").add(cons);
+			else
+				map.get("notReceived").add(cons);
+		}
+		return map;
 	}
 	
 	public Set<Consignment> getAllConsignmentsNotReceived(String userEmail) {

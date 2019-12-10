@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
 import { User } from '../../models/User.model';
 import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
-import * as AdminActions from '../../actions/admin.action';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
+import * as ConsignmentActions from '../../actions/consignment.action';
 
 @Component({
   selector: 'app-user',

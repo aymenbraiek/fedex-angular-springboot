@@ -9,18 +9,18 @@ import { environment } from '../../environments/environment';
 import * as UserStore from './user.reducer';
 import * as SuccessStore from './success.reducer';
 import * as ErrorStore from './error.reducer';
-import * as ProductStore from './product.reducer';
+import * as ConsignmentStore from './consignment.reducer';
 
 export interface AppState {
   user: UserStore.UserState;
-  product: ProductStore.ProductState;
+  consignment: ConsignmentStore.ConsignmentState;
   success: SuccessStore.SuccessState,
   error: ErrorStore.ErrorState
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   user: UserStore.userReducer,
-  product: ProductStore.productReducer,
+  consignment: ConsignmentStore.consignmentReducer,
   success: SuccessStore.successReducer,
   error: ErrorStore.errorReducer
 };
@@ -31,4 +31,10 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [
 export const rootReducers = 'root';
 
 export const getAppState = createFeatureSelector(rootReducers);
+// User state
 export const getUserState = createSelector(getAppState, (state: AppState) => state.user);
+export const getCurrentUser = createSelector(getUserState, (state) => state.current_user);
+
+// Consignment state
+export const getConsignmentState = createSelector(getAppState, (state: AppState) => state.consignment);
+export const getConsignments = createSelector(getConsignmentState, (state) => state.consignments);
