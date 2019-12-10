@@ -14,6 +14,7 @@ export class ConsignmentEffects {
     private consignmentService: ConsignmentService
   ) { }
 
+  // load all consignments
   loadConsignments = createEffect(() =>
     this.actions$.pipe(
       ofType(ConsignmentActions.LOAD_CONSIGNMENTS),
@@ -30,6 +31,31 @@ export class ConsignmentEffects {
               ConsignmentActions.LOAD_CONSIGNMENTS_FAILURE(),
               ErrorActions.SET_ERROR({ payload: 'Error occurred while loading consignments' }),
               SuccessActions.CLEAR_SUCCESS()
+            )
+          })
+        )
+      })
+    )
+  )
+
+  // add consignment
+  addConsignment = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConsignmentActions.ADD_CONSIGNMENT),
+      // tap(data => console.log(data)),
+      mergeMap(data => {
+        return this.consignmentService.addConsignment(data.payload).pipe(
+          // tap(res => console.log(res)),
+          switchMap(() => [
+            ConsignmentActions.ADD_CONSIGNMENT_SUCCESS({ payload: data.payload.consignment }),
+            SuccessActions.SET_SUCCESS({ payload: 'Your consignment has been sent' }),
+            ErrorActions.CLEAR_ERROR()
+          ]),
+          catchError(errs => {
+            return of(
+              ErrorActions.SET_ERROR({ payload: 'Please fill out all fields' }),
+              SuccessActions.CLEAR_SUCCESS(),
+              ConsignmentActions.ADD_CONSIGNMENT_FAILURE()
             )
           })
         )

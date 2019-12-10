@@ -37,6 +37,28 @@ const _consignmentReducer = createReducer(initialState,
       loading: false
     }
   }),
+  on(ConsignmentActions.ADD_CONSIGNMENT, (state, action) => {
+    return {
+      ...state,
+      loading: true
+    }
+  }),
+  on(ConsignmentActions.ADD_CONSIGNMENT_SUCCESS, (state, action) => {
+    return {
+      ...state,
+      loading: false,
+      consignments: {
+        ...state.consignments,
+        notReceived: [{ ...action.payload, received: false }, ...state.consignments['notReceived']]
+      }
+    }
+  }),
+  on(ConsignmentActions.ADD_CONSIGNMENT_FAILURE, (state, action) => {
+    return {
+      ...state,
+      loading: false
+    }
+  }),
 )
 
 export function consignmentReducer(state, action) {

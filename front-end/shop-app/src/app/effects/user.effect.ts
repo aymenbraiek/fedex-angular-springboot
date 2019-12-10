@@ -100,9 +100,9 @@ export class UserEffects {
       ofType(UserActions.GET_CURRENT_USER),
       mergeMap((data) => {
         return this.userService.getCurrentUser(data.payload).pipe(
-          map(user =>
-            UserActions.SET_CURRENT_USER({ payload: user }),
-          ),
+          map(user => {
+            return UserActions.SET_CURRENT_USER({ payload: user });
+          }),
           catchError(errs => {
             return of(ErrorActions.SET_ERROR({ payload: errs.error }));
           })
@@ -131,7 +131,6 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(UserActions.EDIT_USER),
       switchMap(data => {
-        // console.log(data);
         return this.userService.editUser(data.payload).pipe(
           switchMap(res => [
             UserActions.EDIT_USER_SUCCESS(),

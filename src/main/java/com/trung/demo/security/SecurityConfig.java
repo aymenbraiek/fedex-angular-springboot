@@ -67,11 +67,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			15102,
 			"USA",
 			14.5,
-			"USD",
-			admin,
-			false
+			"USD"
 		);
-		
+		cons1.setUser(admin);
+		cons1.setReceived(false);
 		admin.addConsignment(cons1);
 		consignmentRepository.save(cons1);
 		
@@ -83,11 +82,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			11790,
 			"USA",
 			56.5,
-			"USD",
-			admin,
-			true
+			"USD"
 		);
-			
+		cons2.setUser(admin);
+		cons2.setReceived(true);
 		admin.addConsignment(cons2);
 		consignmentRepository.save(cons2);
 		
@@ -99,11 +97,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			70000,
 			"Vietnam",
 			76.5,
-			"USD",
-			user,
-			false
+			"USD"
 		);
-			
+		cons3.setUser(user);
+		cons3.setReceived(false);
 		user.addConsignment(cons3);
 		consignmentRepository.save(cons3);
 	}

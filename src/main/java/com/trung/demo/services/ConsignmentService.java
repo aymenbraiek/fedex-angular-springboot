@@ -10,11 +10,15 @@ import org.springframework.stereotype.Service;
 
 import com.trung.demo.model.Consignment;
 import com.trung.demo.model.User;
+import com.trung.demo.repository.ConsignmentRepository;
 
 @Service
 public class ConsignmentService {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ConsignmentRepository consignmentRepository;
 	
 	public Set<Consignment> getAllConsignments(String userEmail) {
 		User user = userService.getUser(userEmail);
@@ -59,5 +63,28 @@ public class ConsignmentService {
 			}
 		}
 		return received;
+	}
+	
+	// CRUDs
+	public boolean addConsignment(User user, Consignment consignment) {
+		boolean isDescriptionFilled = !consignment.getDescription().equals("");
+		boolean isStreetFilled = !consignment.getStreet().equals("");
+		boolean isCityFilled = !consignment.getCity().equals("");
+		boolean isStateFilled = !consignment.getState().equals("");
+		boolean isZipcodeFilled = consignment.getZipcode() != 0;
+		boolean isCountryFilled = !consignment.getCountry().equals("");
+		boolean isPriceFilled = consignment.getPrice() != 0;
+		boolean isCurrencyFilled = !consignment.getCurrency().equals("");
+		
+		if (isDescriptionFilled && isStreetFilled && isCityFilled && isStateFilled 
+				&& isZipcodeFilled && isCountryFilled && isPriceFilled && isCurrencyFilled) {
+			
+			consignment.setUser(user);
+			consignment.setReceived(false);
+			user.addConsignment(consignment);
+			consignmentRepository.save(consignment);
+			return true;
+		}
+		return false;
 	}
 }

@@ -86,13 +86,14 @@ const _userReducer = createReducer(initialState,
   }),
   on(UserActions.SET_CURRENT_USER, (state, action) => {
     if (action.payload !== null && typeof action.payload !== 'undefined') {
+      // console.log(action.payload.roles);
       return {
         ...state,
         current_user: {
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
           email: action.payload.email,
-          roles: action.payload.roles.map(roleObj => roleObj.role)
+          roles: new Set(action.payload.roles.map(roleObj => roleObj.role))
         }
       }
     }

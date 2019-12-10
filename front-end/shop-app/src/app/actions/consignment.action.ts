@@ -14,3 +14,17 @@ export const LOAD_CONSIGNMENTS_SUCCESS = createAction(
 export const LOAD_CONSIGNMENTS_FAILURE = createAction(
   actionTypes.LOAD_CONSIGNMENTS_FAILURE
 )
+
+export const ADD_CONSIGNMENT = createAction(
+  actionTypes.ADD_CONSIGNMENT,
+  props<{ payload: any }>()
+)
+
+export const ADD_CONSIGNMENT_SUCCESS = createAction(
+  actionTypes.ADD_CONSIGNMENT_SUCCESS,
+  props<{ payload: any }>()
+)
+
+export const ADD_CONSIGNMENT_FAILURE = createAction(
+  actionTypes.ADD_CONSIGNMENT_FAILURE
+)

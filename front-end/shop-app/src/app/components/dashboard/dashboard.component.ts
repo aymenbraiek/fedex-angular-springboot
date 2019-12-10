@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
       firstName: firstName,
       lastName: lastName,
       email: this.email,
-      roles: this.current_user === null || typeof this.current_user === 'undefined' ? [] : this.current_user.roles
+      roles: this.current_user === null || typeof this.current_user === 'undefined' ? [] : [...this.current_user.roles]
     }
     this.store.dispatch(UserActions.EDIT_USER({ payload: payload }));
   }

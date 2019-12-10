@@ -34,3 +34,7 @@ export const CLEAR_ERROR = '[ERROR] Clear error message';
 export const LOAD_CONSIGNMENTS = '[CONSIGNMENT] Load all consignments';
 export const LOAD_CONSIGNMENTS_SUCCESS = '[CONSIGNMENT] Load all consignments success';
 export const LOAD_CONSIGNMENTS_FAILURE = '[CONSIGNMENT] Load all consignments failure';
+export const ADD_CONSIGNMENT = '[CONSIGNMENT] Add';
+export const ADD_CONSIGNMENT_SUCCESS = '[CONSIGNMENT] Add success';
+export const ADD_CONSIGNMENT_FAILURE = '[CONSIGNMENT] Add failure';
+

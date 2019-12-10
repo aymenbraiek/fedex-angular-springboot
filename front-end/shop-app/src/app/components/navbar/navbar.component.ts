@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
       if (data.current_user) {
         this.currentUser = data.current_user;
 
-        if (new Set(data.current_user.roles).has('ADMIN')) {
+        if (data.current_user.roles && data.current_user.roles.has('ADMIN')) {
           this.hasAdminRole = true;
         }
       }

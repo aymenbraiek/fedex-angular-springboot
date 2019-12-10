@@ -56,7 +56,7 @@ public class Consignment {
 
 
 	public Consignment(String description, String street, String city, String state, int zipcode,
-			String country, double price, String currency, User user, boolean received) {
+			String country, double price, String currency) {
 		super();
 		this.description = description;
 		this.street = street;
@@ -66,8 +66,6 @@ public class Consignment {
 		this.country = country;
 		this.price = price;
 		this.currency = currency;
-		this.user = user;
-		this.received = received;
 	}
 
 
