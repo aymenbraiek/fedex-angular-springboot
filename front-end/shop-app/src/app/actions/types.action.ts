@@ -8,7 +8,7 @@ export const REGISTER = '[USER] User register';
 export const REGISTER_SUCCESS = '[USER] User register success';
 export const REGISTER_FAILURE = '[USER] User register failure';
 export const LOG_OUT = '[USER] User Logout';
-export const CLEAR_USER_STATES = '[USER] Clear User States';
+export const LOG_OUT_SUCCESS = '[USER] User Logout Success';
 
 // Load users
 export const LOAD_USERS = '[USER] Load Users';
@@ -37,4 +37,8 @@ export const LOAD_CONSIGNMENTS_FAILURE = '[CONSIGNMENT] Load all consignments fa
 export const ADD_CONSIGNMENT = '[CONSIGNMENT] Add';
 export const ADD_CONSIGNMENT_SUCCESS = '[CONSIGNMENT] Add success';
 export const ADD_CONSIGNMENT_FAILURE = '[CONSIGNMENT] Add failure';
+
+// Action Type
+export const SET_TYPE = '[TYPE] Set type';
+export const CLEAR_TYPE = '[TYPE] Clear type';
 

@@ -7,6 +7,14 @@ export interface ConsignmentState {
     notReceived: Consignment[], received: Consignment[]
   };
   loading: boolean;
+
+  // Load consignments Message
+  loadConsignments_successMsg: string;
+  loadConsignments_errorMsg: string;
+
+  // Add consignments
+  addConsignment_successMsg: string;
+  addConsignment_errorMsg: string;
 }
 
 const initialState = {
@@ -14,49 +22,69 @@ const initialState = {
     notReceived: [],
     received: []
   },
-  loading: false
+  loading: false,
+
+  // Load consignments Message
+  loadConsignments_successMsg: null,
+  loadConsignments_errorMsg: null,
+
+  // Add consignments
+  addConsignment_successMsg: null,
+  addConsignment_errorMsg: null
 }
 
 const _consignmentReducer = createReducer(initialState,
   on(ConsignmentActions.LOAD_CONSIGNMENTS, (state, action) => {
     return {
       ...state,
-      loading: true
+      loading: true,
+      loadConsignments_successMsg: null,
+      loadConsignments_errorMsg: null
     }
   }),
   on(ConsignmentActions.LOAD_CONSIGNMENTS_SUCCESS, (state, action) => {
     return {
       ...state,
       loading: false,
-      consignments: action.payload
+      consignments: action.payload.consignments,
+      loadConsignments_successMsg: action.payload.success_msg,
+      loadConsignments_errorMsg: null
     }
   }),
   on(ConsignmentActions.LOAD_CONSIGNMENTS_FAILURE, (state, action) => {
     return {
       ...state,
-      loading: false
+      loading: false,
+      loadConsignments_successMsg: null,
+      loadConsignments_errorMsg: action.payload
     }
   }),
   on(ConsignmentActions.ADD_CONSIGNMENT, (state, action) => {
     return {
       ...state,
-      loading: true
+      loading: true,
+      addConsignment_successMsg: null,
+      addConsignment_errorMsg: null
     }
   }),
   on(ConsignmentActions.ADD_CONSIGNMENT_SUCCESS, (state, action) => {
     return {
       ...state,
       loading: false,
+      addConsignment_successMsg: action.payload.success_msg,
+      addConsignment_errorMsg: null,
       consignments: {
         ...state.consignments,
-        notReceived: [{ ...action.payload, received: false }, ...state.consignments['notReceived']]
+        notReceived: [{ ...action.payload.data, received: false }, ...state.consignments['notReceived']]
       }
     }
   }),
   on(ConsignmentActions.ADD_CONSIGNMENT_FAILURE, (state, action) => {
     return {
       ...state,
-      loading: false
+      loading: false,
+      addConsignment_successMsg: null,
+      addConsignment_errorMsg: action.payload
     }
   }),
 )

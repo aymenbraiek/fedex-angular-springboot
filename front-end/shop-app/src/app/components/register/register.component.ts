@@ -3,6 +3,7 @@ import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
 import { NgxSpinnerService } from "ngx-spinner";
+import * as actionTypes from '../../actions/types.action';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,18 @@ export class RegisterComponent implements OnInit {
   emailErrMsg: string;
   passwordErrMsg: string;
   confirmPasswordErrMsg: string;
-  error_msg: string;
+
+  /**
+   * FOR SIDE EFFECTS
+   */
+  // current action type
+  current_actionType: string;
+
+  // list of action types
+  REGISTER_FAILURE: string = actionTypes.REGISTER_FAILURE;
+
+  // Error message
+  register_errorMsg: string;
 
   constructor(
     private store: Store<rootReducers.AppState>,
@@ -23,6 +35,10 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.store.pipe(select('type')).subscribe(type => {
+      this.current_actionType = type;
+    })
+
     this.store.pipe(select('user')).subscribe(res => {
       this.firstNameErrMsg = res.firstNameErrMsg;
       this.lastNameErrMsg = res.lastNameErrMsg;
@@ -37,8 +53,8 @@ export class RegisterComponent implements OnInit {
       }
     })
 
-    this.store.pipe(select('error')).subscribe(res => {
-      this.error_msg = res.error_msg;
+    this.store.pipe(select('user')).subscribe(res => {
+      this.register_errorMsg = res.register_errorMsg;
     })
   }
 

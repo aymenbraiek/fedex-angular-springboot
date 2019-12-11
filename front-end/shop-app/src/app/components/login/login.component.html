@@ -10,10 +10,27 @@
         <h3><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Login</h3>
       </div>
 
-      <p *ngIf="success_msg"
+      <!-- Success/error message -->
+      <p *ngIf="register_successMsg && current_actionType === REGISTER_SUCCESS"
          class="text-center alert alert-success">
-        {{ success_msg }}
+        {{ register_successMsg }}
       </p>
+
+      <p *ngIf="logout_successMsg && current_actionType === LOG_OUT_SUCCESS"
+         class="text-center alert alert-success">
+        {{ logout_successMsg }}
+      </p>
+
+      <p *ngIf="deleteUser_successMsg && current_actionType === DELETE_USER_SUCCESS"
+         class="text-center alert alert-success">
+        {{ deleteUser_successMsg }}
+      </p>
+
+      <p *ngIf="login_errorMsg && current_actionType === LOG_IN_FAILURE"
+         class="text-center alert alert-danger">
+        {{ login_errorMsg }}
+      </p>
+      <!-- End of Success/error message -->
 
       <div class="card-text">
         <form (ngSubmit)="login(email.value, password.value)">

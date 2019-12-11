@@ -4,6 +4,7 @@ import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
 import { NgxSpinnerService } from "ngx-spinner";
 import { User } from 'src/app/models/User.model';
+import * as actionTypes from '../../actions/types.action';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,9 +12,22 @@ import { User } from 'src/app/models/User.model';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  success_msg: string;
-  errors: string[];
-  error_msg: string;
+  /**
+   * FOR SIDE EFFECTS
+   */
+  // current action type
+  current_actionType: string;
+
+  // list of action types
+  LOG_IN_SUCCESS: string = actionTypes.LOG_IN_SUCCESS;
+  EDIT_USER_SUCCESS: string = actionTypes.EDIT_USER_SUCCESS;
+  EDIT_USER_FAILURE: string = actionTypes.EDIT_USER_FAILURE;
+
+  // success and error message
+  login_successMsg: string;
+  editUser_successMsg: string;
+  editUser_errors: string[];
+
   firstNameTitle: string;
   lastNameTitle: string;
   email: string;
@@ -25,19 +39,17 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.store.pipe(select('success')).subscribe(info => {
-      this.success_msg = info.success_msg;
-    })
-
-    this.store.pipe(select('error')).subscribe(info => {
-      this.error_msg = info.error_msg;
-      this.errors = info.errors;
+    this.store.pipe(select('type')).subscribe(type => {
+      this.current_actionType = type;
     })
 
     this.store.pipe(select('user')).subscribe(res => {
+      this.login_successMsg = res.login_successMsg;
+      this.editUser_successMsg = res.editUser_successMsg;
+      this.editUser_errors = res.editUser_errors;
       this.current_user = res.current_user;
 
-      if (res.current_user !== null) {
+      if (res.current_user) {
         this.firstNameTitle = res.current_user.firstName;
         this.lastNameTitle = res.current_user.lastName;
         this.email = res.current_user.email;

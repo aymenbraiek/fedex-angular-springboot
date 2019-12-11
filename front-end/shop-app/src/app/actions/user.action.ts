@@ -50,10 +50,10 @@ export const REGISTER_FAILURE = createAction(
   props<{ payload: any }>()
 )
 
-export const CLEAR_USER_STATES = createAction(
-  actionTypes.CLEAR_USER_STATES
+export const LOG_OUT_SUCCESS = createAction(
+  actionTypes.LOG_OUT_SUCCESS,
+  props<{ payload: any }>()
 )
-
 /** ============================
  * CRUD operations for user
  * ============================
@@ -77,11 +77,13 @@ export const EDIT_USER = createAction(
 )
 
 export const EDIT_USER_SUCCESS = createAction(
-  actionTypes.EDIT_USER_SUCCESS
+  actionTypes.EDIT_USER_SUCCESS,
+  props<{ payload: any }>()
 )
 
 export const EDIT_USER_FAILURE = createAction(
-  actionTypes.EDIT_USER_FAILURE
+  actionTypes.EDIT_USER_FAILURE,
+  props<{ payload: any }>()
 )
 
 export const DELETE_USER = createAction(
@@ -90,9 +92,11 @@ export const DELETE_USER = createAction(
 )
 
 export const DELETE_USER_SUCCESS = createAction(
-  actionTypes.DELETE_USER_SUCCESS
+  actionTypes.DELETE_USER_SUCCESS,
+  props<{ payload: any }>()
 )
 
 export const DELETE_USER_FAILURE = createAction(
-  actionTypes.DELETE_USER_FAILURE
+  actionTypes.DELETE_USER_FAILURE,
+  props<{ payload: any }>()
 )

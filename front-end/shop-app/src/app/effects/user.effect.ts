@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AdminActions from '../actions/admin.action';
 import * as UserActions from '../actions/user.action';
-import * as SuccessActions from '../actions/success.action';
-import * as ErrorActions from '../actions/error.action';
+import * as TypeActions from '../actions/defineType.action';
+import * as actionTypes from '../actions/types.action';
 import { mergeMap, map, catchError, switchMap, tap } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
 import { of } from 'rxjs';
@@ -25,16 +25,10 @@ export class UserEffects {
         return this.userService.getAllUsers().pipe(
           // tap(users => console.log(users)),
           switchMap(users => [
-            UserActions.LOAD_USERS_SUCCESS({ payload: users }),
-            ErrorActions.CLEAR_ERROR(),
-            SuccessActions.CLEAR_SUCCESS()
+            UserActions.LOAD_USERS_SUCCESS({ payload: users })
           ]),
           catchError(errs => {
-            return of(
-              UserActions.LOAD_USERS_FAILURE(),
-              SuccessActions.CLEAR_SUCCESS(),
-              ErrorActions.SET_ERROR({ payload: 'Error occurred while loading users' })
-            )
+            return of(UserActions.LOAD_USERS_FAILURE())
           })
         )
       })
@@ -53,16 +47,25 @@ export class UserEffects {
             this.router.navigate([`/dashboard/${res.current_user.firstName}${res.current_user.lastName}`]);
             return [
               UserActions.GET_CURRENT_USER({ payload: res.current_user.email }),
-              ErrorActions.CLEAR_ERROR(),
-              SuccessActions.SET_SUCCESS({ payload: res.successMsg }),
-              UserActions.LOG_IN_SUCCESS({ payload: res })
+              UserActions.LOG_IN_SUCCESS({
+                payload: {
+                  data: { ...res },
+                  success_msg: 'Welcome! You have logged in successfully'
+                }
+              }),
+              TypeActions.SET_TYPE({ actionType: actionTypes.LOG_IN_SUCCESS })
             ]
           }),
           catchError(errs => {
             return of(
-              ErrorActions.CLEAR_ERROR(),
-              SuccessActions.CLEAR_SUCCESS(),
-              UserActions.LOG_IN_FAILURE({ payload: errs.error })
+              UserActions.LOG_IN_FAILURE({
+                payload:
+                {
+                  data: { ...errs.error },
+                  error_msg: 'Invalid email/password'
+                }
+              }),
+              TypeActions.SET_TYPE({ actionType: actionTypes.LOG_IN_FAILURE })
             );
           })
         )
@@ -78,16 +81,19 @@ export class UserEffects {
           switchMap(res => {
             this.router.navigate(['/login']);
             return [
-              SuccessActions.SET_SUCCESS({ payload: res.successMsg }),
-              ErrorActions.CLEAR_ERROR(),
-              UserActions.REGISTER_SUCCESS({ payload: res })
+              UserActions.REGISTER_SUCCESS({ payload: 'Your account has been created! You can login now' }),
+              TypeActions.SET_TYPE({ actionType: actionTypes.REGISTER_SUCCESS })
             ]
           }),
           catchError(errs => {
             return of(
-              UserActions.REGISTER_FAILURE({ payload: errs.error }),
-              ErrorActions.SET_ERROR({ payload: errs.error.generalErr }),
-              SuccessActions.CLEAR_SUCCESS()
+              UserActions.REGISTER_FAILURE({
+                payload: {
+                  data: { ...errs.error },
+                  error_msg: errs.error.generalErr
+                }
+              }),
+              TypeActions.SET_TYPE({ actionType: actionTypes.REGISTER_FAILURE })
             );
           })
         )
@@ -102,9 +108,6 @@ export class UserEffects {
         return this.userService.getCurrentUser(data.payload).pipe(
           map(user => {
             return UserActions.SET_CURRENT_USER({ payload: user });
-          }),
-          catchError(errs => {
-            return of(ErrorActions.SET_ERROR({ payload: errs.error }));
           })
         )
       })
@@ -120,8 +123,8 @@ export class UserEffects {
       switchMap(() => {
         return [
           UserActions.SET_CURRENT_USER({ payload: null }),
-          SuccessActions.SET_SUCCESS({ payload: 'You have logged out' }),
-          ErrorActions.CLEAR_ERROR()
+          UserActions.LOG_OUT_SUCCESS({ payload: 'You have logged out' }),
+          TypeActions.SET_TYPE({ actionType: actionTypes.LOG_OUT_SUCCESS })
         ]
       })
     )
@@ -133,9 +136,7 @@ export class UserEffects {
       switchMap(data => {
         return this.userService.editUser(data.payload).pipe(
           switchMap(res => [
-            UserActions.EDIT_USER_SUCCESS(),
-            SuccessActions.SET_SUCCESS({ payload: 'Your profile has been updated' }),
-            ErrorActions.CLEAR_ERROR(),
+            UserActions.EDIT_USER_SUCCESS({ payload: 'Your profile has been updated' }),
             UserActions.SET_CURRENT_USER({
               payload: {
                 firstName: data.payload.firstName,
@@ -143,13 +144,18 @@ export class UserEffects {
                 email: data.payload.email,
                 roles: data.payload.roles
               }
-            })
+            }),
+            TypeActions.SET_TYPE({ actionType: actionTypes.EDIT_USER_SUCCESS })
           ]),
           catchError(errs => {
             return of(
-              UserActions.EDIT_USER_FAILURE(),
-              ErrorActions.SET_ERROR({ payload: ['Names can NOT be blanked', 'Invalid name format (should NOT contain numbers or special characters)'] }),
-              SuccessActions.CLEAR_SUCCESS()
+              UserActions.EDIT_USER_FAILURE({
+                payload: [
+                  'Names can NOT be blanked',
+                  'Invalid name format (should NOT contain numbers or special characters)'
+                ]
+              }),
+              TypeActions.SET_TYPE({ actionType: actionTypes.EDIT_USER_FAILURE })
             )
           })
         )
@@ -174,23 +180,20 @@ export class UserEffects {
               this.router.navigate(['/login']);
               return [
                 UserActions.SET_CURRENT_USER({ payload: null }),
-                UserActions.DELETE_USER_SUCCESS(),
-                ErrorActions.CLEAR_ERROR(),
-                SuccessActions.SET_SUCCESS({ payload: 'Your account has been deleted' })
+                UserActions.DELETE_USER_SUCCESS({ payload: 'Your account has been deleted' }),
+                TypeActions.SET_TYPE({ actionType: actionTypes.DELETE_USER_SUCCESS })
               ]
             }
             return [
               AdminActions.ADMIN_DELETE_USER({ payload: { email: data.payload.email } }),
-              UserActions.DELETE_USER_SUCCESS(),
-              ErrorActions.CLEAR_ERROR(),
-              SuccessActions.SET_SUCCESS({ payload: `Account "${data.payload.email}" has been deleted` })
+              UserActions.DELETE_USER_SUCCESS({ payload: `Account "${data.payload.email}" has been deleted` }),
+              TypeActions.SET_TYPE({ actionType: actionTypes.DELETE_USER_SUCCESS })
             ]
           }),
           catchError(errs => {
             return of(
-              UserActions.DELETE_USER_FAILURE(),
-              ErrorActions.SET_ERROR({ payload: 'Error occurred while deleting this account' }),
-              SuccessActions.CLEAR_SUCCESS()
+              UserActions.DELETE_USER_FAILURE({ payload: 'Error occurred while deleting this account' }),
+              TypeActions.SET_TYPE({ actionType: actionTypes.DELETE_USER_FAILURE })
             )
           })
         )

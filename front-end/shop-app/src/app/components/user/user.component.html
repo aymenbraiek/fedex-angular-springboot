@@ -5,8 +5,18 @@
   <app-navbar active="users"></app-navbar>
   <div class="container mb-5">
     <h2 class="mb-4 mt-4 text-center">List of users</h2>
-    <p *ngIf="success_msg" class="alert alert-success mb-5"> {{ success_msg }}</p>
-    <p *ngIf="error_msg" class="alert alert-danger mb-5"> {{ error_msg }}</p>
+
+    <!-- Success/Error delete user message -->
+    <p *ngIf="deleteUser_successMsg && current_actionType === DELETE_USER_SUCCESS"
+       class="alert alert-success mb-5">
+      {{ deleteUser_successMsg }}
+    </p>
+    <p *ngIf="deleteUser_errorMsg && current_actionType === DELETE_USER_FAILURE"
+       class="alert alert-danger mb-5">
+      {{ deleteUser_errorMsg }}
+    </p>
+    <!-- End of Success/Error delete user message-->
+
     <ul *ngFor='let user of users_list' class="list-unstyled list-users">
       <li class="media">
         <p id='nameCircle' class="mr-3">

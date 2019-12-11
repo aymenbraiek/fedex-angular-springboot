@@ -15,6 +15,26 @@ export interface UserState {
   successMsg: string;
   valid: boolean;
   loading: boolean;
+
+  // Login User Message
+  login_successMsg: string;
+  login_errorMsg: string;
+
+  // Register User Message
+  register_successMsg: string;
+  register_errorMsg: string;
+
+  // Logout message
+  logout_successMsg: string;
+
+  // Edit User Message
+  editUser_successMsg: string;
+  editUser_errorMsg: string;
+  editUser_errors: string[];
+
+  // Delete User Message
+  deleteUser_successMsg: string;
+  deleteUser_errorMsg: string;
 }
 
 const initialState = {
@@ -28,14 +48,30 @@ const initialState = {
   generalErr: undefined,
   successMsg: undefined,
   valid: undefined,
-  loading: false
+  loading: false,
+
+  // Login User Message
+  login_successMsg: null,
+  login_errorMsg: null,
+
+  // Register User Message
+  register_successMsg: null,
+  register_errorMsg: null,
+
+  // Logout message
+  logout_successMsg: null,
+
+  // Edit User
+  editUser_successMsg: null,
+  editUser_errorMsg: null,
+  editUser_errors: [],
+
+  // Delete User
+  deleteUser_successMsg: null,
+  deleteUser_errorMsg: null,
 }
 
 const _userReducer = createReducer(initialState,
-  on(UserActions.CLEAR_USER_STATES, (state, action) => {
-    console.log(state);
-    return { ...initialState }
-  }),
   on(UserActions.LOAD_USERS, (state, action) => {
     return {
       ...state,
@@ -56,7 +92,12 @@ const _userReducer = createReducer(initialState,
     }
   }),
   on(UserActions.LOG_IN, (state, action) => {
-    return { ...state, loading: true }
+    return {
+      ...state,
+      loading: true,
+      login_successMsg: null,
+      login_errorMsg: null
+    }
   }),
   on(UserActions.LOG_IN_SUCCESS, (state, action) => {
     return {
@@ -74,14 +115,24 @@ const _userReducer = createReducer(initialState,
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         email: action.payload.email
-      }
+      },
+      login_successMsg: action.payload.success_msg,
+      login_errorMsg: null
     }
   }),
   on(UserActions.LOG_IN_FAILURE, (state, action) => {
     //console.log(action.payload);
     return {
-      ...action.payload,
-      loading: false
+      ...action.payload.data,
+      loading: false,
+      login_successMsg: null,
+      login_errorMsg: action.payload.error_msg
+    }
+  }),
+  on(UserActions.LOG_OUT_SUCCESS, (state, action) => {
+    return {
+      ...state,
+      logout_successMsg: action.payload
     }
   }),
   on(UserActions.SET_CURRENT_USER, (state, action) => {
@@ -103,56 +154,78 @@ const _userReducer = createReducer(initialState,
     }
   }),
   on(UserActions.REGISTER, (state, action) => {
-    return { ...state, loading: true }
+    return {
+      ...state,
+      loading: true,
+      register_successMsg: null,
+      register_errorMsg: null
+    }
   }),
   on(UserActions.REGISTER_SUCCESS, (state, action) => {
-    //console.log(action.payload);
     return {
       ...action.payload,
-      loading: false
+      loading: false,
+      register_successMsg: action.payload,
+      register_errorMsg: null
     }
   }),
   on(UserActions.REGISTER_FAILURE, (state, action) => {
     //console.log(action.payload);
     return {
-      ...action.payload,
-      loading: false
+      ...action.payload.data,
+      loading: false,
+      register_successMsg: null,
+      register_errorMsg: action.payload.error_msg
     }
   }),
   on(UserActions.EDIT_USER, (state, action) => {
     return {
       ...state,
-      loading: true
+      loading: true,
+      editUser_successMsg: null,
+      editUser_errorMsg: null
     }
   }),
   on(UserActions.EDIT_USER_SUCCESS, (state, action) => {
     return {
       ...state,
-      loading: false
+      loading: false,
+      editUser_successMsg: action.payload,
+      editUser_errorMsg: null,
+      editUser_errors: []
     }
   }),
   on(UserActions.EDIT_USER_FAILURE, (state, action) => {
     return {
       ...state,
-      loading: false
+      loading: false,
+      editUser_successMsg: null,
+      editUser_errorMsg: null,
+      editUser_errors: action.payload
     }
   }),
   on(UserActions.DELETE_USER, (state, action) => {
     return {
       ...state,
-      loading: true
+      loading: true,
+      deleteUser_successMsg: null,
+      deleteUser_errorMsg: null
     }
   }),
   on(UserActions.DELETE_USER_SUCCESS, (state, action) => {
     return {
       ...state,
-      loading: false
+      loading: false,
+      deleteUser_successMsg: action.payload,
+      deleteUser_errorMsg: null
     }
   }),
   on(UserActions.DELETE_USER_FAILURE, (state, action) => {
     return {
       ...state,
-      loading: false
+      loading: false,
+      deleteUser_successMsg: null,
+      deleteUser_errorMsg: action.payload
     }
   }),
   on(AdminActions.ADMIN_DELETE_USER, (state, action) => {

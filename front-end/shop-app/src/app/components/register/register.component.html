@@ -9,9 +9,11 @@
       <div class='card-title text-center mb-3'>
         <h3><i class="fas fa-user-plus"></i>&nbsp;&nbsp;Register</h3>
       </div>
-      <div class='alert alert-danger text-center' *ngIf="error_msg">
-        {{ error_msg }}
+
+      <div class='alert alert-danger text-center' *ngIf="register_errorMsg && current_actionType === REGISTER_FAILURE">
+        {{ register_errorMsg }}
       </div>
+
       <div class="card-text">
         <form (ngSubmit)="register(
           firstName.value,

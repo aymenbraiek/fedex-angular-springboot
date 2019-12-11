@@ -12,7 +12,8 @@ export const LOAD_CONSIGNMENTS_SUCCESS = createAction(
 )
 
 export const LOAD_CONSIGNMENTS_FAILURE = createAction(
-  actionTypes.LOAD_CONSIGNMENTS_FAILURE
+  actionTypes.LOAD_CONSIGNMENTS_FAILURE,
+  props<{ payload: any }>()
 )
 
 export const ADD_CONSIGNMENT = createAction(
@@ -26,5 +27,6 @@ export const ADD_CONSIGNMENT_SUCCESS = createAction(
 )
 
 export const ADD_CONSIGNMENT_FAILURE = createAction(
-  actionTypes.ADD_CONSIGNMENT_FAILURE
+  actionTypes.ADD_CONSIGNMENT_FAILURE,
+  props<{ payload: any }>()
 )

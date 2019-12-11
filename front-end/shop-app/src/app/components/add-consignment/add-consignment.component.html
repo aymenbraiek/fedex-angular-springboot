@@ -4,22 +4,16 @@
   </div>
 
   <div class="card-body border-0">
-    <div *ngIf="errors.length > 0"
+    <!-- Add Error message -->
+    <div *ngIf="addConsignment_errorMsg && current_actionType === ADD_CONSIGNMENT_FAILURE"
          class="alert alert-danger">
-      Possible errors:
-      <ul *ngFor="let error of errors">
-        <li>{{ error }}</li>
-      </ul>
+      {{addConsignment_errorMsg}}
     </div>
 
-    <div *ngIf="error_msg"
-         class="alert alert-danger">
-      {{error_msg}}
-    </div>
-
-    <div *ngIf="success_msg"
+    <!-- Add Success message -->
+    <div *ngIf="addConsignment_successMsg && current_actionType === ADD_CONSIGNMENT_SUCCESS"
          class="alert alert-success">
-      {{success_msg}}
+      {{addConsignment_successMsg}}
     </div>
     <br>
 

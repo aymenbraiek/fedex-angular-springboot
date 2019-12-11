@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ConsignmentService } from '../services/consignment.service';
-import { mergeMap, switchMap, catchError, tap } from 'rxjs/operators';
+import { mergeMap, switchMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as ConsignmentActions from '../actions/consignment.action';
-import * as SuccessActions from '../actions/success.action';
-import * as ErrorActions from '../actions/error.action';
+import * as TypeActions from '../actions/defineType.action';
+import * as actionTypes from '../actions/types.action';
 
 @Injectable()
 export class ConsignmentEffects {
@@ -22,15 +22,17 @@ export class ConsignmentEffects {
         return this.consignmentService.getAllConsignments(data.payload).pipe(
           // tap(consignments => console.log(consignments)),
           switchMap(consignments => [
-            ConsignmentActions.LOAD_CONSIGNMENTS_SUCCESS({ payload: consignments }),
-            ErrorActions.CLEAR_ERROR(),
-            SuccessActions.CLEAR_SUCCESS()
+            ConsignmentActions.LOAD_CONSIGNMENTS_SUCCESS({
+              payload:
+                { consignments: consignments, success_msg: null }
+            }),
+            TypeActions.SET_TYPE({ actionType: actionTypes.LOAD_CONSIGNMENTS_SUCCESS })
+
           ]),
           catchError(errs => {
             return of(
-              ConsignmentActions.LOAD_CONSIGNMENTS_FAILURE(),
-              ErrorActions.SET_ERROR({ payload: 'Error occurred while loading consignments' }),
-              SuccessActions.CLEAR_SUCCESS()
+              ConsignmentActions.LOAD_CONSIGNMENTS_FAILURE({ payload: 'Error occurred while loading consignments' }),
+              TypeActions.SET_TYPE({ actionType: actionTypes.LOAD_CONSIGNMENTS_FAILURE })
             )
           })
         )
@@ -47,15 +49,16 @@ export class ConsignmentEffects {
         return this.consignmentService.addConsignment(data.payload).pipe(
           // tap(res => console.log(res)),
           switchMap(() => [
-            ConsignmentActions.ADD_CONSIGNMENT_SUCCESS({ payload: data.payload.consignment }),
-            SuccessActions.SET_SUCCESS({ payload: 'Your consignment has been sent' }),
-            ErrorActions.CLEAR_ERROR()
+            ConsignmentActions.ADD_CONSIGNMENT_SUCCESS({
+              payload:
+                { data: data.payload.consignment, success_msg: 'Your consignment has been sent' }
+            }),
+            TypeActions.SET_TYPE({ actionType: actionTypes.ADD_CONSIGNMENT_SUCCESS })
           ]),
           catchError(errs => {
             return of(
-              ErrorActions.SET_ERROR({ payload: 'Please fill out all fields' }),
-              SuccessActions.CLEAR_SUCCESS(),
-              ConsignmentActions.ADD_CONSIGNMENT_FAILURE()
+              ConsignmentActions.ADD_CONSIGNMENT_FAILURE({ payload: 'Please fill out all fields' }),
+              TypeActions.SET_TYPE({ actionType: actionTypes.ADD_CONSIGNMENT_FAILURE })
             )
           })
         )

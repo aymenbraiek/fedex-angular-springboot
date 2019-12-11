@@ -10,19 +10,22 @@ import * as UserStore from './user.reducer';
 import * as SuccessStore from './success.reducer';
 import * as ErrorStore from './error.reducer';
 import * as ConsignmentStore from './consignment.reducer';
+import * as TypeStore from './type.reducer';
 
 export interface AppState {
   user: UserStore.UserState;
   consignment: ConsignmentStore.ConsignmentState;
-  success: SuccessStore.SuccessState,
-  error: ErrorStore.ErrorState
+  success: SuccessStore.SuccessState;
+  error: ErrorStore.ErrorState;
+  type: string;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   user: UserStore.userReducer,
   consignment: ConsignmentStore.consignmentReducer,
   success: SuccessStore.successReducer,
-  error: ErrorStore.errorReducer
+  error: ErrorStore.errorReducer,
+  type: TypeStore.typeReducer
 };
 
 
