@@ -1,39 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AdminActions from '../actions/admin.action';
-import { switchMap, catchError } from 'rxjs/operators';
+import { switchMap, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { UserService } from '../services/user.service';
-import * as UserActions from '../actions/user.action';
-import * as ErrorActions from '../actions/error.action';
-import * as SuccessActions from '../actions/success.action';
+import * as rootReducers from '../reducers/index';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AdminEffects {
   constructor(
     private actions$: Actions,
-    private userService: UserService
+    private store: Store<rootReducers.AppState>
   ) { }
 
-  // adminDeleteUser = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(AdminActions.ADMIN_DELETE_USER),
-  //     switchMap(data => {
-  //       return this.userService.deleteUser(data.payload).pipe(
-  //         switchMap(res => [
-  //           UserActions.DELETE_USER_SUCCESS(),
-  //           ErrorActions.CLEAR_ERROR(),
-  //           SuccessActions.SET_SUCCESS({ payload: `Account "${data.payload.email}" has been deleted` })
-  //         ]),
-  //         catchError(errs => {
-  //           return of(
-  //             UserActions.DELETE_USER_FAILURE(),
-  //             ErrorActions.SET_ERROR({ payload: 'Errors occurred while deleting this account' }),
-  //             SuccessActions.CLEAR_SUCCESS()
-  //           )
-  //         })
-  //       )
-  //     })
-  //   )
-  // )
+  adminDeleteUser = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AdminActions.LOAD_EMPLOYEES),
+      switchMap(allUsers => {
+        // console.log(allUsers)
+        const employees = [];
+
+        allUsers.payload.forEach(user => {
+          user.roles.forEach(roleObj => {
+            if (roleObj.role === 'EMPLOYEE') {
+              employees.push(user);
+            }
+          })
+        })
+        // console.log(employees);
+        return [
+          AdminActions.LOAD_EMPLOYEES_SUCCESS({ payload: employees })
+        ]
+      })
+    )
+  )
 }

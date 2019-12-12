@@ -23,12 +23,8 @@ export const DELETE_USER = '[USER] Delete User';
 export const DELETE_USER_SUCCESS = '[USER] Delete User Success';
 export const DELETE_USER_FAILURE = '[USER] Delete User Failure';
 export const ADMIN_DELETE_USER = '[ADMIN] Delete User';
-
-// Success and errors types
-export const SET_SUCCESS = '[SUCCESS] Set success message';
-export const CLEAR_SUCCESS = '[SUCCESS] Clear success message';
-export const SET_ERROR = '[ERROR] Set error message';
-export const CLEAR_ERROR = '[ERROR] Clear error message';
+export const LOAD_EMPLOYEES = '[EMPLOYEE] Load all employees';
+export const LOAD_EMPLOYEES_SUCCESS = '[EMPLOYEE] Load all employees success';
 
 // Consignments
 export const LOAD_CONSIGNMENTS = '[CONSIGNMENT] Load all consignments';

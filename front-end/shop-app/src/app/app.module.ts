@@ -23,6 +23,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ConsignmentsComponent } from './components/consignments/consignments.component';
 import { AddConsignmentComponent } from './components/add-consignment/add-consignment.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { EmployeesListComponent } from './components/employees-list/employees-list.component';
 
 @NgModule({
 	declarations: [
@@ -35,7 +36,8 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
 		FooterComponent,
 		ConsignmentsComponent,
 		AddConsignmentComponent,
-		UserDetailsComponent
+		UserDetailsComponent,
+		EmployeesListComponent
 	],
 	imports: [
 		BrowserModule,

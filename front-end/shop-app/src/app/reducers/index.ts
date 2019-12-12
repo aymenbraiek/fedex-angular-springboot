@@ -7,25 +7,22 @@ import {
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import * as UserStore from './user.reducer';
-import * as SuccessStore from './success.reducer';
-import * as ErrorStore from './error.reducer';
 import * as ConsignmentStore from './consignment.reducer';
 import * as TypeStore from './type.reducer';
+import * as EmployeeStore from './employee.reducer';
 
 export interface AppState {
   user: UserStore.UserState;
   consignment: ConsignmentStore.ConsignmentState;
-  success: SuccessStore.SuccessState;
-  error: ErrorStore.ErrorState;
   type: string;
+  employee: EmployeeStore.EmployeeState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   user: UserStore.userReducer,
   consignment: ConsignmentStore.consignmentReducer,
-  success: SuccessStore.successReducer,
-  error: ErrorStore.errorReducer,
-  type: TypeStore.typeReducer
+  type: TypeStore.typeReducer,
+  employee: EmployeeStore.employeeReducer
 };
 
 

@@ -1,20 +1,31 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/User.model';
+import { Consignment } from '../models/Consignment.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDetailsService {
-  viewUser: Object;
+  viewUser: User;
+  format_consignments: {
+    notReceived: Consignment[],
+    received: Consignment[]
+  };
+  format_roles: Set<string>;
 
   constructor() { }
 
   setViewUser(user: User) {
-    const consignments = this.constructConsignments(user);
-    this.viewUser = {
-      ...user,
-      format_consignments: consignments
-    }
+    this.format_roles = this.formatRoles(user);
+    const format_consignments = this.constructConsignments(user);
+    this.viewUser = user;
+    this.format_consignments = format_consignments;
+  }
+
+  formatRoles(user: User) {
+    const format_roles = [];
+    user.roles.forEach(r => format_roles.push(r['role']));
+    return new Set(format_roles);
   }
 
   constructConsignments(user: User) {

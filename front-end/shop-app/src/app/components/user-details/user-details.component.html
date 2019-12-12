@@ -38,11 +38,11 @@
       <!-- List of consignments -->
       <!-- Pending consignments -->
       <h4 class="text-muted">Pending consignments</h4>
-      <p *ngIf="user.format_consignments.notReceived.length === 0">
+      <p *ngIf="format_consignments.notReceived.length === 0">
         Currently none...
       </p>
 
-      <div *ngFor="let sending of user.format_consignments.notReceived">
+      <div *ngFor="let sending of format_consignments.notReceived">
         <div class="card text-white bg-secondary mb-3">
           <div class="card-header">
             <span class="font-weight-bold">
@@ -63,6 +63,10 @@
                 Price: {{sending.price}} {{ sending.currency }}
               </p>
             </div>
+
+            <span>Assign delivery: &nbsp;</span>
+            <app-employees-list [target_user]="user" [target_user_roles]="format_roles">
+            </app-employees-list>
           </div>
 
         </div>
@@ -71,11 +75,11 @@
 
       <!-- Received consignments -->
       <h4 class="text-muted">Received consignments</h4>
-      <p *ngIf="user.format_consignments.received.length === 0">
+      <p *ngIf="format_consignments.received.length === 0">
         Currently none...
       </p>
 
-      <div *ngFor="let received of user.format_consignments.received">
+      <div *ngFor="let received of format_consignments.received">
         <div class="card text-white bg-success mb-3">
           <div class="card-header">
             <span class="font-weight-bold">

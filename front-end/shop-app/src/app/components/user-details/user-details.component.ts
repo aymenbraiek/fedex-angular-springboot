@@ -9,7 +9,12 @@ import { Consignment } from 'src/app/models/Consignment.model';
   styleUrls: ['./user-details.component.css']
 })
 export class UserDetailsComponent implements OnInit {
-  user: Object;
+  user: User;
+  format_consignments: {
+    notReceived: Consignment[],
+    received: Consignment[]
+  };
+  format_roles: Set<string>;
 
   constructor(
     private userDetailsService: UserDetailsService
@@ -17,7 +22,9 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.userDetailsService.viewUser;
-    // console.log(this.user);
+    this.format_roles = this.userDetailsService.format_roles;
+    this.format_consignments = this.userDetailsService.format_consignments;
+    // console.log(this.format_roles)
   }
 
 }

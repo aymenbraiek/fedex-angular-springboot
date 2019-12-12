@@ -41,22 +41,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		// setup default admin & user for the app
 		String encodedPass = new BCryptPasswordEncoder().encode("pass");
-		User admin = new User("Phuong", "Chu", "aiko@gmail.com", encodedPass, encodedPass);
-		admin.addRole(new Role("ADMIN", admin));
-		userRepository.save(admin);
+		User user1 = new User("Phuong", "Chu", "aiko@gmail.com", encodedPass, encodedPass);
+		user1.addRole(new Role("ADMIN", user1));
+		userRepository.save(user1);
 		
-		User admin2 = new User("Trung", "Vo", "vtt311096@gmail.com", encodedPass, encodedPass);
-		admin2.addRole(new Role("ADMIN", admin2));
-		userRepository.save(admin2);
+		User user2 = new User("Trung", "Vo", "vtt311096@gmail.com", encodedPass, encodedPass);
+		user2.addRole(new Role("ADMIN", user2));
+		userRepository.save(user2);
 		
-		User emp1 = new User("Quang", "Vo", "vtq3008@gmail.com", encodedPass, encodedPass);
-		emp1.addRole(new Role("EMPLOYEE", emp1));
-		emp1.addRole(new Role("ADMIN", emp1));
-		userRepository.save(emp1);
+		User user3 = new User("Quang", "Vo", "vtq3008@gmail.com", encodedPass, encodedPass);
+		user3.addRole(new Role("EMPLOYEE", user3));
+		user3.addRole(new Role("CUSTOMER", user3));
+		userRepository.save(user3);
 		
-		User user = new User("Andrew", "White", "andrew@gmail.com", encodedPass, encodedPass);
-		user.addRole(new Role("CUSTOMER", user));
-		userRepository.save(user);
+		User user4 = new User("Andrew", "White", "andrew@gmail.com", encodedPass, encodedPass);
+		user4.addRole(new Role("EMPLOYEE", user4));
+		user4.addRole(new Role("CUSTOMER", user4));
+		userRepository.save(user4);
 		
 		// add some fake consignments
 		Consignment cons1 = new Consignment(
@@ -69,9 +70,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			14.5,
 			"USD"
 		);
-		cons1.setUser(admin);
+		cons1.setUser(user1);
 		cons1.setReceived(false);
-		admin.addConsignment(cons1);
+		user1.addConsignment(cons1);
 		consignmentRepository.save(cons1);
 		
 		Consignment cons2 = new Consignment(
@@ -84,9 +85,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			56.5,
 			"USD"
 		);
-		cons2.setUser(admin);
+		cons2.setUser(user1);
 		cons2.setReceived(true);
-		admin.addConsignment(cons2);
+		user1.addConsignment(cons2);
 		consignmentRepository.save(cons2);
 		
 		Consignment cons3 = new Consignment(
@@ -99,9 +100,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			76.5,
 			"USD"
 		);
-		cons3.setUser(user);
+		cons3.setUser(user4);
 		cons3.setReceived(false);
-		user.addConsignment(cons3);
+		user4.addConsignment(cons3);
 		consignmentRepository.save(cons3);
 	}
 	
