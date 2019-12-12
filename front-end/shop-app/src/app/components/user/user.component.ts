@@ -6,6 +6,7 @@ import * as UserActions from '../../actions/user.action';
 import { NgxSpinnerService } from "ngx-spinner";
 import * as actionTypes from '../../actions/types.action';
 import { UserDetailsService } from 'src/app/services/user-details.service';
+import * as AdminActions from '../../actions/admin.action';
 
 @Component({
   selector: 'app-user',
@@ -45,8 +46,10 @@ export class UserComponent implements OnInit {
     })
 
     this.store.pipe(select('user')).subscribe(res => {
+      // message stuff
       this.deleteUser_successMsg = res.deleteUser_successMsg;
       this.deleteUser_errorMsg = res.deleteUser_errorMsg;
+
       this.current_user = res.current_user;
       this.users_list = res.allUsers;
 
@@ -66,12 +69,20 @@ export class UserComponent implements OnInit {
     this.addBtn_show = false;
   }
 
+  cancelAdd() {
+    this.addBtn_show = true;
+  }
+
   onDelete(user) {
     const payload = {
       email: user.email,
       current_user: this.current_user
     }
     this.store.dispatch(UserActions.DELETE_USER({ payload: payload }));
+  }
+
+  addUser(user: any) {
+    this.store.dispatch(AdminActions.ADMIN_ADD_USER({ payload: user }));
   }
 
 }

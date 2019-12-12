@@ -6,6 +6,21 @@ export const ADMIN_DELETE_USER = createAction(
   props<{ payload: any }>()
 )
 
+export const ADMIN_ADD_USER = createAction(
+  actionTypes.ADMIN_ADD_USER,
+  props<{ payload: any }>()
+)
+
+export const ADMIN_ADD_USER_SUCCESS = createAction(
+  actionTypes.ADMIN_ADD_USER_SUCCESS,
+  props<{ payload: any }>()
+)
+
+export const ADMIN_ADD_USER_FAILED = createAction(
+  actionTypes.ADMIN_ADD_USER_FAILED,
+  props<{ payload: any }>()
+)
+
 export const LOAD_EMPLOYEES = createAction(
   actionTypes.LOAD_EMPLOYEES,
   props<{ payload: any }>()

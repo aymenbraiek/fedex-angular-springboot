@@ -73,6 +73,11 @@
       Add
     </button>
 
+    <app-admin-add-user [add_clicked]="!addBtn_show"
+                        (addEvent)="addUser($event)"
+                        (cancelAdd)="cancelAdd($event)">
+    </app-admin-add-user>
+
   </div>
   <app-footer></app-footer>
 </ng-container>

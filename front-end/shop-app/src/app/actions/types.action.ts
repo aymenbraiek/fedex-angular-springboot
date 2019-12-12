@@ -22,9 +22,14 @@ export const EDIT_USER_FAILURE = '[USER] Edit User Failure';
 export const DELETE_USER = '[USER] Delete User';
 export const DELETE_USER_SUCCESS = '[USER] Delete User Success';
 export const DELETE_USER_FAILURE = '[USER] Delete User Failure';
-export const ADMIN_DELETE_USER = '[ADMIN] Delete User';
 export const LOAD_EMPLOYEES = '[EMPLOYEE] Load all employees';
 export const LOAD_EMPLOYEES_SUCCESS = '[EMPLOYEE] Load all employees success';
+
+// ADMIN actions
+export const ADMIN_DELETE_USER = '[ADMIN] Delete User';
+export const ADMIN_ADD_USER = '[ADMIN] Add user';
+export const ADMIN_ADD_USER_SUCCESS = '[ADMIN] Add user success';
+export const ADMIN_ADD_USER_FAILED = '[ADMIN] Add user failed';
 
 // Consignments
 export const LOAD_CONSIGNMENTS = '[CONSIGNMENT] Load all consignments';

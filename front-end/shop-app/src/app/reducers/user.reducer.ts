@@ -35,6 +35,10 @@ export interface UserState {
   // Delete User Message
   deleteUser_successMsg: string;
   deleteUser_errorMsg: string;
+
+  // ADMIN add user message
+  adminAddUser_successMsg: string;
+  adminAddUser_errorMsg: string[];
 }
 
 const initialState = {
@@ -69,6 +73,10 @@ const initialState = {
   // Delete User
   deleteUser_successMsg: null,
   deleteUser_errorMsg: null,
+
+  // ADMIN add user
+  adminAddUser_successMsg: null,
+  adminAddUser_errorMsg: null
 }
 
 const _userReducer = createReducer(initialState,
@@ -235,6 +243,31 @@ const _userReducer = createReducer(initialState,
       ...state,
       allUsers: state.allUsers.filter(user => user.email !== action.payload.email),
       loading: true
+    }
+  }),
+  on(AdminActions.ADMIN_ADD_USER, (state, action) => {
+    return {
+      ...state,
+      loading: true,
+      adminAddUser_successMsg: null,
+      adminAddUser_errorMsg: null
+    }
+  }),
+  on(AdminActions.ADMIN_ADD_USER_SUCCESS, (state, action) => {
+    return {
+      ...state,
+      loading: false,
+      adminAddUser_successMsg: action.payload.success_msg,
+      adminAddUser_errorMsg: null,
+      allUsers: [...state.allUsers, action.payload.newUser]
+    }
+  }),
+  on(AdminActions.ADMIN_ADD_USER_FAILED, (state, action) => {
+    return {
+      ...state,
+      loading: false,
+      adminAddUser_successMsg: null,
+      adminAddUser_errorMsg: action.payload
     }
   })
 );

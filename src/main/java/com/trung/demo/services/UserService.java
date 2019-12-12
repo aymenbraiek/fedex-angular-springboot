@@ -30,10 +30,10 @@ public class UserService {
 	}
 	
 	// check if names and email are valid format
-	public boolean isValid(User user) {
-		boolean isEmailValid = Validator.isValidEmail(user.getEmail());
-		boolean isFirstNameValid = Validator.isValidName(user.getFirstName());
-		boolean isLastNameValid = Validator.isValidName(user.getLastName());
+	public boolean isValid(String firstName, String lastName, String email) {
+		boolean isEmailValid = Validator.isValidEmail(email);
+		boolean isFirstNameValid = Validator.isValidName(firstName);
+		boolean isLastNameValid = Validator.isValidName(lastName);
 		return isEmailValid && isFirstNameValid && isLastNameValid;
 	}
 	
@@ -49,7 +49,7 @@ public class UserService {
 			return false;
 		}
 		
-		if (isValid(newUser)) {
+		if (isValid(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail())) {
 			// if names fields and email are valid format
 			String encodedPassword = new BCryptPasswordEncoder().encode(newUser.getPassword()); 
 			newUser.setPassword(encodedPassword);
@@ -68,7 +68,7 @@ public class UserService {
 			return false;
 		
 		if (oldUserName.equals(updated_user.getEmail())) {
-			if (isValid(updated_user)) {
+			if (isValid(updated_user.getFirstName(), updated_user.getLastName(), updated_user.getEmail())) {
 				foundUser.setFirstName(updated_user.getFirstName());
 				foundUser.setLastName(updated_user.getLastName());
 				userRepo.save(foundUser);
@@ -79,7 +79,7 @@ public class UserService {
 			if (userRepo.existsByEmail(updated_user.getEmail()))
 				return false;
 			
-			if (isValid(updated_user) ) {
+			if (isValid(updated_user.getFirstName(), updated_user.getLastName(), updated_user.getEmail()) ) {
 				foundUser.setFirstName(updated_user.getFirstName());
 				foundUser.setLastName(updated_user.getLastName());
 				foundUser.setEmail(updated_user.getEmail());

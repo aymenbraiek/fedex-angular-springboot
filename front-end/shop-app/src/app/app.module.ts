@@ -24,6 +24,7 @@ import { ConsignmentsComponent } from './components/consignments/consignments.co
 import { AddConsignmentComponent } from './components/add-consignment/add-consignment.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { EmployeesListComponent } from './components/employees-list/employees-list.component';
+import { AdminAddUserComponent } from './components/admin-add-user/admin-add-user.component';
 
 @NgModule({
 	declarations: [
@@ -37,7 +38,8 @@ import { EmployeesListComponent } from './components/employees-list/employees-li
 		ConsignmentsComponent,
 		AddConsignmentComponent,
 		UserDetailsComponent,
-		EmployeesListComponent
+		EmployeesListComponent,
+		AdminAddUserComponent
 	],
 	imports: [
 		BrowserModule,
