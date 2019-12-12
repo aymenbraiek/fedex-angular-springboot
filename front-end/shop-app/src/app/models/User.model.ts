@@ -1,3 +1,5 @@
+import { Consignment } from './Consignment.model';
+
 export interface User {
   firstName: string;
   lastName: string;
@@ -5,4 +7,5 @@ export interface User {
   password: string;
   confirmPassword: string;
   roles: Set<string>;
+  consignments: Set<Consignment>;
 }

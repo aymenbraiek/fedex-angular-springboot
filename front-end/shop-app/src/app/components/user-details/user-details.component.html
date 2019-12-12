@@ -1,0 +1,108 @@
+<ng-container>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)"
+               type="line-scale">
+  </ngx-spinner>
+  <app-navbar active="users"></app-navbar>
+
+  <div class="container mt-5 mb-5">
+    <div *ngIf="user">
+      <div class="media">
+        <p id='nameCircle' class="mr-3">
+          {{ user.firstName[0] }}{{ user.lastName[0] }}
+        </p>
+
+        <div class="media-body">
+          <div class="row">
+            <div class="col-md-8">
+              <h5 class="mt-0 d-flex align-items-center">
+                <span class="mr-3">{{ user.firstName }} {{ user.lastName }}</span>
+                <small *ngFor="let role of user.roles" class="text-muted mr-1">
+                  <span class="badge"
+                        [ngClass]="{
+                          'badge-info': role.role === 'ADMIN',
+                          'badge-success': role.role === 'CUSTOMER',
+                          'badge-warning': role.role === 'EMPLOYEE'
+                        }">
+                    {{ role.role }}
+                  </span>
+                </small>
+              </h5>
+              <span class="text-muted">
+                {{ user.email }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <!-- List of consignments -->
+      <!-- Pending consignments -->
+      <h4 class="text-muted">Pending consignments</h4>
+      <p *ngIf="user.format_consignments.notReceived.length === 0">
+        Currently none...
+      </p>
+
+      <div *ngFor="let sending of user.format_consignments.notReceived">
+        <div class="card text-white bg-secondary mb-3">
+          <div class="card-header">
+            <span class="font-weight-bold">
+              <i class="fas fa-paper-plane">&nbsp;&nbsp;</i>
+              Consignment ID: {{ sending.id }}
+            </span>
+          </div>
+
+          <div class="card-body">
+            <div class="card-text">
+              <p>
+                <i class="fas fa-map-marker-alt">&nbsp;&nbsp;</i>
+                To: {{ sending.street }}, {{ sending.city }}, {{ sending.state }} {{ sending.zipcode }},
+                {{ sending.country }}
+              </p>
+              <p>
+                <i class="fas fa-money-bill-wave">&nbsp;&nbsp;</i>
+                Price: {{sending.price}} {{ sending.currency }}
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <br>
+
+      <!-- Received consignments -->
+      <h4 class="text-muted">Received consignments</h4>
+      <p *ngIf="user.format_consignments.received.length === 0">
+        Currently none...
+      </p>
+
+      <div *ngFor="let received of user.format_consignments.received">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-header">
+            <span class="font-weight-bold">
+              <i class="fas fa-check-circle">&nbsp;&nbsp;</i>
+              Consignment ID: {{ received.id }}
+            </span>
+          </div>
+
+          <div class="card-body">
+            <div class="card-text">
+              <p>
+                <i class="fas fa-map-marker-alt">&nbsp;&nbsp;</i>
+                To: {{ received.street }}, {{ received.city }}, {{ received.state }} {{ received.zipcode }},
+                {{ received.country }}
+              </p>
+              <p>
+                <i class="fas fa-money-bill-wave">&nbsp;&nbsp;</i>
+                Price: {{received.price}} {{ received.currency }}
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</ng-container>

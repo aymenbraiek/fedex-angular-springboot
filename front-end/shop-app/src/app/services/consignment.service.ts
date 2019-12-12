@@ -34,10 +34,11 @@ export class ConsignmentService {
       ...payload,
       user: {
         ...payload.user,
-        roles: user_roles
+        roles: user_roles,
+        consignments: [...payload.user.consignments]
       }
     }
-    console.log(body);
+    // console.log(body);
     return this.http.post<boolean>(url, body, httpOptions);
   }
 

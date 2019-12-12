@@ -114,7 +114,9 @@ const _userReducer = createReducer(initialState,
       current_user: {
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
-        email: action.payload.email
+        email: action.payload.email,
+        roles: new Set(action.payload.data.current_user.roles.map(roleObj => roleObj.role)),
+        consignments: new Set(action.payload.data.current_user.consignments)
       },
       login_successMsg: action.payload.success_msg,
       login_errorMsg: null
@@ -137,14 +139,14 @@ const _userReducer = createReducer(initialState,
   }),
   on(UserActions.SET_CURRENT_USER, (state, action) => {
     if (action.payload !== null && typeof action.payload !== 'undefined') {
-      // console.log(action.payload.roles);
       return {
         ...state,
         current_user: {
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
           email: action.payload.email,
-          roles: new Set(action.payload.roles.map(roleObj => roleObj.role))
+          roles: new Set(action.payload.roles.map(roleObj => roleObj.role)),
+          consignments: new Set(action.payload.consignments)
         }
       }
     }

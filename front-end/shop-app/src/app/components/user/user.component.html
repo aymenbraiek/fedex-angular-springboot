@@ -17,7 +17,7 @@
     </p>
     <!-- End of Success/Error delete user message-->
 
-    <ul *ngFor='let user of users_list' class="list-unstyled list-users">
+    <ul *ngFor='let user of users_list; index as userOrder' class="list-unstyled list-users">
       <li class="media">
         <p id='nameCircle' class="mr-3">
           {{ user.firstName[0] }}{{ user.lastName[0] }}
@@ -27,7 +27,10 @@
           <div class="row">
             <div class="col-md-8">
               <h5 class="mt-0 d-flex align-items-center">
-                <span class="mr-3">{{ user.firstName }} {{ user.lastName }}</span>
+                <a [routerLink]="['/user/details']" (click)="onViewUserDetails(user)"
+                   [title]="'View details'" [style.color]="'black'">
+                  <span class="mr-3">{{ user.firstName }} {{ user.lastName }}</span>
+                </a>
                 <small *ngFor="let role of user.roles" class="text-muted mr-1">
                   <span class="badge"
                         [ngClass]="{
@@ -64,7 +67,7 @@
     </ul>
 
     <button *ngIf="addBtn_show"
-            class="btn btn-dark mr-2"
+            class="btn btn-dark d-block m-auto"
             (click)="onAdd()">
       <i class="fas fa-plus">&nbsp;&nbsp;</i>
       Add

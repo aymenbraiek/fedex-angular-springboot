@@ -25,6 +25,7 @@ export class AuthService {
     const isTokenExpired: boolean = jwtHelper.isTokenExpired(jwtToken);
     if (isTokenExpired) {
       localStorage.removeItem('jwtToken');
+      this.store.dispatch(UserActions.SET_CURRENT_USER({ payload: null }));
       return false;
     }
     const userInfo = jwtHelper.decodeToken(jwtToken);

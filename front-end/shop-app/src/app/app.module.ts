@@ -22,6 +22,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ConsignmentsComponent } from './components/consignments/consignments.component';
 import { AddConsignmentComponent } from './components/add-consignment/add-consignment.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
 
 @NgModule({
 	declarations: [
@@ -33,7 +34,8 @@ import { AddConsignmentComponent } from './components/add-consignment/add-consig
 		DashboardComponent,
 		FooterComponent,
 		ConsignmentsComponent,
-		AddConsignmentComponent
+		AddConsignmentComponent,
+		UserDetailsComponent
 	],
 	imports: [
 		BrowserModule,

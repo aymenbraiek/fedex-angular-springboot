@@ -4,8 +4,8 @@ import { Store, select } from '@ngrx/store';
 import * as rootReducers from '../../reducers/index';
 import * as UserActions from '../../actions/user.action';
 import { NgxSpinnerService } from "ngx-spinner";
-import { Router } from '@angular/router';
 import * as actionTypes from '../../actions/types.action';
+import { UserDetailsService } from 'src/app/services/user-details.service';
 
 @Component({
   selector: 'app-user',
@@ -34,7 +34,7 @@ export class UserComponent implements OnInit {
   constructor(
     private store: Store<rootReducers.AppState>,
     private spinner: NgxSpinnerService,
-    private router: Router
+    private userDetailsService: UserDetailsService
   ) { }
 
   ngOnInit() {
@@ -56,6 +56,10 @@ export class UserComponent implements OnInit {
         this.spinner.hide();
       }
     })
+  }
+
+  onViewUserDetails(user: User) {
+    this.userDetailsService.setViewUser(user);
   }
 
   onAdd() {

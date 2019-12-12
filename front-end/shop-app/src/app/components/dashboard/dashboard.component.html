@@ -34,7 +34,7 @@
 
     <div class="card card-body m-auto">
       <!-- Success/ Error message -->
-      <div *ngIf="editUser_errors && editUser_errors.length > 0 && current_actionType === EDIT_USER_FAILURE"
+      <div *ngIf="editUser_errors && editUser_errors.length > 0"
            class="alert alert-danger">
         Possible errors:
         <ul *ngFor="let error of editUser_errors">
@@ -42,7 +42,7 @@
         </ul>
       </div>
 
-      <p *ngIf="editUser_successMsg && current_actionType === EDIT_USER_SUCCESS"
+      <p *ngIf="editUser_successMsg "
          class="alert alert-success">
         {{ editUser_successMsg }}
       </p>
