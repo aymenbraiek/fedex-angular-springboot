@@ -41,8 +41,13 @@ public class User {
 	)
 	private Set<Role> roles = new HashSet<>();
 	
+	// owned consignments
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=Consignment.class)
 	private Set<Consignment> consignments = new HashSet<>();
+	
+	// assigned consignments
+	@OneToMany(mappedBy = "assignedEmployee", fetch = FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=Consignment.class)
+	private Set<Consignment> assignedConsignments = new HashSet<>();
 		
 	public void addRole(Role role) {
 		roles.add(role);
@@ -58,6 +63,14 @@ public class User {
 	
 	public void removeConsignment(Consignment consignment) {
 		consignments.remove(consignment);
+	}
+	
+	public void assignConsignment(Consignment consignment) {
+		assignedConsignments.add(consignment);
+	}
+	
+	public void unassignConsignment(Consignment consignment) {
+		assignedConsignments.remove(consignment);
 	}
 	
 	public User () {
@@ -126,6 +139,14 @@ public class User {
 
 	public void setConsignments(Set<Consignment> consignments) {
 		this.consignments = consignments;
+	}
+
+	public Set<Consignment> getAssignedConsignments() {
+		return assignedConsignments;
+	}
+
+	public void setAssignedConsignments(Set<Consignment> assignedConsignments) {
+		this.assignedConsignments = assignedConsignments;
 	}
 	
 	

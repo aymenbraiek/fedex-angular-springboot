@@ -44,8 +44,12 @@ public class Consignment {
 	private String currency;
 	
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity=User.class)
-	@JoinColumn(name="email", nullable=false)
+	@JoinColumn(name="owner_email", nullable=false)
 	private User user;
+	
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity=User.class)
+	@JoinColumn(name="assignedEmployee_email", nullable=true)
+	private User assignedEmployee;
 	
 	@Column(name = "received")
 	@Type(type = "org.hibernate.type.NumericBooleanType")
@@ -162,6 +166,10 @@ public class Consignment {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public void setAssignedEmployee(User assignedEmployee) {
+		this.assignedEmployee = assignedEmployee;
 	}
 
 
