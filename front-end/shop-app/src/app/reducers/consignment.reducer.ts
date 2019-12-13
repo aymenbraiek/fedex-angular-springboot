@@ -1,10 +1,13 @@
 import { Consignment } from "../models/Consignment.model";
 import { createReducer, on } from "@ngrx/store";
 import * as ConsignmentActions from '../actions/consignment.action';
+import { User } from '../models/User.model';
 
 export interface ConsignmentState {
   consignments: {
-    notReceived: Consignment[], received: Consignment[]
+    notReceived: Consignment[],
+    received: Consignment[],
+    user: User
   };
   loading: boolean;
 
@@ -20,7 +23,8 @@ export interface ConsignmentState {
 const initialState = {
   consignments: {
     notReceived: [],
-    received: []
+    received: [],
+    user: null
   },
   loading: false,
 
@@ -75,7 +79,8 @@ const _consignmentReducer = createReducer(initialState,
       addConsignment_errorMsg: null,
       consignments: {
         ...state.consignments,
-        notReceived: [{ ...action.payload.data, received: false }, ...state.consignments['notReceived']]
+        notReceived: [{ ...action.payload.consignment, received: false }, ...state.consignments['notReceived']],
+        user: action.payload.user
       }
     }
   }),

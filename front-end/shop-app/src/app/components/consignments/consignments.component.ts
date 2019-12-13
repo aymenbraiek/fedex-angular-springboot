@@ -15,7 +15,8 @@ export class ConsignmentsComponent implements OnInit {
   current_user: User;
   consignments: {
     notReceived: Consignment[],
-    received: Consignment[]
+    received: Consignment[],
+    user: User
   };
   addBtn_show: boolean = true;
 
@@ -28,7 +29,13 @@ export class ConsignmentsComponent implements OnInit {
     this.store.pipe(select('user')).subscribe(res => {
       this.current_user = res.current_user;
       if (res.current_user) {
-        this.store.dispatch(ConsignmentActions.LOAD_CONSIGNMENTS({ payload: res.current_user.email }));
+        this.store.dispatch(ConsignmentActions.LOAD_CONSIGNMENTS({
+          payload: {
+            email: res.current_user.email,
+            firstName: res.current_user.firstName,
+            lastName: res.current_user.lastName
+          }
+        }));
       }
     })
 

@@ -37,7 +37,7 @@
       <br>
       <!-- List of consignments -->
       <!-- Pending consignments -->
-      <h4 class="text-muted">Pending consignments</h4>
+      <h4 class="text-muted">Pending consignments:</h4>
       <p *ngIf="format_consignments.notReceived.length === 0">
         Currently none...
       </p>
@@ -53,6 +53,8 @@
 
           <div class="card-body">
             <div class="card-text">
+              <p> Name: {{ user.firstName }} {{ user.lastName}} </p>
+              <p> Email: {{ user.email }}</p>
               <p>
                 <i class="fas fa-map-marker-alt">&nbsp;&nbsp;</i>
                 To: {{ sending.street }}, {{ sending.city }}, {{ sending.state }} {{ sending.zipcode }},
@@ -74,7 +76,7 @@
       <br>
 
       <!-- Received consignments -->
-      <h4 class="text-muted">Received consignments</h4>
+      <h4 class="text-muted">Received consignments:</h4>
       <p *ngIf="format_consignments.received.length === 0">
         Currently none...
       </p>
@@ -90,6 +92,8 @@
 
           <div class="card-body">
             <div class="card-text">
+              <p> Name: {{ user.firstName }} {{ user.lastName}} </p>
+              <p> Email: {{ user.email }}</p>
               <p>
                 <i class="fas fa-map-marker-alt">&nbsp;&nbsp;</i>
                 To: {{ received.street }}, {{ received.city }}, {{ received.state }} {{ received.zipcode }},

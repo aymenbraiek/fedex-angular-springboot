@@ -19,15 +19,17 @@ export class ConsignmentEffects {
     this.actions$.pipe(
       ofType(ConsignmentActions.LOAD_CONSIGNMENTS),
       mergeMap((data) => {
-        return this.consignmentService.getAllConsignments(data.payload).pipe(
+        // console.log(data)
+        return this.consignmentService.getAllConsignments(data.payload.email).pipe(
           // tap(consignments => console.log(consignments)),
           switchMap(consignments => [
             ConsignmentActions.LOAD_CONSIGNMENTS_SUCCESS({
-              payload:
-                { consignments: consignments, success_msg: null }
+              payload: {
+                consignments: { ...consignments, user: data.payload },
+                success_msg: null
+              }
             }),
             TypeActions.SET_TYPE({ actionType: actionTypes.LOAD_CONSIGNMENTS_SUCCESS })
-
           ]),
           catchError(errs => {
             return of(
@@ -50,8 +52,11 @@ export class ConsignmentEffects {
           // tap(res => console.log(res)),
           switchMap(() => [
             ConsignmentActions.ADD_CONSIGNMENT_SUCCESS({
-              payload:
-                { data: data.payload.consignment, success_msg: 'Your consignment has been sent' }
+              payload: {
+                user: data.payload.user,
+                consignment: data.payload.consignment,
+                success_msg: 'Your consignment has been sent'
+              }
             }),
             TypeActions.SET_TYPE({ actionType: actionTypes.ADD_CONSIGNMENT_SUCCESS })
           ]),
