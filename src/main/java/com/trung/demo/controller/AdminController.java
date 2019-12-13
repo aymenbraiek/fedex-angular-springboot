@@ -47,4 +47,13 @@ public class AdminController {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
 	}
+	
+	@RequestMapping(value = "admin/unassign", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<?> adminUnassignEmployee(@RequestBody AssignConsignment payload) {
+		UserConsignment res = adminService.unassignConsignment(payload);
+		if (res != null) {
+			return ResponseEntity.ok(res);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+	}
 }

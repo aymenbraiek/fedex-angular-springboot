@@ -68,4 +68,13 @@ export class AdminEffects {
     )
   )
 
+  unassignEmployee = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AdminActions.ADMIN_UNASSIGN_EMPLOYEE),
+      mergeMap(data => this.adminService.unassignEmployee(data.payload.employeeEmail, data.payload.assigned_consignment)),
+      switchMap(() => this.adminService.loadAllEmployees()),
+      switchMap(employees => [AdminActions.LOAD_EMPLOYEES_SUCCESS({ payload: employees })])
+    )
+  )
+
 }

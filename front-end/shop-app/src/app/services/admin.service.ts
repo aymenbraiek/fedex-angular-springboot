@@ -41,4 +41,17 @@ export class AdminService {
     return this.http.post<{ user: User, consignment: Consignment }>(url, body, httpOptions);
   }
 
+  unassignEmployee(email: string, assigned_consignment: Consignment): Observable<{
+    user: User,
+    consignment: Consignment
+  }> {
+    const url = `${this.serverAPI_URL}/admin/unassign`;
+    const httpOptions = this.httpService.getHttpHeader();
+    const body = {
+      userEmail: email,
+      consignment: assigned_consignment
+    }
+    return this.http.post<{ user: User, consignment: Consignment }>(url, body, httpOptions);
+  }
+
 }
