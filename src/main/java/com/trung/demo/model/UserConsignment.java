@@ -1,12 +1,12 @@
 package com.trung.demo.model;
 
-public class AddConsignment {
+public class UserConsignment {
 	private User user;
 	private Consignment consignment;
 	
-	public AddConsignment() {}
+	public UserConsignment() {}
 
-	public AddConsignment(User user, Consignment consignment) {
+	public UserConsignment(User user, Consignment consignment) {
 		super();
 		this.user = user;
 		this.consignment = consignment;

@@ -30,6 +30,12 @@ export const ADMIN_DELETE_USER = '[ADMIN] Delete User';
 export const ADMIN_ADD_USER = '[ADMIN] Add user';
 export const ADMIN_ADD_USER_SUCCESS = '[ADMIN] Add user success';
 export const ADMIN_ADD_USER_FAILED = '[ADMIN] Add user failed';
+export const ADMIN_ASSIGN_EMPLOYEE = '[ADMIN] Assign consignment to employee';
+export const ADMIN_ASSIGN_EMPLOYEE_SUCCESS = '[ADMIN] Assign consignment success';
+export const ADMIN_ASSIGN_EMPLOYEE_FAILED = '[ADMIN] Assign consignment failed';
+export const ADMIN_UNASSIGN_EMPLOYEE = '[ADMIN] Unassign consignment to employee';
+export const ADMIN_UNASSIGN_EMPLOYEE_SUCCESS = '[ADMIN] Unassign consignment success';
+export const ADMIN_UNASSIGN_EMPLOYEE_FAILED = '[ADMIN] Unassign consignment failed';
 
 // Consignments
 export const LOAD_CONSIGNMENTS = '[CONSIGNMENT] Load all consignments';

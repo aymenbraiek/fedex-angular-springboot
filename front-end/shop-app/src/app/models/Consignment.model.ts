@@ -11,5 +11,6 @@ export interface Consignment {
   price: number;
   currency: string;
   user: User;
+  assignedEmployee: User;
   received: boolean;
 }

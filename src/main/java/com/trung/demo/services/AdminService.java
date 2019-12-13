@@ -1,12 +1,20 @@
 package com.trung.demo.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.trung.demo.model.AdminAddUserRequest;
+import com.trung.demo.model.AssignConsignment;
+import com.trung.demo.model.Consignment;
 import com.trung.demo.model.Role;
 import com.trung.demo.model.User;
+import com.trung.demo.model.UserConsignment;
+import com.trung.demo.repository.ConsignmentRepository;
 import com.trung.demo.repository.UserRepository;
 
 @Service
@@ -14,6 +22,9 @@ public class AdminService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ConsignmentRepository consignmentRepository;
 	
 	@Autowired
 	private UserService userService;
@@ -39,5 +50,34 @@ public class AdminService {
 	public String generateBcryptPassword() {
 		String encodedPass = new BCryptPasswordEncoder().encode("pass");
 		return encodedPass;
+	}
+	
+	public UserConsignment assignConsignment(AssignConsignment payload) {
+		User foundUser = userRepository.findByEmail(payload.getUserEmail());
+		if (foundUser != null) {
+			Consignment consignment = payload.getConsignment();
+			Consignment foundConsignment = consignmentRepository.findById(consignment.getId());
+			
+			foundConsignment.setAssignedEmployee(foundUser);
+			foundUser.assignConsignment(foundConsignment);
+			consignmentRepository.save(foundConsignment);
+			return new UserConsignment(foundUser, foundConsignment);
+		}
+		return null;
+	}
+	
+	public List<User> loadAllEmployees() {
+		List<User> users = (List<User>) userRepository.findAll();
+		List<User> employees = new ArrayList<>();
+		
+		for (User user:users) {
+			Set<Role> roles = user.getRoles();
+			for (Role role: roles) {
+				if (role.getRole().equals("EMPLOYEE")) {
+					employees.add(user);
+				}
+			}
+		}
+		return employees;
 	}
 }

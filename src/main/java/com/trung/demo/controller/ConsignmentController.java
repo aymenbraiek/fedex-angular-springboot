@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.trung.demo.model.AddConsignment;
+import com.trung.demo.model.UserConsignment;
 import com.trung.demo.services.ConsignmentService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -34,7 +34,7 @@ public class ConsignmentController {
 	}
 	
 	@RequestMapping(value="/consignments/add", method=RequestMethod.POST)
-	public ResponseEntity<?> addConsignment(@RequestBody AddConsignment payload) {
+	public ResponseEntity<?> userConsignment(@RequestBody UserConsignment payload) {
 		boolean valid = consignmentService.addConsignment(payload.getUser(), payload.getConsignment());
 		if (valid) {
 			return ResponseEntity.ok(valid);

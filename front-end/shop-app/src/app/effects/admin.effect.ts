@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AdminActions from '../actions/admin.action';
-import { switchMap, catchError, mergeMap } from 'rxjs/operators';
+import { switchMap, catchError, mergeMap, tap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as rootReducers from '../reducers/index';
 import { Store } from '@ngrx/store';
@@ -20,22 +20,8 @@ export class AdminEffects {
   loadEmployees = createEffect(() =>
     this.actions$.pipe(
       ofType(AdminActions.LOAD_EMPLOYEES),
-      switchMap(allUsers => {
-        // console.log(allUsers)
-        const employees = [];
-
-        allUsers.payload.forEach(user => {
-          user.roles.forEach(roleObj => {
-            if (roleObj.role === 'EMPLOYEE') {
-              employees.push(user);
-            }
-          })
-        })
-        // console.log(employees);
-        return [
-          AdminActions.LOAD_EMPLOYEES_SUCCESS({ payload: employees })
-        ]
-      })
+      switchMap(() => this.adminService.loadAllEmployees()),
+      switchMap(employees => [AdminActions.LOAD_EMPLOYEES_SUCCESS({ payload: employees })])
     )
   )
 
@@ -71,4 +57,15 @@ export class AdminEffects {
       })
     )
   )
+
+  assignEmployee = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AdminActions.ADMIN_ASSIGN_EMPLOYEE),
+      // tap(data => console.log(data.payload)),
+      mergeMap(data => this.adminService.assignEmployee(data.payload.employeeEmail, data.payload.assigned_consignment)),
+      switchMap(() => this.adminService.loadAllEmployees()),
+      switchMap(employees => [AdminActions.LOAD_EMPLOYEES_SUCCESS({ payload: employees })])
+    )
+  )
+
 }

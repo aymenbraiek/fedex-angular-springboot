@@ -8,4 +8,5 @@ export interface User {
   confirmPassword: string;
   roles: Set<string>;
   consignments: Set<Consignment>;
+  assignedConsignments: Set<Consignment>;
 }
