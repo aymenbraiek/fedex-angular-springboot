@@ -22,15 +22,18 @@ export class ConsignmentEffects {
         // console.log(data)
         return this.consignmentService.getAllConsignments(data.payload.email).pipe(
           // tap(consignments => console.log(consignments)),
-          switchMap(consignments => [
-            ConsignmentActions.LOAD_CONSIGNMENTS_SUCCESS({
-              payload: {
-                consignments: { ...consignments, user: data.payload },
-                success_msg: null
-              }
-            }),
-            TypeActions.SET_TYPE({ actionType: actionTypes.LOAD_CONSIGNMENTS_SUCCESS })
-          ]),
+          switchMap(consignments => {
+            // console.log(consignments);
+            return [
+              ConsignmentActions.LOAD_CONSIGNMENTS_SUCCESS({
+                payload: {
+                  consignments: { ...consignments, user: data.payload },
+                  success_msg: null
+                }
+              }),
+              TypeActions.SET_TYPE({ actionType: actionTypes.LOAD_CONSIGNMENTS_SUCCESS })
+            ]
+          }),
           catchError(errs => {
             return of(
               ConsignmentActions.LOAD_CONSIGNMENTS_FAILURE({ payload: 'Error occurred while loading consignments' }),
@@ -70,4 +73,16 @@ export class ConsignmentEffects {
       })
     )
   )
+
+  deliverConsignment = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConsignmentActions.DELIVER_CONSIGNMENT),
+      mergeMap(data => this.consignmentService.deliverConsignment(data.payload)),
+      switchMap(res => [ConsignmentActions.DELIVER_CONSIGNMENT_SUCCESS({ payload: res })]),
+      catchError(errs => {
+        return of(ConsignmentActions.DELIVER_CONSIGNMENT_FAILED())
+      })
+    )
+  )
+
 }

@@ -53,6 +53,7 @@
 
           <div class="card-body">
             <div class="card-text">
+              <h4>{{ sending.description }}</h4>
               <p> Name: {{ user.firstName }} {{ user.lastName}} </p>
               <p> Email: {{ user.email }}</p>
               <p>
@@ -94,6 +95,7 @@
 
           <div class="card-body">
             <div class="card-text">
+              <h4>{{ received.description }}</h4>
               <p> Name: {{ user.firstName }} {{ user.lastName}} </p>
               <p> Email: {{ user.email }}</p>
               <p>
@@ -122,15 +124,15 @@
         <div class="card text-muted bg-light mb-3">
           <div class="card-header">
             <span class="font-weight-bold">
-              <i class="fas fa-people-carry">&nbsp;&nbsp;</i>
+              <i class="fas fa-truck">&nbsp;&nbsp;</i>
               Consignment ID: {{ assigned.id }}
             </span>
           </div>
 
           <div class="card-body">
             <div class="card-text">
+              <h4> {{ assigned.description }}</h4>
               <p> Recipient name: {{ assigned.ownerName }} </p>
-
               <p>
                 <i class="fas fa-map-marker-alt">&nbsp;&nbsp;</i>
                 To: {{ assigned.street }}, {{ assigned.city }}, {{ assigned.state }} {{ assigned.zipcode }},
@@ -141,6 +143,14 @@
                 Price: {{assigned.price}} {{ assigned.currency }}
               </p>
             </div>
+            <p *ngIf="assigned.received" class="text-success">
+              <i class="fas fa-check">&nbsp;&nbsp;</i>
+              Delivered
+            </p>
+            <p *ngIf="!assigned.received" class="text-warning">
+              <i class="fas fa-exclamation">&nbsp;&nbsp;</i>
+              Pending
+            </p>
           </div>
 
         </div>

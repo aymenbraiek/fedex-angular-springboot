@@ -16,10 +16,10 @@ export class ConsignmentService {
     private httpService: HttpService
   ) { }
 
-  getAllConsignments(email: string): Observable<{ notReceived: Consignment[], received: Consignment[] }> {
+  getAllConsignments(email: string): Observable<{ notReceived: Consignment[], received: Consignment[], assigned: Consignment[] }> {
     const url = `${this.serverAPI_URL}/consignments/all`;
     const httpOptions = this.httpService.getHttpHeader();
-    return this.http.post<{ notReceived: Consignment[], received: Consignment[] }>(url, email, httpOptions);
+    return this.http.post<{ notReceived: Consignment[], received: Consignment[], assigned: Consignment[] }>(url, email, httpOptions);
   }
 
   addConsignment(payload: {
@@ -40,6 +40,26 @@ export class ConsignmentService {
     }
     // console.log(body);
     return this.http.post<boolean>(url, body, httpOptions);
+  }
+
+  deliverConsignment(payload: {
+    assigned_consignment: Consignment
+    employee: User
+  }): Observable<{ user: User, consignment: Consignment }> {
+    const user_roles = [];
+    [...payload.employee.roles].forEach(role => user_roles.push({ role: role }));
+
+    const body = {
+      user: {
+        ...payload.employee,
+        roles: user_roles,
+        consignments: [...payload.employee.consignments]
+      },
+      consignment: payload.assigned_consignment
+    }
+    const url = `${this.serverAPI_URL}/consignments/deliver`;
+    const httpOptions = this.httpService.getHttpHeader();
+    return this.http.post<{ user: User, consignment: Consignment }>(url, body, httpOptions);
   }
 
 }

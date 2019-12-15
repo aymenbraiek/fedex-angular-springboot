@@ -16,6 +16,7 @@ export class ConsignmentsComponent implements OnInit {
   consignments: {
     notReceived: Consignment[],
     received: Consignment[],
+    assigned: Consignment[],
     user: User
   };
   addBtn_show: boolean = true;
@@ -40,7 +41,7 @@ export class ConsignmentsComponent implements OnInit {
     })
 
     this.store.pipe(select('consignment')).subscribe(res => {
-      // console.log(res.consignments);
+      console.log(res.consignments);
       this.consignments = res.consignments;
 
       if (res.loading) {
@@ -57,6 +58,15 @@ export class ConsignmentsComponent implements OnInit {
       consignment: consignment
     }
     this.store.dispatch(ConsignmentActions.ADD_CONSIGNMENT({ payload: payload }));
+  }
+
+  onDeliver(assigned_consignment: Consignment) {
+    this.store.dispatch(ConsignmentActions.DELIVER_CONSIGNMENT({
+      payload: {
+        assigned_consignment: assigned_consignment,
+        employee: this.current_user
+      }
+    }))
   }
 
   onAddBtnClick() {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.trung.demo.model.Consignment;
 import com.trung.demo.model.User;
+import com.trung.demo.model.UserConsignment;
 import com.trung.demo.repository.ConsignmentRepository;
 
 @Service
@@ -38,6 +39,7 @@ public class ConsignmentService {
 			else
 				map.get("notReceived").add(cons);
 		}
+		map.put("assigned", user.getAssignedConsignments());
 		return map;
 	}
 	
@@ -88,5 +90,18 @@ public class ConsignmentService {
 			return true;
 		}
 		return false;
+	}
+	
+	public UserConsignment deliverConsignment(User employee, Consignment assignedConsignment) {
+		User foundEmployee = userService.getUser(employee.getEmail());
+		Consignment foundConsignment = consignmentRepository.findById(assignedConsignment.getId());
+		
+		if (foundEmployee == null || foundConsignment == null)
+			return null;
+		
+		foundConsignment.setReceived(true);
+		consignmentRepository.save(foundConsignment);
+		return new UserConsignment(foundEmployee, foundConsignment);
+		
 	}
 }

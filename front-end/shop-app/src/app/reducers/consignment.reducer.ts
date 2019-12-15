@@ -7,6 +7,7 @@ export interface ConsignmentState {
   consignments: {
     notReceived: Consignment[],
     received: Consignment[],
+    assigned: Consignment[],
     user: User
   };
   loading: boolean;
@@ -24,6 +25,7 @@ const initialState = {
   consignments: {
     notReceived: [],
     received: [],
+    assigned: [],
     user: null
   },
   loading: false,
@@ -92,6 +94,32 @@ const _consignmentReducer = createReducer(initialState,
       addConsignment_errorMsg: action.payload
     }
   }),
+  on(ConsignmentActions.DELIVER_CONSIGNMENT, (state, action) => {
+    return {
+      ...state,
+      loading: true
+    }
+  }),
+  on(ConsignmentActions.DELIVER_CONSIGNMENT_SUCCESS, (state, action) => {
+    const index = [...state.consignments.assigned].findIndex(assigned => assigned.id === action.payload.consignment.id);
+    const assigned = [...state.consignments.assigned.slice(0, index), { ...action.payload.consignment }, ...state.consignments.assigned.slice(index + 1)];
+
+    return {
+      ...state,
+      loading: false,
+      consignments: {
+        ...state.consignments,
+        assigned: assigned,
+        user: action.payload.user
+      }
+    }
+  }),
+  on(ConsignmentActions.DELIVER_CONSIGNMENT_FAILED, (state, action) => {
+    return {
+      ...state,
+      loading: false
+    }
+  })
 )
 
 export function consignmentReducer(state, action) {

@@ -34,11 +34,20 @@ public class ConsignmentController {
 	}
 	
 	@RequestMapping(value="/consignments/add", method=RequestMethod.POST)
-	public ResponseEntity<?> userConsignment(@RequestBody UserConsignment payload) {
+	public ResponseEntity<?> addConsignment(@RequestBody UserConsignment payload) {
 		boolean valid = consignmentService.addConsignment(payload.getUser(), payload.getConsignment());
 		if (valid) {
 			return ResponseEntity.ok(valid);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(valid);
+	}
+	
+	@RequestMapping(value="/consignments/deliver", method=RequestMethod.POST)
+	public ResponseEntity<?> deliverConsignment(@RequestBody UserConsignment payload) {
+		UserConsignment res = consignmentService.deliverConsignment(payload.getUser(), payload.getConsignment());
+		if (res != null) {
+			return ResponseEntity.ok(res);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
 	}
 }

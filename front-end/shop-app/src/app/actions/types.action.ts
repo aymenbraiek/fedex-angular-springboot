@@ -44,6 +44,10 @@ export const LOAD_CONSIGNMENTS_FAILURE = '[CONSIGNMENT] Load all consignments fa
 export const ADD_CONSIGNMENT = '[CONSIGNMENT] Add';
 export const ADD_CONSIGNMENT_SUCCESS = '[CONSIGNMENT] Add success';
 export const ADD_CONSIGNMENT_FAILURE = '[CONSIGNMENT] Add failure';
+export const DELIVER_CONSIGNMENT = '[CONSIGNMENT] Deliver';
+export const DELIVER_CONSIGNMENT_SUCCESS = '[CONSIGNMENT] Deliver success';
+export const DELIVER_CONSIGNMENT_FAILED = '[CONSIGNMENT] Deliver failed';
+
 
 // Action Type
 export const SET_TYPE = '[TYPE] Set type';
