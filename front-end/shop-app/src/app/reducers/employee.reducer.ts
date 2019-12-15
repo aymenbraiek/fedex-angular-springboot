@@ -21,6 +21,7 @@ const _employeeReducer = createReducer(initialstate,
     }
   }),
   on(AdminActions.LOAD_EMPLOYEES_SUCCESS, (state, action) => {
+    // console.log(action.payload)
     return {
       ...state,
       loading: false,

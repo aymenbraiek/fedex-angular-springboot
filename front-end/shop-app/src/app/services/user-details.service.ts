@@ -9,13 +9,15 @@ export class UserDetailsService {
   viewUser: User;
   format_consignments: {
     notReceived: Consignment[],
-    received: Consignment[]
+    received: Consignment[],
+    assignedConsignments: Consignment[]
   };
   format_roles: Set<string>;
 
   constructor() { }
 
   setViewUser(user: User) {
+    // console.log(user);
     this.format_roles = this.formatRoles(user);
     const format_consignments = this.constructConsignments(user);
     this.viewUser = user;
@@ -31,7 +33,8 @@ export class UserDetailsService {
   constructConsignments(user: User) {
     const map = {
       notReceived: [],
-      received: []
+      received: [],
+      assignedConsignments: [...user.assignedConsignments]
     };
 
     user.consignments.forEach(consignment => {

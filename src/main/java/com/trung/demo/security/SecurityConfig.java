@@ -71,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"USD"
 		);
 		cons1.setUser(user1);
+		cons1.setOwnerName(user1.getFirstName() + " " + user1.getLastName());
 		cons1.setReceived(false);
 		user1.addConsignment(cons1);
 		consignmentRepository.save(cons1);
@@ -86,6 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"USD"
 		);
 		cons2.setUser(user1);
+		cons2.setOwnerName(user1.getFirstName() + " " + user1.getLastName());
 		cons2.setReceived(true);
 		user1.addConsignment(cons2);
 		consignmentRepository.save(cons2);
@@ -100,10 +102,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			76.5,
 			"USD"
 		);
-		cons3.setUser(user4);
 		cons3.setReceived(false);
+		cons3.setUser(user4);
+		cons3.setOwnerName(user4.getFirstName() + " " + user4.getLastName());
+		cons3.setAssignedEmployee(user3);
+		cons3.setAssignedUserName(user3.getFirstName() + " " + user3.getLastName());
+		user3.assignConsignment(cons3);
 		user4.addConsignment(cons3);
 		consignmentRepository.save(cons3);
+
 	}
 	
 	

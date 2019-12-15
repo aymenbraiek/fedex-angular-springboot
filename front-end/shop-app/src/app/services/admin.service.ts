@@ -28,7 +28,7 @@ export class AdminService {
     return this.http.get<User[]>(url, httpOptions);
   }
 
-  assignEmployee(email: string, assigned_consignment: Consignment): Observable<{
+  assignEmployee(email: string, assigned_consignment: Consignment, owner_name: string, owner_email: string): Observable<{
     user: User,
     consignment: Consignment
   }> {
@@ -36,12 +36,14 @@ export class AdminService {
     const httpOptions = this.httpService.getHttpHeader();
     const body = {
       userEmail: email,
-      consignment: assigned_consignment
+      consignment: assigned_consignment,
+      ownerName: owner_name,
+      ownerEmail: owner_email
     }
     return this.http.post<{ user: User, consignment: Consignment }>(url, body, httpOptions);
   }
 
-  unassignEmployee(email: string, assigned_consignment: Consignment): Observable<{
+  unassignEmployee(email: string, assigned_consignment: Consignment, owner_name: string, owner_email: string): Observable<{
     user: User,
     consignment: Consignment
   }> {
@@ -49,8 +51,11 @@ export class AdminService {
     const httpOptions = this.httpService.getHttpHeader();
     const body = {
       userEmail: email,
-      consignment: assigned_consignment
+      consignment: assigned_consignment,
+      ownerName: owner_name,
+      ownerEmail: owner_email
     }
+    console.log(body)
     return this.http.post<{ user: User, consignment: Consignment }>(url, body, httpOptions);
   }
 

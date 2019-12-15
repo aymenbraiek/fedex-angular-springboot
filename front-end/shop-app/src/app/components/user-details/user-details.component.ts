@@ -12,7 +12,8 @@ export class UserDetailsComponent implements OnInit {
   user: User;
   format_consignments: {
     notReceived: Consignment[],
-    received: Consignment[]
+    received: Consignment[],
+    assignedConsignments: Consignment[]
   };
   format_roles: Set<string>;
 
@@ -24,7 +25,9 @@ export class UserDetailsComponent implements OnInit {
     this.user = this.userDetailsService.viewUser;
     this.format_roles = this.userDetailsService.format_roles;
     this.format_consignments = this.userDetailsService.format_consignments;
-    // console.log(this.format_roles)
+    if (this.format_consignments) {
+      console.log(this.format_consignments.assignedConsignments)
+    }
   }
 
 }

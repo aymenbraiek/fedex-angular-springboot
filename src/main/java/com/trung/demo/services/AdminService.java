@@ -61,6 +61,7 @@ public class AdminService {
 				if (consignment.getId() == payload.getConsignment().getId()) {
 					employee.unassignConsignment(consignment);
 					consignment.setAssignedEmployee(null);
+					consignment.setAssignedUserName(null);
 					consignmentRepository.save(consignment);
 					break;
 				}
@@ -73,6 +74,7 @@ public class AdminService {
 			Consignment foundConsignment = consignmentRepository.findById(consignment.getId());
 			
 			foundConsignment.setAssignedEmployee(foundUser);
+			foundConsignment.setAssignedUserName(foundUser.getFirstName() + " " + foundUser.getLastName());
 			foundUser.assignConsignment(foundConsignment);
 			consignmentRepository.save(foundConsignment);
 			return new UserConsignment(foundUser, foundConsignment);
@@ -83,11 +85,15 @@ public class AdminService {
 	public UserConsignment unassignConsignment(AssignConsignment payload) {
 		User foundUser = userRepository.findByEmail(payload.getUserEmail());
 		if (foundUser != null) {
+			System.out.println("Found user " + foundUser.getFirstName());
 			Consignment consignment = payload.getConsignment();
 			Consignment foundConsignment = consignmentRepository.findById(consignment.getId());
 			
 			foundConsignment.setAssignedEmployee(null);
+			foundConsignment.setAssignedUserName(null);
+			
 			foundUser.unassignConsignment(foundConsignment);
+			System.out.println("HERE....");
 			consignmentRepository.save(foundConsignment);
 			return new UserConsignment(foundUser, foundConsignment);
 		}

@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 
@@ -19,19 +23,24 @@ import javax.persistence.JoinTable;
 public class User {
 	
 	@Column(name = "firstName")
+	@Getter @Setter
 	private String firstName;
 	
 	@Column(name = "lastName")
+	@Getter @Setter
 	private String lastName;
 	
 	@Id
 	@Column(name = "email")
+	@Getter @Setter
 	private String email;
 	
 	@Column(name = "password")
+	@Getter @Setter
 	private String password;
 	
 	@Column(name = "confirmPassword")
+	@Getter @Setter
 	private String confirmPassword;
 	
 	@ManyToMany(targetEntity=Role.class, cascade=CascadeType.ALL, fetch = FetchType.EAGER)
@@ -39,14 +48,17 @@ public class User {
 		joinColumns= {@JoinColumn(name="email")}, 
 		inverseJoinColumns={@JoinColumn(name="role")}
 	)
+	@Getter @Setter
 	private Set<Role> roles = new HashSet<>();
 	
 	// owned consignments
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=Consignment.class)
+	@Getter @Setter
 	private Set<Consignment> consignments = new HashSet<>();
 	
 	// assigned consignments
-	@OneToMany(mappedBy = "assignedEmployee", fetch = FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=Consignment.class)
+	@OneToMany(mappedBy = "assignedEmployee", fetch = FetchType.EAGER, targetEntity=Consignment.class)
+	@Getter @Setter
 	private Set<Consignment> assignedConsignments = new HashSet<>();
 		
 	public void addRole(Role role) {
@@ -83,70 +95,6 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
-	
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	public Set<Consignment> getConsignments() {
-		return consignments;
-	}
-
-	public void setConsignments(Set<Consignment> consignments) {
-		this.consignments = consignments;
-	}
-
-	public Set<Consignment> getAssignedConsignments() {
-		return assignedConsignments;
-	}
-
-	public void setAssignedConsignments(Set<Consignment> assignedConsignments) {
-		this.assignedConsignments = assignedConsignments;
 	}
 	
 	

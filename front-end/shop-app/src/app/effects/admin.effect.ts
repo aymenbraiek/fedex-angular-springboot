@@ -62,7 +62,12 @@ export class AdminEffects {
     this.actions$.pipe(
       ofType(AdminActions.ADMIN_ASSIGN_EMPLOYEE),
       // tap(data => console.log(data.payload)),
-      mergeMap(data => this.adminService.assignEmployee(data.payload.employeeEmail, data.payload.assigned_consignment)),
+      mergeMap(data => this.adminService.assignEmployee(
+        data.payload.employeeEmail,
+        data.payload.assigned_consignment,
+        data.payload.owner_name,
+        data.payload.owner_email
+      )),
       switchMap(() => this.adminService.loadAllEmployees()),
       switchMap(employees => [AdminActions.LOAD_EMPLOYEES_SUCCESS({ payload: employees })])
     )
@@ -71,7 +76,12 @@ export class AdminEffects {
   unassignEmployee = createEffect(() =>
     this.actions$.pipe(
       ofType(AdminActions.ADMIN_UNASSIGN_EMPLOYEE),
-      mergeMap(data => this.adminService.unassignEmployee(data.payload.employeeEmail, data.payload.assigned_consignment)),
+      mergeMap(data => this.adminService.unassignEmployee(
+        data.payload.employeeEmail,
+        data.payload.assigned_consignment,
+        data.payload.owner_name,
+        data.payload.owner_email
+      )),
       switchMap(() => this.adminService.loadAllEmployees()),
       switchMap(employees => [AdminActions.LOAD_EMPLOYEES_SUCCESS({ payload: employees })])
     )

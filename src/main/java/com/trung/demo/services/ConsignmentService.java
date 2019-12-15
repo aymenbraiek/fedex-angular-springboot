@@ -81,6 +81,8 @@ public class ConsignmentService {
 			
 			consignment.setUser(user);
 			consignment.setReceived(false);
+			consignment.setOwnerName(user.getFirstName() + " " + user.getLastName());
+			
 			user.addConsignment(consignment);
 			consignmentRepository.save(consignment);
 			return true;

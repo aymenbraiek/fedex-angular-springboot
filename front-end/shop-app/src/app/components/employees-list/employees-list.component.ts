@@ -31,6 +31,14 @@ export class EmployeesListComponent implements OnInit {
         if (!this.target_user_roles.has('EMPLOYEE') || this.target_user.email !== employee.email) {
           allEmployees.add(employee);
         }
+        const assignedConsignments = [...employee.assignedConsignments];
+        for (let i = 0; i < assignedConsignments.length; i++) {
+          const assignedConsignment = assignedConsignments[i];
+          if (assignedConsignment.id === this.assigned_consignment.id) {
+            this.assigned_employee_email = employee.email;
+            break;
+          }
+        }
       })
       this.available_employees = allEmployees;
       // console.log(this.available_employees);
@@ -38,19 +46,26 @@ export class EmployeesListComponent implements OnInit {
   }
 
   onAssign(assigned_employee_email: string) {
+    console.log(this.assigned_employee_email);
+    console.log(assigned_employee_email);
+
     if (this.assigned_employee_email !== assigned_employee_email) {
       this.assigned_employee_email = assigned_employee_email;
       this.store.dispatch(AdminActions.ADMIN_ASSIGN_EMPLOYEE({
         payload: {
           employeeEmail: this.assigned_employee_email,
-          assigned_consignment: this.assigned_consignment
+          assigned_consignment: this.assigned_consignment,
+          owner_name: this.target_user.firstName + ' ' + this.target_user.lastName,
+          owner_email: this.target_user.email
         }
       }));
     } else {
       this.store.dispatch(AdminActions.ADMIN_UNASSIGN_EMPLOYEE({
         payload: {
           employeeEmail: this.assigned_employee_email,
-          assigned_consignment: this.assigned_consignment
+          assigned_consignment: this.assigned_consignment,
+          owner_name: this.target_user.firstName + ' ' + this.target_user.lastName,
+          owner_email: this.target_user.email
         }
       }));
       this.assigned_employee_email = null;

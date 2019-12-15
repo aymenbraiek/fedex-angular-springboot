@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.trung.demo.model.Consignment;
 import com.trung.demo.model.Role;
 import com.trung.demo.model.User;
 import com.trung.demo.repository.UserRepository;
@@ -96,6 +97,11 @@ public class UserService {
 		if (foundUser == null)
 			return false;
 		
+		for (Consignment assignedConsignment : foundUser.getAssignedConsignments()) {
+			assignedConsignment.setAssignedEmployee(null);
+			assignedConsignment.setAssignedUserName(null);
+		}
+		foundUser.setAssignedConsignments(null);
 		userRepo.deleteById(email);
 		return true;
 	}

@@ -110,6 +110,41 @@
 
         </div>
       </div>
+      <br>
+
+      <!-- Assigned consignments -->
+      <h4 class="text-muted">Assigned consignments:</h4>
+      <p *ngIf="format_consignments.assignedConsignments.length === 0">
+        Currently none...
+      </p>
+
+      <div *ngFor="let assigned of format_consignments.assignedConsignments">
+        <div class="card text-muted bg-light mb-3">
+          <div class="card-header">
+            <span class="font-weight-bold">
+              <i class="fas fa-people-carry">&nbsp;&nbsp;</i>
+              Consignment ID: {{ assigned.id }}
+            </span>
+          </div>
+
+          <div class="card-body">
+            <div class="card-text">
+              <p> Recipient name: {{ assigned.ownerName }} </p>
+
+              <p>
+                <i class="fas fa-map-marker-alt">&nbsp;&nbsp;</i>
+                To: {{ assigned.street }}, {{ assigned.city }}, {{ assigned.state }} {{ assigned.zipcode }},
+                {{ assigned.country }}
+              </p>
+              <p>
+                <i class="fas fa-money-bill-wave">&nbsp;&nbsp;</i>
+                Price: {{assigned.price}} {{ assigned.currency }}
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
 
     </div>
   </div>
