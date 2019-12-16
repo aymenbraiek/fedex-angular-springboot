@@ -124,6 +124,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/users/**").permitAll()
 			.antMatchers("/login").permitAll()
 			.antMatchers("/register").permitAll()
+			.antMatchers("/sendingEmail").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
