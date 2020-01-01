@@ -11,7 +11,7 @@ Full-stack Fedex application using Angular and Spring Boot.
 
 # Run
 ### Server
-Run Spring Boot application server from root directory (default port 8080), but my configuration is port 8081.
+Run Spring Boot application server from root directory (default port 8080), but my configuration is port 8085.
 ```
 $ ./gradlew bootRun --stacktrace
 ```
